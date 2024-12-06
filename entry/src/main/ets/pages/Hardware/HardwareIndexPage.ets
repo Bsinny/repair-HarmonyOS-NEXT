@@ -1,6 +1,7 @@
 import { NavigationTitleBuilder } from '../../common/builders';
 import { SENSOR_NAME_LIST, SensorName } from '../../common/constants';
 import { themeManager } from '../../manager';
+import { connection } from '@kit.NetworkKit';
 
 @Entry
 @Component
@@ -36,11 +37,16 @@ struct HardwareIndexPage {
   onPageShow() {
     themeManager.settingStatusBarWhite()
   }
-
+  aboutToAppear(): void {
+    this.getConnectionInfo()
+  }
   onPageHide() {
     themeManager.settingStatusBarBlack()
   }
-
+  getConnectionInfo(){
+    const isHasDefaultNetSync=connection.hasDefaultNetSync()
+    AlertDialog.show({message: isHasDefaultNetSync + ''})
+  }
   @Builder
   ListTitle(title: string) {
     Text(title)

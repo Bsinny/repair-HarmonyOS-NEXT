@@ -41,6 +41,10 @@
     "pages/Guard/EmergencyContactPage",
     "pages/Guard/Fake/FakeVoicePage",
     "pages/Guard/Outdoor/GuardNightPage",
-    "pages/Guard/Outdoor/GuardPolicePage"
+    "pages/Guard/Outdoor/GuardPolicePage",
+    "pages/Test/FaultLoggerTestPage",
+    "pages/Test/AxiosTestPage",
+    "pages/Test/LoginTestPage",
+    "pages/Settings/TestSettingPage"
   ]
 }

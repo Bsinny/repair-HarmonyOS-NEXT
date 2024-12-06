@@ -1,6 +1,7 @@
 import { router } from '@kit.ArkUI'
 import { LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
 import { deviceInfo } from '@kit.BasicServicesKit'
+import { LoginResponseInfo, LOGIN_TOKEN, TestUserInfo, USER_INFO } from '../../api/userTestAPI'
 
 
 interface UsageItem {
@@ -11,9 +12,12 @@ interface UsageItem {
 }
 
 @Component
-export struct MyTabsComp {
+export struct MyTestTabsComp {
   // 用户信息持久化
   @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
+  @StorageLink(USER_INFO) userInfo: TestUserInfo = {}
+  @StorageLink(LOGIN_TOKEN) loginToken:LoginResponseInfo ={}
+
   @StorageLink('topHeight') topHeight: number = 0
   // @Provide 装饰器和 @Consume 装饰器：与后代组件双向同步
   @Consume @Watch('onTabsChange') currentIndex: number
@@ -98,19 +102,19 @@ export struct MyTabsComp {
             .aspectRatio(1)
             .zIndex(1)
             .onClick(() => {
-              router.pushUrl({ url: 'pages/Settings/SettingsIndexPage' })
+              router.pushUrl({ url: 'pages/Settings/TestSettingPage' })
             })
             .margin({ top: this.topHeight + 25, right: 25 })
           // 用户信息
           Column() {
-            if (this.loginInfo.accessToken) {
+            if (this.loginToken.token) {
               // 已登录
               Column({ space: 10 }) {
-                Image(this.loginInfo.avatar || $r("app.media.ic_my_avatar_default"))
+                Image(this.userInfo.avatar || $r("app.media.ic_my_avatar_default"))
                   .height(70)
                   .aspectRatio(1)
                   .borderRadius(70 / 2)
-                Text(this.loginInfo.nickname)
+                Text(this.userInfo.nickName)
                   .fontSize(18)
                   .fontWeight(500)
                   .fontColor($r('app.color.font'))
@@ -131,7 +135,7 @@ export struct MyTabsComp {
                   .fontColor($r('app.color.font'))
               }
               .onClick(() => {
-                router.pushUrl({ url: 'pages/User/UserLoginPage' })
+                router.pushUrl({ url: 'pages/Test/LoginTestPage' })
               })
             }
           }

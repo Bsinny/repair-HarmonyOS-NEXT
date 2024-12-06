@@ -1,20 +1,20 @@
-import { router } from '@kit.ArkUI'
-import { LoginResponseInfo, loginTestInfo, LOGIN_TOKEN } from '../../api/userTestAPI'
+import { promptAction, router } from '@kit.ArkUI'
+import { LoginResponseInfo, loginTestInfo, LOGIN_TOKEN, TestUserInfo, USER_INFO } from '../../api/userTestAPI'
 import { CellRowArrowComp, DividerComp } from '../../common/components'
-import { LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
+
 
 @Entry
 @Component
-struct SettingsIndexPage {
+struct TestSettingPage {
   // 用户信息持久化
-  @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
-  @StorageLink(LOGIN_TOKEN) loginToken: LoginResponseInfo = {
-  }
+  @StorageLink(LOGIN_TOKEN) loginToken: LoginResponseInfo ={}
+  @StorageLink(USER_INFO) userDetail:TestUserInfo = { }
   @State isWifiNotification: boolean = true
   @State userExperienceImprovementPlan: boolean = true
   logout(){
-    this.loginInfo={}
     this.loginToken={}
+    this.userDetail={}
+    promptAction.showToast({ message: '退出登录成功' })
     router.back()
   }
   build() {
@@ -40,8 +40,10 @@ struct SettingsIndexPage {
             .borderRadius(10)
             .width('100%')
             .onClick(() => {
-              this.logout()
+
+
               // TODO: 退出登录
+                this.logout()
             })
           Button('测试页面入口')
             .type(ButtonType.Normal)

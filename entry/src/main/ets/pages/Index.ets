@@ -2,6 +2,7 @@ import { themeManager } from '../manager';
 import { GuardTabsComp } from './Tabs/GuardTabsComp';
 import { HomeTabsComp } from './Tabs/HomeTabsComp';
 import { MyTabsComp } from './Tabs/MyTabsComp';
+import { MyTestTabsComp } from './Tabs/MyTestTabsComp'
 
 @Entry
 @Component
@@ -40,18 +41,20 @@ struct Index {
 
   build() {
     Tabs({ index: this.currentIndex, barPosition: BarPosition.End }) {
+      //首页导航栏
       TabContent() {
         HomeTabsComp()
       }
       .tabBar(this.TabBuilder('首页', 0, $r('app.media.ic_tab_shouye_filled'), $r('app.media.ic_tab_shouye')))
-
+      //守护中心导航栏
       TabContent() {
         GuardTabsComp()
       }
       .tabBar(this.TabBuilder('守护中心', 1, $r('app.media.ic_tab_shzx_filled'), $r('app.media.ic_tab_shzx')))
-
+      //我的导航栏
       TabContent() {
-        MyTabsComp()
+        /*MyTabsComp()*/
+        MyTestTabsComp()
       }
       .tabBar(this.TabBuilder('我的', 2, $r('app.media.ic_tab_wode_filled'), $r('app.media.ic_tab_wode')))
     }

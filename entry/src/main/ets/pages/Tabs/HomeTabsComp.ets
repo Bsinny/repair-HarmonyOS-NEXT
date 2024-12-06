@@ -67,7 +67,7 @@ struct HomeEntry {
         .margin({ top: 10, left: 30, right: 30 })
       Column() {
         Text() {
-          Span('4')
+          Span('6')
             .fontSize(40)
             .fontColor('#ff5e5d')
           Span(' 个可选安全项')
@@ -122,22 +122,22 @@ struct HomeShortcut {
   @StorageLink(PRIVACY_SETTINGS) privacySettings: PrivacySettings = {}
   @State list: IconItem[] = [
     {
-      title: '手机瘦身',
+      title: '报修申请',
       icon: $r("app.media.ic_home_shortcut_sjss"),
       url: '/pages/Cleaner/CleanerIndexPage',
     },
     {
-      title: '骚扰拦截',
+      title: '我的报修',
       icon: $r('app.media.ic_home_shortcut_srlj'),
       url: '/'
     },
     {
-      title: '隐私空间',
+      title: '维修单',
       icon: $r('app.media.ic_home_shortcut_yskj'),
       url: '/pages/Privacy/PrivacyIndexPage'
     },
     {
-      title: '通讯录备份',
+      title: '我的接单',
       icon: $r('app.media.ic_home_shortcut_txlbf'),
       url: '/pages/Contact/ContactIndexPage'
     },
