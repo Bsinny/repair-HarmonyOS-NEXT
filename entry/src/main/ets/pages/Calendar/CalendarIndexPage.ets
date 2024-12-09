@@ -1,4 +1,4 @@
-import { router } from '@kit.ArkUI'
+  import { router } from '@kit.ArkUI'
 import { calendarManager } from '@kit.CalendarKit'
 import { NavigationTitleBuilder } from '../../common/builders'
 import { themeManager } from '../../manager'

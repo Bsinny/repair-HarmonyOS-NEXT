@@ -45,6 +45,7 @@
     "pages/Test/FaultLoggerTestPage",
     "pages/Test/AxiosTestPage",
     "pages/Test/LoginTestPage",
-    "pages/Settings/TestSettingPage"
+    "pages/Settings/TestSettingPage",
+    "pages/Repair/RepairFormPage"
   ]
 }

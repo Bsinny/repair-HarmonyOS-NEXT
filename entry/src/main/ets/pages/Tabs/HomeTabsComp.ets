@@ -124,7 +124,8 @@ struct HomeShortcut {
     {
       title: '报修申请',
       icon: $r("app.media.ic_home_shortcut_sjss"),
-      url: '/pages/Cleaner/CleanerIndexPage',
+      /*url: '/pages/Cleaner/CleanerIndexPage',*/
+      url: '/pages/Repair/RepairFormPage',
     },
     {
       title: '我的报修',
