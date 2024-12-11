@@ -4,30 +4,26 @@ import { promptAction, router } from '@kit.ArkUI';
 import { LoginResponseInfo, LOGIN_TOKEN } from '../../api/userTestAPI';
 
 
-/**
- * 后端响应基本类型«result»
- */
-export interface ServiceResponse<T> {
-  /** 请求码，200为成功，300及300以上为请求失败 */
-  code: number;
-  msg: string;
-  resTime: Date;
-  result: T;
-  tips: string;
-}
-export type AxiosResponseData<Result = null> = AxiosResponse<ServiceResponse<Result>, null>
+
 
 export interface LoginResponseTestData<T>{
   code: number;
   msg: string;
-  token?:string
-  deptName?:string
-  permissions?:string[]
-  result: T;
+  deptName?:string;
+  token:string;
+  /*permissions:string[]*/
+  user: T;//当登录时是user，当获取列表的时候他是rows
+  rows:T;
 
 }
-export type AxiosTestResponseData<Result = null > = AxiosResponse<LoginResponseTestData<Result>,null>
-
+                                                  /*AxiosResponse<TestResponseInfo,null>  这个可以拿到   this.userDetail=res.data?.user   */
+                                                  //res是axios封装的data就是axios的data，这个data应该是什么类型通过上面传的TestResponseInfo告诉他
+export type AxiosTestResponseData<T = null > = AxiosResponse<LoginResponseTestData<T>,null>
+                                                  //要将参数赋值给他res.data.user
+                                                  /*AxiosTestResponseData<TestResponseInfo>  这个拿不到  */
+                                                  //这个的解析就是AxiosResponse<LoginResponseTestData<TestResponseInfo>,null>
+                                                  //res.data.result传入一个值让他知道这个接口是什么样的
+                                                  //这个res.data的形式就是LoginResponseTestData,res.data.result就对了
   // 创建实例
 export const axiosTestInstance = axios.create({
   baseURL: TEST_URL, // 请求基地址
@@ -37,9 +33,9 @@ export const axiosTestInstance = axios.create({
 // 添加请求拦截器
 axiosTestInstance.interceptors.request.use((config:InternalAxiosRequestConfig) => {
 
-  const loginToken=AppStorage.get<LoginResponseInfo>(LOGIN_TOKEN)
-  if (loginToken?.token){
-    config.headers.Authorization=loginToken?.token
+  const loginToken=AppStorage.get<string>(LOGIN_TOKEN)
+  if (loginToken){
+    config.headers.Authorization=loginToken
   }
   console.log('interceptors request',JSON.stringify(config))
 
@@ -51,7 +47,7 @@ axiosTestInstance.interceptors.request.use((config:InternalAxiosRequestConfig) =
 
 
 // 添加响应拦截器
-axiosTestInstance.interceptors.response.use((response:AxiosResponse<LoginResponseInfo,null>)=> {
+axiosTestInstance.interceptors.response.use((response:AxiosTestResponseData/*AxiosResponse<LoginResponseInfo,null>*/)=> {
   /*AlertDialog.show({message:JSON.stringify(response,null,2)})*/
   if (response.data.code !== 200) {
     promptAction.showToast({ message: response.data.msg})

@@ -7,12 +7,12 @@ import { CellRowArrowComp, DividerComp } from '../../common/components'
 @Component
 struct TestSettingPage {
   // 用户信息持久化
-  @StorageLink(LOGIN_TOKEN) loginToken: LoginResponseInfo ={}
+  @StorageLink(LOGIN_TOKEN) loginToken: string = ''
   @StorageLink(USER_INFO) userDetail:TestUserInfo = { }
   @State isWifiNotification: boolean = true
   @State userExperienceImprovementPlan: boolean = true
   logout(){
-    this.loginToken={}
+    this.loginToken=''
     this.userDetail={}
     promptAction.showToast({ message: '退出登录成功' })
     router.back()

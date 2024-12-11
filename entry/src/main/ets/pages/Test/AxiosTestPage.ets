@@ -90,6 +90,7 @@ struct AxiosTestPage {
               //promptAction.showToast({message:'登录请求发送成功'})
               //AlertDialog.show({message:JSON.stringify(res,null,2)})
               if (res.data.code===200){
+
                 this.avatar=res.data.result?.avatar as string
                 //这行代码中的？代表不确定是否一定不为空时的替补，这样就不会报空值异常undefined
                 //可选链操作符允许你安全地访问深层嵌套的对象属性，而不用担心中间的任何层级可能为 undefined 或 null

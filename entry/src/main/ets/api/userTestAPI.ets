@@ -22,7 +22,7 @@ export interface TestResponseInfo/*<TestUserInfo>*/{
   deptName:string
   permissions:string[]
   user:TestUserInfo
-
+//这个是废的
 }
 export interface TestUserInfo {
   /*searchValue?: string;//注释的都是null值 */
@@ -100,15 +100,15 @@ export interface Role {
 }
 export function postTestUserLoginPasswdAPI(data: loginTestInfo) {
   return axiosTestInstance.post
-  <null, AxiosResponse<LoginResponseInfo,null>, loginTestInfo>
+  <null,AxiosTestResponseData/*<LoginResponseInfo>*/ /*AxiosResponse<LoginResponseInfo,null>*/, loginTestInfo>
   ('/login', data)
 }
 export function getTestUserInfoAPI() {
   return axiosTestInstance.get
-  <null,/*AxiosTestResponseData<TestUserInfo>*/ AxiosResponse<TestResponseInfo,null>,null>
+  <null,AxiosTestResponseData<TestUserInfo> /*AxiosResponse<TestResponseInfo,null>*/,null>
   ('/getInfo')
 }
-
+//
 /*
 export function getUserInfoAPI() {
   return axiosInstance.get

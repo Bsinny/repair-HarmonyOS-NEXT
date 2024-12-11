@@ -1,7 +1,7 @@
 import { router } from '@kit.ArkUI'
 import { LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
 import { deviceInfo } from '@kit.BasicServicesKit'
-import { LoginResponseInfo, LOGIN_TOKEN, TestUserInfo, USER_INFO } from '../../api/userTestAPI'
+import { LoginResponseInfo, LOGIN_TOKEN, TestResponseInfo, TestUserInfo, USER_INFO } from '../../api/userTestAPI'
 
 
 interface UsageItem {
@@ -16,7 +16,7 @@ export struct MyTestTabsComp {
   // 用户信息持久化
   @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
   @StorageLink(USER_INFO) userInfo: TestUserInfo = {}
-  @StorageLink(LOGIN_TOKEN) loginToken:LoginResponseInfo ={}
+  @StorageLink(LOGIN_TOKEN) loginToken:string =''
 
   @StorageLink('topHeight') topHeight: number = 0
   // @Provide 装饰器和 @Consume 装饰器：与后代组件双向同步
@@ -107,14 +107,14 @@ export struct MyTestTabsComp {
             .margin({ top: this.topHeight + 25, right: 25 })
           // 用户信息
           Column() {
-            if (this.loginToken.token) {
+            if (this.loginToken) {
               // 已登录
               Column({ space: 10 }) {
-                Image(this.userInfo.avatar || $r("app.media.ic_my_avatar_default"))
+                Image(/*this.userInfo.avatar*/ this.userInfo?.avatar|| $r("app.media.ic_my_avatar_default"))
                   .height(70)
                   .aspectRatio(1)
                   .borderRadius(70 / 2)
-                Text(this.userInfo.nickName)
+                Text(this.userInfo?.nickName)
                   .fontSize(18)
                   .fontWeight(500)
                   .fontColor($r('app.color.font'))

@@ -2,6 +2,7 @@ import { BizType, postCodeGraphicCheckAPI, postCodeSmsSendAPI, postUserLoginVeri
 import {  LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
 import { promptAction, router } from '@kit.ArkUI'
 import { getTestUserInfoAPI, LoginResponseInfo, LOGIN_TOKEN, postTestUserLoginPasswdAPI,
+  TestResponseInfo,
   TestUserInfo,
   USER_INFO } from '../../api/userTestAPI'
 
@@ -11,7 +12,7 @@ import { getTestUserInfoAPI, LoginResponseInfo, LOGIN_TOKEN, postTestUserLoginPa
 struct LoginTestPage {
   // 用户信息持久化
   @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
-  @StorageLink(LOGIN_TOKEN) loginToken:LoginResponseInfo ={}
+  @StorageLink(LOGIN_TOKEN) loginToken:string =''
   @StorageLink(USER_INFO) userDetail:TestUserInfo = {}
 
   // 手机号
@@ -35,14 +36,18 @@ struct LoginTestPage {
     const res=await getTestUserInfoAPI()
    /* AlertDialog.show({message:JSON.stringify(res,null,2)})*/
     //原来没有修改过的返回参数
-    this.userDetail=res.data?.user
+    /*this.userDetail=res.data.result*/
     //修改后的返回参数
-    // this.userDetail=res.data.result
+    //返回体传user就行了，再改一下这个userDetail的类型就可以了
+    /*this.userDetail=res.data?.user*//*res.data?.result*/
+    this.userDetail=res.data.user
 
-    AlertDialog.show({message:'欢迎你'+this.userDetail.nickName+'登录时间为:'+this.userDetail.loginDate})
+    /*AlertDialog.show({message:JSON.stringify(res.data.user,null,2)})*/
+    /*AlertDialog.show({message:'欢迎你'+this.userDetail.user?.nickName+'登录时间为:'+this.userDetail.user?.loginDate})*/
+
   }
   clearToken(){
-    this.loginToken={}
+    this.loginToken=''
     promptAction.showToast({ message: '退出登录成功' })
   }
   async onTestLoginSubmit(){
@@ -51,8 +56,8 @@ struct LoginTestPage {
       password:this.password
     })
     /*AlertDialog.show({message:res.data.msg})*/
-    this.loginToken=res.data
-    console.log('tokenValue',JSON.stringify(this.loginToken.token,null,2))
+    this.loginToken=res.data.token
+    console.log('tokenValue',JSON.stringify(res.data,null,2))
     this.getUserDetail()
     router.back()
     /*AlertDialog.show({message:JSON.stringify(res,null,2)})*/
