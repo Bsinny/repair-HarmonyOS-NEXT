@@ -42,6 +42,9 @@ struct LoginTestPage {
     /*this.userDetail=res.data?.user*//*res.data?.result*/
     this.userDetail=res.data.user
 
+/*    console.log('jibada',JSON.stringify(res ,null,2))
+    AlertDialog.show({message:JSON.stringify(this.userDetail,null,2)})*/
+
     /*AlertDialog.show({message:JSON.stringify(res.data.user,null,2)})*/
     /*AlertDialog.show({message:'欢迎你'+this.userDetail.user?.nickName+'登录时间为:'+this.userDetail.user?.loginDate})*/
 

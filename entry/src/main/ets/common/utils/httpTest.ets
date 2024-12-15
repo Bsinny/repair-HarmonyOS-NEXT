@@ -59,22 +59,25 @@ axiosTestInstance.interceptors.response.use((response:AxiosTestResponseData/*Axi
     // 主动返回错误，避免 await 后续代码执行
     return Promise.reject()
   }*/
-  promptAction.showToast({ message: '密码正确登录成功' })
+ /* promptAction.showToast({ message: '密码正确登录成功' })*/
 
   return response;
 
 
 }, (error:AxiosError)=> {
   console.log('Axios Error',JSON.stringify(error))
-  AlertDialog.show({message:JSON.stringify(error,null,2)})
-  /*if (error.message.includes('401')){
+  // if (error.code === 500) {
+  //
+  // }
+  /*AlertDialog.show({message:JSON.stringify(error,null,2)})*/
+  if (error.message.includes('401')){
     promptAction.showToast({message:'登录信息无效，请重新登录'})
-    router.pushUrl({url:'pages/User/UserLoginPage'})
+    router.pushUrl({url:'pages/Test/LoginTestPage'})
   }else if (error.message.includes('404')){
     promptAction.showToast({message:'路径错误，请检查路径是否正确'})
   }else {
     promptAction.showToast({message:'未知网络请求错误'})
-  }*/
+  }
   // 对响应错误做点什么
   return Promise.reject(error);
 });
