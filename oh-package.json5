@@ -7,7 +7,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "dayjs": "^1.11.7",
+    "dayjs": "^1.11.13",
     "@ohos/crypto-js": "2.0.4-rc.1",
     "@wolfx/lodash": "^4.17.21-rc.2",
     "@ohos/axios": "^2.2.4"

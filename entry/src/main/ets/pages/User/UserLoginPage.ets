@@ -97,10 +97,10 @@ struct UserLoginPage {
             .onChange((value) => {
               this.graphicCode = value
             })
-            .onSubmit(() => {
+            /*.onSubmit(() => {
               // TODO:提交图形验证码
               this.onGraphicCodeSubmit()
-            })
+            })*/
           Image(`${BASE_URL}/code/graphic?phone=${this.phoneNumber}&bizType=${1}&timestamp=${this.timestamp}`)
             .width(108)
             .height(42)
