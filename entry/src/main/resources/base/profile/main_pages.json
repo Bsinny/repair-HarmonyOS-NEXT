@@ -49,6 +49,7 @@
     "pages/Repair/RepairFormPage",
     "pages/Repair/NewTestPage",
     "pages/Test/MediaLibraryKitTestPage",
-    "pages/User/UserRegisterPage"
+    "pages/User/UserRegisterPage",
+    "pages/User/UserInfoPage"
   ]
 }

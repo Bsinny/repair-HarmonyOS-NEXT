@@ -19,12 +19,12 @@ struct UserRegisterPage {
   @State phonenumber:string='';
   @State userName:string='';
   //后端要求传一个depId的number类型的depName
-  @State depName:number=0;
+  @State depName:number=-1;
   //后端同样要求向depName一样
-  @State roleName:number=0;
+  @State roleName:number=-1;
   @State selectedSexName:string = '请选择';
 
-  @State sex:number=0;
+  @State sex:number=-1;
   sexes:string[]=['男','女']
 
 
@@ -273,6 +273,8 @@ struct UserRegisterPage {
         }
 
         Button('注册')
+          .enabled(this.userName.length > 0 && this.passWord.length>0 && this.phonenumber.length>0&&this.email.length>0
+          && this.depName!=-1&&this.sex!=-1&&this.roleName!=-1)
           .onClick(()=>{
             promptAction.showDialog({
               alignment:DialogAlignment.Center,

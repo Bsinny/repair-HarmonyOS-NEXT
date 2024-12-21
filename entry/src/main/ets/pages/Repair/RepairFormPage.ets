@@ -4,12 +4,15 @@ import { values } from '@wolfx/lodash';
 import dayjs from 'dayjs';
 import { systemDateTime } from '@kit.BasicServicesKit';
 import { permissionManager } from '../../manager/PermissionManager';
+import { TestUserInfo, USER_INFO } from '../../api/userTestAPI';
 
 @Entry
 @Component
 struct RepairFormPage {
+  @StorageLink(USER_INFO) userInfo: TestUserInfo = {};
   @State applyAddress:string= '提瓦特大陆';
   @State applyContent:string= '提瓦特大陆里面玩不了原神搞得积极洋洋的';
+  @State applyExpectType:number=-1
   @State typeList:typeItem[]=[]
   @State repTypeList:repTypeItem[]=[]
   @State select: number = 0
@@ -20,6 +23,8 @@ struct RepairFormPage {
   @State selectedTypeText: string  = '请选择';
   @State selectedRepTypeText: string = '请选择';
   @State applyExpectTime: Date= new Date('2024-8-8');
+  @State applyType:number=-1
+  @State isOrder:number=-1
 
 
   //获取报修类型
@@ -59,32 +64,43 @@ struct RepairFormPage {
 
     Navigation() {
       Column({space:20}){
-        Text('原神')
-              TextInput({
-                placeholder:'报修地点',
-              })
-                .type(InputType.Normal)
-                .fontSize(14)
-                .height(50)
-                .backgroundColor(Color.Transparent)
-                .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 0 })
-                .padding(0)
-                .onChange((value) => {
-                  this.applyAddress = value
-                })
+        Row(){
+          Text('报修地点:')
+            .fontSize(14)
+            .fontColor($r('app.color.font'));
+
+          TextInput({
+            placeholder:'请输入报修地点',
+          })
+            .type(InputType.Normal)
+            .fontSize(14)
+            .height(50)
+            .backgroundColor($r('app.color.background2'))
+            .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 8 })
+            .padding({ left: 16, right: 16 })
+            .onChange((value) => {
+              this.applyAddress = value
+            })
+        }
 
 
-              TextArea({
-                placeholder:'报修内容',
-              })
-                .height(150)
-                .fontSize(14)
-                .backgroundColor(Color.Transparent)
-                .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 0 })
-                .padding(0)
-                .onChange((value) => {
-                  this.applyContent = value
-                })
+        Row(){
+          Text('报修内容:')
+            .fontSize(14)
+            .fontColor($r('app.color.font'));
+          TextArea({
+            placeholder:'请输入报修内容',
+          })
+            .height(150)
+            .fontSize(14)
+            .backgroundColor(Color.Transparent)
+            .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 0 })
+            .padding({ left: 16, right: 16 })
+            .onChange((value) => {
+              this.applyContent = value
+            })
+        }
+
               Row({ space: 10 }) {
                 Text('维修类型:')
                   .fontSize(14)
@@ -99,14 +115,12 @@ struct RepairFormPage {
                       textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
                       selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},
                       onAccept:(values:TextPickerResult)=>{
-                        //索引值
-                        this.selectedTypeIndex=values.index
-                        //文字值
-                        this.selectedTypeText=values.value as string
-
-
-
-
+                        const selectedType = this.typeList.find((item, index) => index === values.index);
+                        if (selectedType) {
+                          this.applyType=selectedType.repairTypeId as number
+                          this.selectedTypeText=selectedType.repairType as string
+                          /*AlertDialog.show({ message: `选择的是 ${this.selectedTypeText} id值是 ${this.applyType}` });*/
+                        }
 
                       },
                       onCancel: () => {
@@ -131,11 +145,12 @@ struct RepairFormPage {
                       textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
                       selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},
                       onAccept:(values:TextPickerResult)=>{
-                        //索引值
-                        this.selectedRepTypeIndex=values.index
-                        //文字值
-                        this.selectedRepTypeText=values.value as string
-                      },
+                        const selectedRep = this.repTypeList.find((item, index) => index === values.index);
+                        if (selectedRep) {
+                          this.applyExpectType=selectedRep.repexpectTypeId as number
+                          this.selectedRepTypeText=selectedRep.repexpectType as string
+                          /*AlertDialog.show({ message: `选择的是 ${this.selectedRepTypeText} id值是 ${this.applyExpectType}` });*/
+                      }},
                       onCancel: () => {
                         console.info("TextPickerDialog:onCancel()")
                       },
@@ -168,26 +183,10 @@ struct RepairFormPage {
               })
             })
         }
-
-
-/*        Button('打开设置页')
+        Button('获取用户信息')
           .onClick(()=>{
-            permissionManager.openPermissionSettingsPage()
-          })
-        Button('申请权限')
-          .onClick(async ()=>{
-            const isAuth=await permissionManager.requestPermissions(["ohos.permission.CAMERA"])
-            promptAction.showToast({ message: '能否调用权限' + isAuth})
-
-          })
-        Button('检测权限')
-          .onClick(async ()=>{
-            const isAuth=await permissionManager.checkPermissions(["ohos.permission.CAMERA"])
-            promptAction.showToast({ message: '权限开启' + isAuth})
-
-          })*/
-
-
+            AlertDialog.show({message:'当前用户是'+this.userInfo.userName})
+        })
           }
         }
     .title('填写报修单')
