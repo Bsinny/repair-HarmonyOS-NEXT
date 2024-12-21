@@ -1,6 +1,7 @@
 import { Permissions } from '@kit.AbilityKit';
 import { NavigationTitleBuilder } from '../../common/builders';
-import { themeManager } from '../../manager';
+import { permissionManager, themeManager } from '../../manager';
+import { promptAction } from '@kit.ArkUI';
 
 interface PermissionItem {
   name: string
@@ -70,12 +71,47 @@ struct SettingsPermissionPage {
 
   onPageShow() {
     themeManager.settingStatusBarWhite()
+    this.updatePermission()
   }
 
   onPageHide() {
     themeManager.settingStatusBarBlack()
   }
+  //更新权限列表
+  updatePermission(){
+    this.permissionList=this.permissionList.map<PermissionItem>((item=>{
+      return {
+        name:item.name,
+        title:item.title,
+        desc:item.desc,
+        permissions:item.permissions,
+        timeStamp:Date.now()
+      }
 
+    }))
+  }
+  async requestPermission(item:PermissionItem){
+
+    try {
+      await permissionManager.requestPermissions(item.permissions)
+    }catch (error){
+      
+    promptAction.showDialog({
+      alignment:DialogAlignment.Center,
+      title:'温馨提示',
+      message:item.desc,
+      buttons:[
+        {text:'取消',color:$r('app.color.danger')},
+        {text:'确定',color:$r('app.color.success')}
+      ]
+    }).then((res)=>{
+      if (res.index === 1) {
+        permissionManager.openPermissionSettingsPage()
+      }
+    })
+    }
+    this.updatePermission()
+  }
   build() {
     Navigation() {
       Row() {
@@ -103,7 +139,7 @@ struct SettingsPermissionPage {
 
             // TODO: 检测权限是否开启
             if (item.name === 'notification') {
-              if (false) {
+              if (permissionManager.checkPermissions(item.permissions)) {
                 Text('已开启')
                   .fontSize(14)
                   .fontColor($r('app.color.brand'))
@@ -111,10 +147,11 @@ struct SettingsPermissionPage {
                 Toggle({ type: ToggleType.Switch, isOn: false })
                   .onChange(async () => {
                     // TODO：点击申请 notification 权限
+                    permissionManager.requestPermissions(item.permissions)
                   })
               }
             } else {
-              if (false) {
+              if (permissionManager.checkPermissions(item.permissions)) {
                 Text('已开启')
                   .fontSize(14)
                   .fontColor($r('app.color.brand'))
@@ -122,6 +159,7 @@ struct SettingsPermissionPage {
                 Toggle({ type: ToggleType.Switch, isOn: false })
                   .onChange(async () => {
                     // TODO：点击申请 user_grant 授权
+                    permissionManager.requestPermissions(item.permissions)
                   })
               }
             }

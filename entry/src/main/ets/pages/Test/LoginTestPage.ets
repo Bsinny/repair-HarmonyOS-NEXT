@@ -169,7 +169,11 @@ struct LoginTestPage {
               // TODO:登录表单提交
               this.onTestLoginSubmit()
             })
-          Button('退出登录')
+          Button('跳转注册')
+            .onClick(()=>{
+              router.pushUrl({ url: 'pages/User/UserRegisterPage' })
+          })
+          /*Button('退出登录')
             .backgroundColor($r('app.color.brand'))
             .height(42)
             .width('100%')
@@ -184,7 +188,7 @@ struct LoginTestPage {
             .enabled(this.username.length > 0 && this.password.length > 0)
             .onClick(() => {
               this.getUserDetail()
-            })
+            })*/
         }
       }
       .padding({ left: 30, right: 30, top: 30 })

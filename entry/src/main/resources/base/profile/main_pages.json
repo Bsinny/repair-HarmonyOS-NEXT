@@ -47,6 +47,8 @@
     "pages/Test/LoginTestPage",
     "pages/Settings/TestSettingPage",
     "pages/Repair/RepairFormPage",
-    "pages/Repair/NewTestPage"
+    "pages/Repair/NewTestPage",
+    "pages/Test/MediaLibraryKitTestPage",
+    "pages/User/UserRegisterPage"
   ]
 }

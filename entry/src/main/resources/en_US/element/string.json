@@ -11,6 +11,34 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "permission_reason_calendar",
+      "value": "calendar reason"
+    },
+    {
+      "name": "permission_reason_camera",
+      "value": "camera reason"
+    },
+    {
+      "name": "permission_reason_microphone",
+      "value": "microphone reason"
+    },
+    {
+      "name": "permission_reason_contact",
+      "value": "contact reason"
+    },
+    {
+      "name": "permission_reason_imageVideo",
+      "value": "imageVideo reason"
+    },
+    {
+      "name": "permission_reason_notification",
+      "value": "notification reason"
+    },
+    {
+      "name": "permission_reason_location",
+      "value": "location reason"
     }
   ]
 }

@@ -98,6 +98,17 @@ export interface Role {
   deptIds?: string;
   admin: boolean;
 }
+
+interface UserForm{
+  deptName?: number
+  email?: string
+  nickName?: string
+  passWord?: string
+  phonenumber?: string
+  roleName?: number
+  sex?: number
+  userName?: string
+}
 export function postTestUserLoginPasswdAPI(data: loginTestInfo) {
   return axiosTestInstance.post
   <null,AxiosTestResponseData/*<LoginResponseInfo>*/ /*AxiosResponse<LoginResponseInfo,null>*/, loginTestInfo>
@@ -108,6 +119,27 @@ export function getTestUserInfoAPI() {
   <null,AxiosTestResponseData<TestUserInfo> /*AxiosResponse<TestResponseInfo,null>*/,null>
   ('/getInfo')
 }
+export function findAllDeptAPI() {
+  return axiosTestInstance.get
+  <null,AxiosTestResponseData<Dept> ,null>
+  ('/api/repair/tb/findAllDept')
+}
+export function findAllRoleAPI() {
+  return axiosTestInstance.get
+  <null,AxiosTestResponseData<Role>,null>
+  ('/api/repair/tb/findAllRole')
+
+}
+export function userRegisterAPI(data:UserForm) {
+  return axiosTestInstance.post
+  <null,AxiosTestResponseData,UserForm>
+  ('/api/repair/register/register',data)
+
+}
+
+
+
+
 //
 /*
 export function getUserInfoAPI() {

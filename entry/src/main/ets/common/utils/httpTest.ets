@@ -14,6 +14,7 @@ export interface LoginResponseTestData<T>{
   /*permissions:string[]*/
   user: T;//当登录时是user，当获取列表的时候他是rows
   rows:T;
+  data:T[];
 
 }
                                                   /*AxiosResponse<TestResponseInfo,null>  这个可以拿到   this.userDetail=res.data?.user   */

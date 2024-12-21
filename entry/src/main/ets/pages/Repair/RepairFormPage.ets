@@ -1,8 +1,9 @@
 import { getRepTypeListAPI, getRepTypes, getTypeListAPI, getTypes, repTypeItem, typeItem } from '../../api/getTypeAPI';
-import { prompt, promptAction } from '@kit.ArkUI';
+import {  promptAction } from '@kit.ArkUI';
 import { values } from '@wolfx/lodash';
 import dayjs from 'dayjs';
 import { systemDateTime } from '@kit.BasicServicesKit';
+import { permissionManager } from '../../manager/PermissionManager';
 
 @Entry
 @Component
@@ -27,9 +28,6 @@ struct RepairFormPage {
       const res = await getTypeListAPI();
       if (res.data && Array.isArray(res.data.rows)) {
         this.typeList = res.data.rows as typeItem[]
-/*        this.typeList.forEach((item, index) => {
-          console.log(`getTypeListItem is${index}:`, JSON.stringify(item));
-        });*/
       } else {
         console.error('Invalid response format for typeList');
       }
@@ -55,66 +53,6 @@ struct RepairFormPage {
   async aboutToAppear(): Promise<void> {
     await this.getTypeList();
     await this.getRepTypeList();
-  }
-  @Builder
-  TypeSheetBuilder() {
-    Column({ space: 20 }) {
-      Text('选择维修类型')
-        .fontSize(16)
-        .fontColor($r('app.color.font'))
-        .margin({ top: 20, bottom: 50 })
-      TextPicker({
-        range: this.typeList.map(item => item.repairType),
-        selected: this.selectedTypeIndex,
-      })
-        .onChange((value, index) => {
-          /*this.selectedTypeIndex = index;*/
-          this.selectedTypeText =value as string;
-          promptAction.showToast({ message: '当前维修类型索引是' + this.selectedTypeIndex + '选择的是' + value });
-        })
-
-      Button("提交")
-        .height(42)
-        .backgroundColor($r('app.color.brand'))
-        .width('100%')
-        .onClick(() => {
-          this.isShowTypeSheet=false
-
-        })
-    }
-    .padding({ left: 30, right: 30 })
-    .width('100%')
-    .height('100%')
-  }
-  @Builder
-  RepTypeSheetBuilder() {
-    Column({ space: 20 }) {
-      Text('选择期望维修类型')
-        .fontSize(16)
-        .fontColor($r('app.color.font'))
-        .margin({ top: 20, bottom: 50 })
-
-      TextPicker({
-        range: this.repTypeList.map(item => item.repexpectType),
-        selected: this.selectedRepTypeIndex,
-      })
-        .onChange((value, index) => {
-          /*this.selectedRepTypeIndex = index;*/
-          this.selectedRepTypeText =value as string;
-          promptAction.showToast({ message: '当前期待维修的索引是' + this.selectedRepTypeIndex + '选择的是' + value });
-        })
-      Button("提交")
-        .height(42)
-        .backgroundColor($r('app.color.brand'))
-        .width('100%')
-        .onClick(() => {
-          this.isShowRepTypeSheet=false
-
-        })
-    }
-    .padding({ left: 30, right: 30 })
-    .width('100%')
-    .height('100%')
   }
 
   build() {
@@ -165,6 +103,11 @@ struct RepairFormPage {
                         this.selectedTypeIndex=values.index
                         //文字值
                         this.selectedTypeText=values.value as string
+
+
+
+
+
                       },
                       onCancel: () => {
                         console.info("TextPickerDialog:onCancel()")
@@ -225,6 +168,24 @@ struct RepairFormPage {
               })
             })
         }
+
+
+/*        Button('打开设置页')
+          .onClick(()=>{
+            permissionManager.openPermissionSettingsPage()
+          })
+        Button('申请权限')
+          .onClick(async ()=>{
+            const isAuth=await permissionManager.requestPermissions(["ohos.permission.CAMERA"])
+            promptAction.showToast({ message: '能否调用权限' + isAuth})
+
+          })
+        Button('检测权限')
+          .onClick(async ()=>{
+            const isAuth=await permissionManager.checkPermissions(["ohos.permission.CAMERA"])
+            promptAction.showToast({ message: '权限开启' + isAuth})
+
+          })*/
 
 
           }
