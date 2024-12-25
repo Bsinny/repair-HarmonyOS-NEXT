@@ -130,7 +130,7 @@ struct HomeShortcut {
     {
       title: '我的报修',
       icon: $r('app.media.ic_home_shortcut_srlj'),
-      url: '/pages/Repair/NewTestPage'
+      url: '/pages/Test/RepairListTestPage'
     },
     {
       title: '维修单',

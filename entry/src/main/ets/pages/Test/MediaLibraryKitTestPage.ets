@@ -2,6 +2,9 @@ import { permissionManager } from '../../manager';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
 import { dataSharePredicates } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
+import { photoPickerUtil } from '../../common/utils/photoPickerUtil';
+import Index from '.';
+import { getImagePaths } from '../../common/utils/imageUpload';
 
 @Entry
 @Component
@@ -9,7 +12,10 @@ struct MediaLibraryKitTestPage {
   @State isAuth:boolean =false;
   @State photoAccessUri:string='';
   @State photoAccessCount:number=0;
-  @State photoUris:string[]=[]
+  @State photoUris:string[]=[];
+  @State imgUri:string='';
+  @State fileList: string[] = []; // 新增状态用于存储已选图片路径
+  @State limit: number = 5; // 设置最大可选图片数量限制
   aboutToAppear(): void {
     this.requestPermission()
  }
@@ -53,8 +59,9 @@ struct MediaLibraryKitTestPage {
               })
 
             })
-          Image(this.photoAccessUri)
-            .width(200)
+/*          Image(this.photoAccessUri)
+            .width(200)*/
+/*
           ForEach(this.photoUris,(item:string)=>{
             Row(){
                   Image(item)
@@ -63,6 +70,35 @@ struct MediaLibraryKitTestPage {
             }
 
           })
+*/
+/*
+
+          Button('使用封装的组件选择照片')
+            .onClick(async ()=>{
+              const res=await photoPickerUtil()
+              this.imgUri=res as string
+
+            })
+          Image(this.imgUri)
+            .width("100%")
+            .height(200)*/
+          // 使用Index组件展示已选图片
+          /*Index({
+            fileList: this.fileList,
+            limit: this.limit,
+            deleteImage: this.imgUri*//*(imgPath: string) => {
+              // 移除图片逻辑
+              this.fileList = this.fileList.filter(img => img !== imgPath);
+            },*//*
+
+          }).margin({ top: 20 });*/
+
+          Button('选择照片')
+            .onClick(async ()=>{
+              const res=await getImagePaths(3)
+              AlertDialog.show({message:res.fileList.length.toString()})
+
+            })
 
         }
       }

@@ -1,10 +1,13 @@
-import { getRepTypeListAPI, getRepTypes, getTypeListAPI, getTypes, repTypeItem, typeItem } from '../../api/getTypeAPI';
+import { getRepTypeListAPI, getRepTypes, getTypeListAPI, getTypes,
+  postApplyForm,
+  repTypeItem, typeItem } from '../../api/getTypeAPI';
 import {  promptAction } from '@kit.ArkUI';
 import { values } from '@wolfx/lodash';
 import dayjs from 'dayjs';
 import { systemDateTime } from '@kit.BasicServicesKit';
 import { permissionManager } from '../../manager/PermissionManager';
 import { TestUserInfo, USER_INFO } from '../../api/userTestAPI';
+import { photoAccessHelper } from '@kit.MediaLibraryKit';
 
 @Entry
 @Component
@@ -25,6 +28,8 @@ struct RepairFormPage {
   @State applyExpectTime: Date= new Date('2024-8-8');
   @State applyType:number=-1
   @State isOrder:number=-1
+  @State applyId:number=-1
+  @State repairId:number=-1
 
 
   //获取报修类型
@@ -33,6 +38,7 @@ struct RepairFormPage {
       const res = await getTypeListAPI();
       if (res.data && Array.isArray(res.data.rows)) {
         this.typeList = res.data.rows as typeItem[]
+
       } else {
         console.error('Invalid response format for typeList');
       }
@@ -41,6 +47,24 @@ struct RepairFormPage {
     }
 
   }
+
+  async submitForm(){
+    const res=await postApplyForm(this.isOrder,{
+      applyUser: this.userInfo.nickName as string, //报修用户姓名
+      applyContent: this.applyContent, //报修内容
+      applyAddress: this.applyAddress, //报修地点
+      applyType: this.applyType, //报修类型
+      applyExpectType: this.applyExpectType, //期望维修类型
+      applyExpectTime: this.applyExpectTime, //期望维修时间
+      isOrder: this.isOrder,
+    })
+    this.repairId=res.data.repairId
+    this.applyId=res.data.applyId
+  }
+
+
+
+
   async getRepTypeList(){
 
     try {
@@ -183,10 +207,37 @@ struct RepairFormPage {
               })
             })
         }
-        Button('获取用户信息')
+
+
+
+
+        //TODO:这个系统的调用上传图片逻辑是两个
+        //TODO:将前面一个请求返回的信息拿到，再传入一次后端，虽然不知道这个逻辑为什么做两遍，小程序端是这样的，照着做就行
+
+        Button('获取当前用户填写信息')
           .onClick(()=>{
-            AlertDialog.show({message:'当前用户是'+this.userInfo.userName})
+            AlertDialog.show({message:'当前用户是'+this.userInfo.nickName as string+ //报修用户姓名
+              '报修内容'+this.applyContent+//报修内容
+              '报修地点'+this.applyAddress+ //报修地点
+              '报修类型'+this.applyType+ //报修类型
+              '期望维修类型'+this.applyExpectType+ //期望维修类型
+              '期望维修时间'+this.applyExpectTime+ //期望维修时间
+              '是否自己接单'+this.isOrder,})
         })
+        Button('使用picker选择照片')
+          .onClick(()=>{
+            let uris: Array<string> = [];
+            const photoViewPicker = new photoAccessHelper.PhotoViewPicker();
+            photoViewPicker.select()
+              .then((photoSelectResult: photoAccessHelper.PhotoSelectResult) => {
+                uris = photoSelectResult.photoUris;
+
+                AlertDialog.show({message:JSON.stringify(photoSelectResult,null,2)})
+                console.info('photoViewPicker.select to file succeed and uris are:' + uris);
+              })
+
+          })
+
           }
         }
     .title('填写报修单')
