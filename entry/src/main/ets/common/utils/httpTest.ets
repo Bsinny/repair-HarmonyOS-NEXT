@@ -66,6 +66,7 @@ axiosTestInstance.interceptors.response.use((response:AxiosTestResponseData/*Axi
 
 
 }, (error:AxiosError)=> {
+  AlertDialog.show({message:JSON.stringify(error,null,2)})
   console.log('Axios Error',JSON.stringify(error))
   // if (error.code === 500) {
   //

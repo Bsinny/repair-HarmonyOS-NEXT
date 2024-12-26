@@ -1,0 +1,233 @@
+import { axiosTestInstance } from "../common/utils/httpTest"
+import { getTypeResponse } from "./getTypeAPI"
+import { myRepairData, RepairItem, repImgItem, RepType } from "./myRepairListAPI"
+
+
+//月份统计订单金额
+export interface moneyTotalItem{
+  repairContent:string,//报修名字
+  RepairMoneyTotal: number,//订单总金额
+  RepairOrderTotal: 1,//月订单数量
+  repairMoney: string,//订单显示金额
+  repairMonth: number,//订单月份
+  repairAddress: string//订单地址
+}
+
+export interface repairTotalItem{
+  /*appImgList: appImgList[]*/
+  apply: null
+  applyId: number
+  /*createBy: null
+  createTime: null*/
+  curWork: number
+  /*params: {}*/
+/*  processList
+    :
+    []*/
+/*  remark
+    :
+    null*/
+  repImgList: repImgItem[]
+  repType: RepType
+  repairAddress
+    :
+    string
+  repairComment
+    :
+    number
+  repairContent
+    :
+    string
+  repairCreateTime
+    :
+    Date
+  repairDay
+    :
+    number
+  repairDep
+    :
+    number
+  repairDestory
+    :
+    number
+  repairDestoryTime
+    :
+    Date
+  repairExpectTime
+    :
+    Date
+  repairExpectType
+    :
+    number
+  repairId
+    :
+    number
+  repairIsDelete
+    :
+    number
+  repairMoney
+    :
+    number
+  repairMonth
+    :
+    number
+  repairName
+    :
+    string
+  repairNo
+    :
+    string
+  repairState
+    :
+    number
+  repairTransfer
+    :
+    number
+  repairType
+    :
+    number
+  repairYear
+    :
+    number
+  repaireId
+    :
+    number
+  repaireName
+    :
+    string
+  repairedState
+    :
+    number
+/*  repcomment
+    :
+    null*/
+/*  searchValue
+    :
+    null
+  updateBy
+    :
+    null
+  updateTime
+    :
+    null*/
+}
+//已转单
+/**
+ * /api/repair/reptransfer/list
+ */
+interface repTransferItem{
+
+  apply_address
+    :
+    string
+  apply_content
+    :
+    string
+  apply_no
+    :
+    string
+  apply_type
+    :
+    string
+  apply_userid
+    :
+    number
+  dept_id
+    :
+    number
+  dept_name
+    :
+    string
+  nick_name
+    :
+    string
+  phonenumber
+    :
+    string
+  reptransfeTime
+    :
+    Date
+  reptransfe_message
+    :
+    string
+  reptransfe_to_user
+    :
+    number
+  reptransfe_user
+    :
+    number
+  reptransfe_user_type
+    :
+    number
+  reptransfer_id
+    :
+    number
+  sex
+    :
+    string
+  to_dept_name
+    :
+    string
+  to_nick_name
+    :
+    string
+  tophonenumber
+    :
+    string
+  tosex
+    :
+    string
+  user_id
+    :
+    number
+}
+interface OrdersForm{
+  repairIsDelete:number
+  repairDestory:number
+  repairTransfer:number
+}
+
+/**
+ * 已销单
+ * /api/repair/tb/list?repairIsDelete=0&repairDestory=1&repairTransfer=0
+ * 已转单
+ * api/repair/tb/list?repairIsDelete=0&repairDestory=0&repairTransfer=1
+ * 转单功能需要配合下面的list转单细节使用
+ * 正在维修
+ * api/repair/tb/list?repairIsDelete=0&repairDestory=0&repairTransfer=0
+ */
+
+export function getOrdersByConditionListAPI(data:OrdersForm){
+
+  return axiosTestInstance.get<null, getTypeResponse<RepairItem>,OrdersForm>(
+    '/api/repair/tb/list',{params:{repairIsDelete:data.repairIsDelete,repairTransfer:data.repairTransfer,repairDestory:data.repairDestory}}
+
+  );
+}
+
+export function getTransferOrdersDetailListAPI(){
+  return axiosTestInstance.get<null, getTypeResponse<repTransferItem>,null>(
+    '/api/repair/reptransfer/list'
+  );
+
+}
+
+interface repairMonth{
+  repairMonth:number
+}
+//月份统计订单金额
+export function getMoneyTotalAPI(data:repairMonth){
+
+  return axiosTestInstance.get<null, getTypeResponse<moneyTotalItem>,repairMonth>(
+    '/api/repair/tb/moneytotal',{params:{repairMonth:data.repairMonth}}
+    /*'/api/repair/tb/moneytotal?repairMonth='+data.repairMonth.toString()*/
+  );
+}
+//月份统计订单
+export function getRepairTotalAPI(data:repairMonth){
+
+  return axiosTestInstance.get<null, getTypeResponse<repairTotalItem>,repairMonth>(
+    '/api/repair/tb/repairtotal',{params:{repairMonth:data.repairMonth}}
+
+  );
+}
