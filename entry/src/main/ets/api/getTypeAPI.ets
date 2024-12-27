@@ -1,5 +1,5 @@
 import { AxiosResponse, FormData } from "@ohos/axios"
-import { axiosTestInstance } from "../common/utils/httpTest"
+import { axiosInstance } from "../common/utils/httpInstance"
 
 //res.data.rows
 export interface typeItem{
@@ -64,22 +64,22 @@ export type GetTypeResponseData<T = null> = AxiosResponse<getTypeResponse<T>,nul
 
 //后端自己设置错误服了，两个类型的请求地址反了，导致拿不下来
 export function getTypeListAPI(){
-  return axiosTestInstance.get<null,GetTypeResponseData<typeItem>,null>
+  return axiosInstance.get<null,GetTypeResponseData<typeItem>,null>
   ('/api/repair/reptype/list')
 
 }
 export function getRepTypeListAPI(){
-  return axiosTestInstance.get<null,GetTypeResponseData<repTypeItem>,null>
+  return axiosInstance.get<null,GetTypeResponseData<repTypeItem>,null>
   ('/api/repair/type/list')
 }
 
 export function postApplyForm(val:number,data:applyForm){
-  return axiosTestInstance.post<null,AxiosResponse<applyFormResponse,null>,applyForm>
+  return axiosInstance.post<null,AxiosResponse<applyFormResponse,null>,applyForm>
   ('/api/repair/apply/'+val,data)
 
 }
 export function postApplyPhoto(data:FormData){
-    return axiosTestInstance.post<null,GetTypeResponseData,FormData>
+    return axiosInstance.post<null,GetTypeResponseData,FormData>
   ('/api/repair/appimg/add',data)
 
 }

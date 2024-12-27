@@ -1,12 +1,12 @@
-import { Dept, findAllDeptAPI, findAllRoleAPI, Role, TestUserInfo, userRegisterAPI,
-  USER_INFO } from '../../api/userTestAPI';
+import { Dept, findAllDeptAPI, findAllRoleAPI, Role, UserInfo, userRegisterAPI,
+  USER_INFO } from '../../api/userInfoAPI';
 import { promptAction, router } from '@kit.ArkUI';
 import { permissionManager } from '../../manager';
 
 @Entry
 @Component
 struct UserRegisterPage {
-  @StorageLink(USER_INFO) userInfo: TestUserInfo = {};
+  @StorageLink(USER_INFO) userInfo: UserInfo = {}  as UserInfo;
   @State allDeptList:Dept[]=[];
   @State selectedDeptName:string='请选择'
   @State selectedDeptId:number|number[]=-1;

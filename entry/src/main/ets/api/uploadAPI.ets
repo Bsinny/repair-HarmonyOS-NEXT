@@ -1,5 +1,5 @@
 import { FormData } from '@ohos/axios';
-import { axiosInstance, AxiosResponseData } from '../common/utils/http';
+import { axiosInstanceDemo, AxiosResponseData } from '../common/utils/http';
 
 
 /** 上传结果 */
@@ -10,7 +10,7 @@ export interface postUploadFormDataResponse {
 
 /* 文件上传 */
 export function postUploadFormData(data: FormData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<postUploadFormDataResponse>, FormData>
   (
     '/upload',

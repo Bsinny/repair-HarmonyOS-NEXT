@@ -1,4 +1,4 @@
-import { axiosInstance, AxiosResponseData } from '../common/utils/http';
+import { axiosInstanceDemo, AxiosResponseData } from '../common/utils/http';
 
 /* 查询手机号标记和归属地信息-请求参数 */
 interface getPhoneMarkParams {
@@ -55,7 +55,7 @@ export enum PhoneMarkType {
 
 /* 查询手机号标记和归属地信息 */
 export function getPhoneMarkAPI(params: getPhoneMarkParams) {
-  return axiosInstance.get
+  return axiosInstanceDemo.get
   <null, AxiosResponseData<getPhoneMarkResponse>, getPhoneMarkParams>
   ('/phone/mark', { params })
 }
@@ -74,7 +74,7 @@ export interface postPhoneMarkData {
 
 /* 标记手机号 */
 export function postPhoneMarkAPI(data: postPhoneMarkData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<null>, postPhoneMarkData>
   ('/phone/mark', data)
 }
@@ -101,7 +101,7 @@ export interface getPhoneMarkPageItem {
 
 /** 滚动分页查询手机标记 */
 export function getPhoneMarkPageAPI(params: getPhoneMarkPageParams) {
-  return axiosInstance.get
+  return axiosInstanceDemo.get
   <null, AxiosResponseData<getPhoneMarkPageItem[]>, getPhoneMarkPageParams>
   ('/phone/mark/page', { params })
 }
@@ -115,7 +115,7 @@ interface postPhoneBlackListData {
 
 /** 手机号黑名单添加接口 */
 export function postPhoneBlackListAPI(data: postPhoneBlackListData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<null>, postPhoneBlackListData>
   ('/phone/black-list', data)
 }
@@ -128,7 +128,7 @@ export interface deletePhoneBlackListData {
 
 /** 从黑名单中删除 */
 export function deletePhoneBlackListAPI(data: deletePhoneBlackListData) {
-  return axiosInstance.delete
+  return axiosInstanceDemo.delete
   <null, AxiosResponseData<null>, deletePhoneBlackListData>
   ('/phone/black-list', { data: data })
 }
@@ -151,7 +151,7 @@ export interface getPhoneBlackListPageResponse {
 
 /** 滚动分页查询手机号黑名单 */
 export function getPhoneBlackListPageAPI(params: getPhoneBlackListPageParams) {
-  return axiosInstance.get
+  return axiosInstanceDemo.get
   <null, AxiosResponseData<getPhoneBlackListPageResponse>, getPhoneBlackListPageParams>
   ('/phone/black-list/page', { params })
 }

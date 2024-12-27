@@ -6,13 +6,13 @@ import { values } from '@wolfx/lodash';
 import dayjs from 'dayjs';
 import { systemDateTime } from '@kit.BasicServicesKit';
 import { permissionManager } from '../../manager/PermissionManager';
-import { TestUserInfo, USER_INFO } from '../../api/userTestAPI';
+import { UserInfo, USER_INFO } from '../../api/userInfoAPI';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
 
 @Entry
 @Component
 struct RepairFormPage {
-  @StorageLink(USER_INFO) userInfo: TestUserInfo = {};
+  @StorageLink(USER_INFO) userInfo: UserInfo = {}  as UserInfo;
   @State applyAddress:string= '提瓦特大陆';
   @State applyContent:string= '提瓦特大陆里面玩不了原神搞得积极洋洋的';
   @State applyExpectType:number=-1
@@ -164,7 +164,7 @@ struct RepairFormPage {
                   .onClick(()=>{
                     TextPickerDialog.show({
                       range:this.repTypeList.map(item => item.repexpectType),
-                      selected: this.selectedTypeIndex,
+                      selected: this.selectedRepTypeIndex,
                       disappearTextStyle: {color: Color.Red, font: {size: 15, weight: FontWeight.Lighter}},
                       textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
                       selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},

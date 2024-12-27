@@ -1,4 +1,4 @@
-import { axiosTestInstance } from "../common/utils/httpTest"
+import { axiosInstance } from "../common/utils/httpInstance"
 import { getTypeResponse } from "./getTypeAPI"
 import { myRepairData, RepairItem, repImgItem, RepType } from "./myRepairListAPI"
 
@@ -197,16 +197,16 @@ interface OrdersForm{
  * api/repair/tb/list?repairIsDelete=0&repairDestory=0&repairTransfer=0
  */
 
-export function getOrdersByConditionListAPI(data:OrdersForm){
+export function getOrdersByConditionListAPI(params:OrdersForm){
 
-  return axiosTestInstance.get<null, getTypeResponse<RepairItem>,OrdersForm>(
-    '/api/repair/tb/list',{params:{repairIsDelete:data.repairIsDelete,repairTransfer:data.repairTransfer,repairDestory:data.repairDestory}}
+  return axiosInstance.get<null, getTypeResponse<RepairItem>,OrdersForm>(
+    '/api/repair/tb/list',{params}
 
   );
 }
 
 export function getTransferOrdersDetailListAPI(){
-  return axiosTestInstance.get<null, getTypeResponse<repTransferItem>,null>(
+  return axiosInstance.get<null, getTypeResponse<repTransferItem>,null>(
     '/api/repair/reptransfer/list'
   );
 
@@ -216,18 +216,18 @@ interface repairMonth{
   repairMonth:number
 }
 //月份统计订单金额
-export function getMoneyTotalAPI(data:repairMonth){
+export function getMoneyTotalAPI(params:repairMonth){
 
-  return axiosTestInstance.get<null, getTypeResponse<moneyTotalItem>,repairMonth>(
-    '/api/repair/tb/moneytotal',{params:{repairMonth:data.repairMonth}}
+  return axiosInstance.get<null, getTypeResponse<moneyTotalItem>,repairMonth>(
+    '/api/repair/tb/moneytotal',{params}
     /*'/api/repair/tb/moneytotal?repairMonth='+data.repairMonth.toString()*/
   );
 }
 //月份统计订单
-export function getRepairTotalAPI(data:repairMonth){
+export function getRepairTotalAPI(params:repairMonth){
 
-  return axiosTestInstance.get<null, getTypeResponse<repairTotalItem>,repairMonth>(
-    '/api/repair/tb/repairtotal',{params:{repairMonth:data.repairMonth}}
+  return axiosInstance.get<null, getTypeResponse<repairTotalItem>,repairMonth>(
+    '/api/repair/tb/repairtotal',{params}
 
   );
 }

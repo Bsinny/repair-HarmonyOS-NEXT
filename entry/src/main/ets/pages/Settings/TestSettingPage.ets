@@ -1,5 +1,5 @@
 import { promptAction, router } from '@kit.ArkUI'
-import { LoginResponseInfo, loginTestInfo, LOGIN_TOKEN, TestUserInfo, USER_INFO } from '../../api/userTestAPI'
+import { LoginResponseInfo, loginTestInfo, LOGIN_TOKEN, UserInfo, USER_INFO } from '../../api/userInfoAPI'
 import { CellRowArrowComp, DividerComp } from '../../common/components'
 
 
@@ -8,12 +8,12 @@ import { CellRowArrowComp, DividerComp } from '../../common/components'
 struct TestSettingPage {
   // 用户信息持久化
   @StorageLink(LOGIN_TOKEN) loginToken: string = ''
-  @StorageLink(USER_INFO) userDetail:TestUserInfo = { }
+  @StorageLink(USER_INFO) userDetail:UserInfo = { } as UserInfo;
   @State isWifiNotification: boolean = true
   @State userExperienceImprovementPlan: boolean = true
   logout(){
     this.loginToken=''
-    this.userDetail={}
+    this.userDetail={} as UserInfo;
     promptAction.showToast({ message: '退出登录成功' })
     router.back()
   }

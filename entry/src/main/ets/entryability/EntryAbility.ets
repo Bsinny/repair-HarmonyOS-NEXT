@@ -4,7 +4,7 @@ import { FaultLogger, hilog } from '@kit.PerformanceAnalysisKit';
 import axios from '@ohos/axios';
 import { BASE_URL, LOGIN_INFO, PrivacySettings } from '../common/constants';
 import { privacyManager } from '@kit.StoreKit';
-import { LOGIN_TOKEN, USER_INFO } from '../api/userTestAPI';
+import { LOGIN_TOKEN, USER_INFO, USER_ROLE } from '../api/userInfoAPI';
 
 let observerId = -1
 export default class EntryAbility extends UIAbility {
@@ -47,6 +47,8 @@ export default class EntryAbility extends UIAbility {
       PersistentStorage.persistProp<PrivacySettings>(LOGIN_INFO,{})
       PersistentStorage.persistProp<PrivacySettings>(LOGIN_TOKEN,{})
       PersistentStorage.persistProp<PrivacySettings>(USER_INFO,{})
+      PersistentStorage.persistProp<PrivacySettings>(USER_ROLE,{})
+
 
     });
   }

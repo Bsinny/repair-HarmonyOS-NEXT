@@ -17,13 +17,13 @@ export interface ServiceResponse<T> {
 export type AxiosResponseData<Result = null> = AxiosResponse<ServiceResponse<Result>, null>
 
 // 创建实例
-export const axiosInstance = axios.create({
+export const axiosInstanceDemo = axios.create({
   baseURL: BASE_URL, // 请求基地址
   timeout: 1000 * 20 // 请求超时时间
 })
 
 // 添加请求拦截器
-axiosInstance.interceptors.request.use((config:InternalAxiosRequestConfig) => {
+axiosInstanceDemo.interceptors.request.use((config:InternalAxiosRequestConfig) => {
   // 对请求数据做点什么
  /* config.headers.Authorization = 'token_dajiba'*/
   const loginInfo=AppStorage.get<LoginInfoResponse>(LOGIN_INFO)
@@ -44,7 +44,7 @@ axiosInstance.interceptors.request.use((config:InternalAxiosRequestConfig) => {
 
 
 // 添加响应拦截器
-axiosInstance.interceptors.response.use((response:AxiosResponseData)=> {
+axiosInstanceDemo.interceptors.response.use((response:AxiosResponseData)=> {
 
   if (response.data.code !== 200) {
     // 把后端响应的错误信息，通过轻提示，提醒用户

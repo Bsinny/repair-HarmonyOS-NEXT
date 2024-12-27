@@ -1,10 +1,11 @@
 import { AxiosResponse } from "@ohos/axios"
-import { axiosTestInstance, AxiosTestResponseData } from "../common/utils/httpTest"
+import { axiosInstance, AxiosTestResponseData } from "../common/utils/httpInstance"
 
 
 
 export const LOGIN_TOKEN ='LOGIN_TOKEN'
 export const USER_INFO='USER_INFO'
+export const USER_ROLE='USER_ROLE'
 
 export interface loginTestInfo{
   username?:string
@@ -21,10 +22,10 @@ export interface TestResponseInfo/*<TestUserInfo>*/{
   code:number
   deptName:string
   permissions:string[]
-  user:TestUserInfo
-//这个是废的
+  user:UserInfo
+
 }
-export interface TestUserInfo {
+export interface UserInfo {
   /*searchValue?: string;//注释的都是null值 */
   createBy?: string;
   createTime?: string;
@@ -48,8 +49,8 @@ export interface TestUserInfo {
   state?: number;
   /*grantid?: string;*/
   // todo: 嵌套Dept属性
-  /*dept?: Dept;  //这个太复杂稍后再做决定*/
-  /*roles?: Role[];*/
+  dept?: Dept;  //这个太复杂稍后再做决定
+  roles: Role[];
 /*  roleIds?: string;
   postIds?: string;
   roleId?: string;*/
@@ -110,28 +111,28 @@ interface UserForm{
   userName?: string
 }
 export function postTestUserLoginPasswdAPI(data: loginTestInfo) {
-  return axiosTestInstance.post
+  return axiosInstance.post
   <null,AxiosTestResponseData/*<LoginResponseInfo>*/ /*AxiosResponse<LoginResponseInfo,null>*/, loginTestInfo>
   ('/login', data)
 }
 export function getTestUserInfoAPI() {
-  return axiosTestInstance.get
-  <null,AxiosTestResponseData<TestUserInfo> /*AxiosResponse<TestResponseInfo,null>*/,null>
+  return axiosInstance.get
+  <null,AxiosTestResponseData<UserInfo> /*AxiosResponse<TestResponseInfo,null>*/,null>
   ('/getInfo')
 }
 export function findAllDeptAPI() {
-  return axiosTestInstance.get
+  return axiosInstance.get
   <null,AxiosTestResponseData<Dept> ,null>
   ('/api/repair/tb/findAllDept')
 }
 export function findAllRoleAPI() {
-  return axiosTestInstance.get
+  return axiosInstance.get
   <null,AxiosTestResponseData<Role>,null>
   ('/api/repair/tb/findAllRole')
 
 }
 export function userRegisterAPI(data:UserForm) {
-  return axiosTestInstance.post
+  return axiosInstance.post
   <null,AxiosTestResponseData,UserForm>
   ('/api/repair/register/register',data)
 

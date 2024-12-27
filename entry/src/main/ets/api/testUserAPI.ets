@@ -1,5 +1,5 @@
 import { LoginInfoResponse } from '../common/constants'
-import { axiosInstance, AxiosResponseData } from '../common/utils/http'
+import { axiosInstanceDemo, AxiosResponseData } from '../common/utils/http'
 
 interface postUserRegisterData {
   passwd: string
@@ -11,7 +11,7 @@ interface postUserRegisterData {
 
 /* 注册用户 */
 export function postUserRegisterAPI(data: postUserRegisterData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<LoginInfoResponse>, postUserRegisterData>
   ('/user/register', data)
 }
@@ -28,7 +28,7 @@ export interface postUserLoginPasswdData {
 
 /* 密码登录 */
 export function postUserLoginPasswdAPI(data: postUserLoginPasswdData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<LoginInfoResponse>, postUserLoginPasswdData>
   ('/user/login/passwd', data)
 }
@@ -44,7 +44,7 @@ export interface postUserLoginVerifyCodeData {
 
 /* 通过验证码登录 */
 export function postUserLoginVerifyCodeAPI(data: postUserLoginVerifyCodeData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<LoginInfoResponse>, postUserLoginVerifyCodeData>
   ('/user/login/verifyCode', data)
 }
@@ -62,7 +62,7 @@ export interface postUserSetPasswdData {
 
 /* 通过验证码登录 */
 export function postUserSetPasswdAPI(data: postUserSetPasswdData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<LoginInfoResponse>, postUserSetPasswdData>
   ('/user/setPasswd', data)
 }
@@ -78,14 +78,14 @@ export interface UserInfoResponse {
 
 /* 获取我的用户信息 */
 export function getUserInfoAPI() {
-  return axiosInstance.get
+  return axiosInstanceDemo.get
   <null, AxiosResponseData<UserInfoResponse>, null>
   ('/user/me')
 }
 
 /* 用户信息保存 */
 export function putUserInfoAPI(data: UserInfoResponse) {
-  return axiosInstance.put
+  return axiosInstanceDemo.put
   <null, AxiosResponseData<null>, UserInfoResponse>
   ('/user/me', data)
 }
@@ -98,7 +98,7 @@ export interface postUserRenewalData {
 
 /* token续期 */
 export function postUserRenewalAPI(data: postUserRenewalData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<UserInfoResponse>, postUserRenewalData>
   ('/user/renewal', data)
 }

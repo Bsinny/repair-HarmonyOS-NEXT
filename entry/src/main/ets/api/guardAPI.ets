@@ -1,4 +1,4 @@
-import { axiosInstance, AxiosResponseData } from '../common/utils/http'
+import { axiosInstanceDemo, AxiosResponseData } from '../common/utils/http'
 
 
 export enum ShareType {
@@ -16,20 +16,20 @@ export interface postShareCreateData {
 
 export function postShareCreate(shareType: ShareType) {
   const data: postShareCreateData = { shareType }
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<GuardShardInfo>, postShareCreateData>
   ('/share/create', data)
 }
 
 export function postShareEnd(shareType: ShareType) {
   const params: postShareCreateData = { shareType }
-  return axiosInstance.post('/share/end', params)
+  return axiosInstanceDemo.post('/share/end', params)
 }
 
 
 export function getShareList(shareType: ShareType) {
   const params: postShareCreateData = { shareType }
-  return axiosInstance.get('/share/list', { params: params })
+  return axiosInstanceDemo.get('/share/list', { params: params })
 }
 
 export interface SetGuardShardMessageParams {
@@ -38,5 +38,5 @@ export interface SetGuardShardMessageParams {
 }
 
 export function postShareMsg(params: SetGuardShardMessageParams) {
-  return axiosInstance.post('/share/msg', params)
+  return axiosInstanceDemo.post('/share/msg', params)
 }

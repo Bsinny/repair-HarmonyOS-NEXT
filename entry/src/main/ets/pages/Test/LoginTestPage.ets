@@ -3,8 +3,8 @@ import {  LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
 import { promptAction, router } from '@kit.ArkUI'
 import { getTestUserInfoAPI, LoginResponseInfo, LOGIN_TOKEN, postTestUserLoginPasswdAPI,
   TestResponseInfo,
-  TestUserInfo,
-  USER_INFO } from '../../api/userTestAPI'
+  UserInfo,
+  USER_INFO } from '../../api/userInfoAPI'
 
 
 @Entry
@@ -13,7 +13,7 @@ struct LoginTestPage {
   // 用户信息持久化
   @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
   @StorageLink(LOGIN_TOKEN) loginToken:string =''
-  @StorageLink(USER_INFO) userDetail:TestUserInfo = {}
+  @StorageLink(USER_INFO) userDetail:UserInfo = {} as UserInfo;
 
   // 手机号
   @State phoneNumber: string = '131234567890'
@@ -41,6 +41,10 @@ struct LoginTestPage {
     //返回体传user就行了，再改一下这个userDetail的类型就可以了
     /*this.userDetail=res.data?.user*//*res.data?.result*/
     this.userDetail=res.data.user
+    // AlertDialog.show({message:JSON.stringify(this.userDetail.dept?.deptId,null,2)})
+    const role=this.userDetail?.roles[0].roleKey
+    /*AlertDialog.show({message:JSON.stringify(this.userDetail.roles?.length,null,2)})*/
+
 
 /*    console.log('jibada',JSON.stringify(res ,null,2))
     AlertDialog.show({message:JSON.stringify(this.userDetail,null,2)})*/

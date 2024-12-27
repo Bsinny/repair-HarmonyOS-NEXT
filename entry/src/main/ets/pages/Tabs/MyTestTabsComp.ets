@@ -1,7 +1,7 @@
 import { router } from '@kit.ArkUI'
 import { LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
 import { deviceInfo } from '@kit.BasicServicesKit'
-import { LoginResponseInfo, LOGIN_TOKEN, TestResponseInfo, TestUserInfo, USER_INFO } from '../../api/userTestAPI'
+import { LoginResponseInfo, LOGIN_TOKEN, TestResponseInfo, UserInfo, USER_INFO } from '../../api/userInfoAPI'
 
 
 interface UsageItem {
@@ -15,7 +15,7 @@ interface UsageItem {
 export struct MyTestTabsComp {
   // 用户信息持久化
   @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
-  @StorageLink(USER_INFO) userInfo: TestUserInfo = {}
+  @StorageLink(USER_INFO) userInfo: UserInfo = {} as UserInfo;
   @StorageLink(LOGIN_TOKEN) loginToken:string =''
 
   @StorageLink('topHeight') topHeight: number = 0
@@ -29,6 +29,9 @@ export struct MyTestTabsComp {
 
   //当tabs发生变化的时候
   onTabsChange(){
+    if (this.currentIndex == 2) {
+      AlertDialog.show({message:JSON.stringify(this.userInfo.roles,null,2)})
+    }
 
   }
   aboutToAppear() {

@@ -19,7 +19,7 @@ async aboutToAppear(): Promise<void> {
 
 
 }
-//todo:这个请求路径有问题
+
   async GetMoneyTotalList(){
     const res=await getMoneyTotalAPI({
       repairMonth:this.repairMonth

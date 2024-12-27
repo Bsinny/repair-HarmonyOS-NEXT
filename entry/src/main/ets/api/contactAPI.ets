@@ -1,5 +1,5 @@
 import { contact } from '@kit.ContactsKit';
-import { axiosInstance, AxiosResponseData } from '../common/utils/http';
+import { axiosInstanceDemo, AxiosResponseData } from '../common/utils/http';
 
 /** 通讯录保存模型 */
 export interface postPhoneBookData {
@@ -12,7 +12,7 @@ export interface postPhoneBookData {
 
 /** 备份通讯录 */
 export function postPhoneBookAPI(data: postPhoneBookData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<null>, postPhoneBookData>
   ('/phone/book', data)
 }
@@ -43,7 +43,7 @@ export interface getPhoneBookHistoryItem {
 
 /** 滚动分页查询手机号黑名单 */
 export function getPhoneBookHistoryAPI(params: getPhoneBookHistoryParams) {
-  return axiosInstance.get
+  return axiosInstanceDemo.get
   <null, AxiosResponseData<getPhoneBookHistoryItem[]>, getPhoneBookHistoryParams>
   ('/phone/book/history', { params })
 }
@@ -62,14 +62,14 @@ export interface getPhoneBookByIdResponse {
 
 /** 查询手机通讯录备份 */
 export function getPhoneBookByIdAPI(id: string) {
-  return axiosInstance.get
+  return axiosInstanceDemo.get
   <null, AxiosResponseData<getPhoneBookByIdResponse>, null>
   (`/phone/book/${id}`)
 }
 
 /** 删除通讯录备份 */
 export function deletePhoneBookByIdAPI(id: string) {
-  return axiosInstance.delete
+  return axiosInstanceDemo.delete
   <null, AxiosResponseData<null>, null>
   (`/phone/book/${id}`)
 }

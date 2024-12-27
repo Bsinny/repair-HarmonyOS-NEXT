@@ -1,5 +1,5 @@
 import { router } from '@kit.ArkUI'
-import { LoginResponseInfo, loginTestInfo, LOGIN_TOKEN } from '../../api/userTestAPI'
+import { LoginResponseInfo, loginTestInfo, LOGIN_TOKEN } from '../../api/userInfoAPI'
 import { CellRowArrowComp, DividerComp } from '../../common/components'
 import { LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
 

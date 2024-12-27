@@ -1,4 +1,4 @@
-import { axiosInstance, AxiosResponseData } from '../common/utils/http';
+import { axiosInstanceDemo, AxiosResponseData } from '../common/utils/http';
 
 /** 保存联系人 */
 export interface postEmergencyContactData {
@@ -11,7 +11,7 @@ export interface postEmergencyContactData {
 
 /* 保存联系人 */
 export function postEmergencyContactAPI(data: postEmergencyContactData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<null>, postEmergencyContactData>
   ('/emergency-contact', data)
 }
@@ -31,7 +31,7 @@ export interface getEmergencyContactResponse {
 
 /* 获取紧急联系人 */
 export function getEmergencyContactAPI() {
-  return axiosInstance.get
+  return axiosInstanceDemo.get
   <null, AxiosResponseData<getEmergencyContactResponse>, null>
   ('/emergency-contact')
 }

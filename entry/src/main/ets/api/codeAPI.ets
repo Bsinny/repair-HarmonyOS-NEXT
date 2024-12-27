@@ -1,4 +1,4 @@
-import { axiosInstance, AxiosResponseData } from '../common/utils/http'
+import { axiosInstanceDemo, AxiosResponseData } from '../common/utils/http'
 
 interface postCodeSmsSendData {
   bizType?: BizType
@@ -24,7 +24,7 @@ export enum BizType {
 
 /* 发送短信验证码 */
 export function postCodeSmsSendAPI(data: postCodeSmsSendData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<postCodeSmsSendRes>, postCodeSmsSendData>
   ('/code/sms/send', data)
 }
@@ -37,7 +37,7 @@ interface postCodeGraphicCheckData {
 
 /* 校验图形验证码 */
 export function postCodeGraphicCheckAPI(data: postCodeGraphicCheckData) {
-  return axiosInstance.post
+  return axiosInstanceDemo.post
   <null, AxiosResponseData<postCodeSmsSendRes>, postCodeGraphicCheckData>
   ('/code/graphic/check', data)
 }

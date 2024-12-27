@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from '@ohos/axios'
 import { BASE_URL, LoginInfoResponse, LOGIN_INFO } from '../../common/constants'
 import { promptAction } from '@kit.ArkUI';
-import { axiosInstance } from '../../common/utils';
+import { axiosInstanceDemo } from '../../common/utils';
 
 /**
  * 账号密码登录模型
@@ -151,7 +151,7 @@ struct AxiosTestPage {
             .strokeWidth(1)
           Button('请求工具-发送登录请求')
             .onClick(async ()=>{
-              const res=await axiosInstance.post <null,AxiosResponseData<LoginInfoResponse>,PostUserLoginPasswdData>(
+              const res=await axiosInstanceDemo.post <null,AxiosResponseData<LoginInfoResponse>,PostUserLoginPasswdData>(
                 '/user/login/passwd',
                 {phone:'120666666666',
                  passwd:'888itcast.CN764%...'}
@@ -166,7 +166,7 @@ struct AxiosTestPage {
           Button('请求工具-发送获取我的用户信息')
             .onClick(async()=>{
 
-                  const res=await axiosInstance.get<null,AxiosResponseData<GetUserMeResponse>>('/user/me'
+                  const res=await axiosInstanceDemo.get<null,AxiosResponseData<GetUserMeResponse>>('/user/me'
 )
                   this.avatar=res.data.result?.avatar as string
 

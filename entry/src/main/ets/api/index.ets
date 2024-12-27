@@ -16,6 +16,6 @@ export * from './uploadAPI'
 
 export * from './urlsAPI'
 
-export * from './userAPI'
+export * from './testUserAPI'
 
 export * from './guardAPI'

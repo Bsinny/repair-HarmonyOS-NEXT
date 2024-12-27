@@ -1,4 +1,4 @@
-import { axiosTestInstance } from "../common/utils/httpTest";
+import { axiosInstance } from "../common/utils/httpInstance";
 import { getTypeResponse } from "./getTypeAPI";
 
 export interface RepairItem{
@@ -74,10 +74,10 @@ export interface myRepairData{
 
 }
 export function getMyRepairListAPI(
-  data:myRepairData
+  params:myRepairData
 ){
-  return axiosTestInstance.get<null, getTypeResponse<RepairItem>,myRepairData>(
-    '/api/repair/tb/myrepairs',{params:{repairIsDelete:data.repairIsDelete,curWork:data.curWork,repairDestory:data.repairDestory}}
+  return axiosInstance.get<null, getTypeResponse<RepairItem>,myRepairData>(
+    '/api/repair/tb/myrepairs',{params/*{repairIsDelete:data.repairIsDelete,curWork:data.curWork,repairDestory:data.repairDestory}*/}
 
   );
 }

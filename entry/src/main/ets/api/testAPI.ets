@@ -1,7 +1,7 @@
-import { axiosInstance, AxiosResponseData } from '../common/utils/http'
+import { axiosInstanceDemo, AxiosResponseData } from '../common/utils/http'
 
 export function getTestAPI() {
-  return axiosInstance.get
+  return axiosInstanceDemo.get
   <null, AxiosResponseData<string>, null>
   ('/test')
 }
