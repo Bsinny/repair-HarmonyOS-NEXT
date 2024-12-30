@@ -44,13 +44,15 @@
     "pages/Guard/Outdoor/GuardPolicePage",
     "pages/Test/FaultLoggerTestPage",
     "pages/Test/AxiosTestPage",
-    "pages/Test/LoginTestPage",
+    "pages/User/LoginPage",
     "pages/Settings/TestSettingPage",
     "pages/Repair/RepairFormPage",
     "pages/Repair/NewTestPage",
     "pages/Test/MediaLibraryKitTestPage",
     "pages/User/UserRegisterPage",
     "pages/User/UserInfoPage",
-    "pages/Test/RepairListTestPage"
+    "pages/Test/RepairListTestPage",
+    "pages/Test/SwiperTestPage",
+    "pages/Test/RepairOrdersPage"
   ]
 }

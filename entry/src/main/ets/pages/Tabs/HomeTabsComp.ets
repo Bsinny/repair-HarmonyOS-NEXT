@@ -135,7 +135,8 @@ struct HomeShortcut {
     {
       title: '维修单',
       icon: $r('app.media.ic_home_shortcut_yskj'),
-      url: '/pages/Privacy/PrivacyIndexPage'
+      //url: '/pages/Privacy/PrivacyIndexPage'
+      url: '/pages/Test/RepairOrdersPage'
     },
     {
       title: '我的接单',

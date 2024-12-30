@@ -294,7 +294,7 @@ struct UserRegisterPage {
       }
 
     }
-    .title('填写报修单')
+    .title('用户注册')
     .titleMode(NavigationTitleMode.Mini)
     .mode(NavigationMode.Stack)
     .height('100%')

@@ -1,4 +1,4 @@
-import { AxiosResponse } from "@ohos/axios"
+
 import { axiosInstance, AxiosTestResponseData } from "../common/utils/httpInstance"
 
 
@@ -17,7 +17,7 @@ export interface LoginResponseInfo{
   code?:number
   token?:string
 }
-export interface TestResponseInfo/*<TestUserInfo>*/{
+export interface UserResponseInfo{
   msg:string
   code:number
   deptName:string
@@ -117,7 +117,7 @@ export function postTestUserLoginPasswdAPI(data: loginTestInfo) {
 }
 export function getTestUserInfoAPI() {
   return axiosInstance.get
-  <null,AxiosTestResponseData<UserInfo> /*AxiosResponse<TestResponseInfo,null>*/,null>
+  <null,AxiosTestResponseData<UserInfo>,null>
   ('/getInfo')
 }
 export function findAllDeptAPI() {
@@ -137,14 +137,3 @@ export function userRegisterAPI(data:UserForm) {
   ('/api/repair/register/register',data)
 
 }
-
-
-
-
-//
-/*
-export function getUserInfoAPI() {
-  return axiosInstance.get
-  <null, AxiosResponseData<UserInfoResponse>, null>
-  ('/user/me')
-}*/

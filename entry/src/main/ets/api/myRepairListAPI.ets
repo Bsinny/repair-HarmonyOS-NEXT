@@ -1,5 +1,5 @@
 import { axiosInstance } from "../common/utils/httpInstance";
-import { getTypeResponse } from "./getTypeAPI";
+import { getTypeResponse, GetTypeResponseData } from "./getTypeAPI";
 
 export interface RepairItem{
   repairId: number;
@@ -9,7 +9,7 @@ export interface RepairItem{
   repairMoney?: number;
   repairType: number;
   repairExpectType: number;
-  repairExpectTime: string;
+  repairExpectTime: Date;
   repairState: number;
   repairedState: number;
   repairDestory: number;
@@ -18,7 +18,7 @@ export interface RepairItem{
   curWork: number;
   repairDep: number;
   applyId: number;
-  repairDestoryTime?: string | null;
+  repairDestoryTime?: Date | null;
   repairCreateTime: string;
   repairIsDelete: number;
   repairYear: number;
@@ -30,11 +30,13 @@ export interface RepairItem{
   repType: RepType;
   apply: Apply;
   repImgList?: repImgItem[];
+  appImgList:repImgItem[];
   /*repImgList: any[]; // 如果有具体类型，请替换为实际类型
-  appImgList: any[]; // 如果有具体类型，请替换为实际类型
+   any[]; // 如果有具体类型，请替换为实际类型
   processList: any[]; // 如果有具体类型，请替换为实际类型
   repcomment?: any; // 如果有具体类型，请替换为实际类型*/
 }
+
 interface Apply {
   applyId?: number | null;
   applyNo?: string | null;
@@ -59,7 +61,7 @@ export interface repImgItem{
   appId: number,
   appimgName: string,
   appimgPath: string,
-  /*appimgCreateTime": "2024-12-25 08:57:34",*/
+  appimgCreateTime: Date,
   appimgIsDeleted: number
 }
 export interface RepType {
@@ -73,11 +75,19 @@ export interface myRepairData{
   repairDestory?: number
 
 }
+/**
+ * 待维修表
+ * /api/repair/tb/myrepairs?repairIsDelete=0&curWork=1&repairDestory=0
+ * 已维修表
+ * /api/repair/tb/myrepairs?repairIsDelete=0&curWork=1&repairDestory=1
+ * @param params
+ * @returns
+ */
 export function getMyRepairListAPI(
   params:myRepairData
 ){
-  return axiosInstance.get<null, getTypeResponse<RepairItem>,myRepairData>(
-    '/api/repair/tb/myrepairs',{params/*{repairIsDelete:data.repairIsDelete,curWork:data.curWork,repairDestory:data.repairDestory}*/}
+  return axiosInstance.get<null, GetTypeResponseData<RepairItem>,myRepairData>(
+    '/api/repair/tb/myrepairs',{params}
 
   );
 }

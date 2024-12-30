@@ -1,7 +1,7 @@
 import { router } from '@kit.ArkUI'
 import { LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
 import { deviceInfo } from '@kit.BasicServicesKit'
-import { LoginResponseInfo, LOGIN_TOKEN, TestResponseInfo, UserInfo, USER_INFO } from '../../api/userInfoAPI'
+import { LOGIN_TOKEN,UserInfo, USER_INFO, USER_ROLE } from '../../api/userInfoAPI'
 
 
 interface UsageItem {
@@ -17,6 +17,7 @@ export struct MyTestTabsComp {
   @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
   @StorageLink(USER_INFO) userInfo: UserInfo = {} as UserInfo;
   @StorageLink(LOGIN_TOKEN) loginToken:string =''
+  @StorageLink(USER_ROLE) role:string =''
 
   @StorageLink('topHeight') topHeight: number = 0
   // @Provide 装饰器和 @Consume 装饰器：与后代组件双向同步
@@ -29,9 +30,9 @@ export struct MyTestTabsComp {
 
   //当tabs发生变化的时候
   onTabsChange(){
-    if (this.currentIndex == 2) {
-      AlertDialog.show({message:JSON.stringify(this.userInfo.roles,null,2)})
-    }
+   /* if (this.currentIndex == 2) {
+      AlertDialog.show({message:JSON.stringify(this.role,null,2)})
+    }*/
 
   }
   aboutToAppear() {
@@ -113,7 +114,7 @@ export struct MyTestTabsComp {
             if (this.loginToken) {
               // 已登录
               Column({ space: 10 }) {
-                Image(/*this.userInfo.avatar*/ this.userInfo?.avatar|| $r("app.media.ic_my_avatar_default"))
+                Image(this.userInfo?.avatar|| $r("app.media.ic_my_avatar_default"))
                   .height(70)
                   .aspectRatio(1)
                   .borderRadius(70 / 2)
@@ -138,7 +139,7 @@ export struct MyTestTabsComp {
                   .fontColor($r('app.color.font'))
               }
               .onClick(() => {
-                router.pushUrl({ url: 'pages/Test/LoginTestPage' })
+                router.pushUrl({ url: 'pages/User/LoginPage' })
               })
             }
           }

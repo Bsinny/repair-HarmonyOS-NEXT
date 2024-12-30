@@ -4,39 +4,56 @@ import { promptAction } from '@kit.ArkUI';
 @Entry
 @Component
 struct NewTestPage {
-  @State message: string = 'Hello World';
-  @State typeList: typeItem[] = [
-    { repairTypeId: 1, repairType: '换新' },
-    { repairTypeId: 2, repairType: '换配件' },
-    { repairTypeId: 3, repairType: '维修' }
-  ];
-  @State select: number = 0
-  private selectedTypeIndex: number | number[] = -1;
+
 
   build() {
     RelativeContainer() {
-/*      Text(this.message)
-        .id('NewTestPageHelloWorld')
-        .fontSize(50)
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })*/
-      if (this.typeList.length > 0) {
-        TextPicker({
-          range: this.typeList.map(item => item.repairType),
-          selected: this.selectedTypeIndex,
-        })
-          .onChange((value, index) => {
-            this.selectedTypeIndex = index;
-            promptAction.showToast({ message: '当前索引是' + this.selectedTypeIndex + '选择的是' + value });
-          })
-      } else {
-        Text('loading....')
-      }
+
+      Column({space:10}){
+
+        Row({space:10}){
+          Text('报修类型:')
+          Text('haha')
+
+
+        }.margin(10)
+        Divider().strokeWidth(3).color('#F1F3F5')
+        Row({space:10}){
+          Text('报修地点:')
+            .fontSize(16)
+            .fontWeight(500)
+          Text('haha')
+            .fontSize(16)
+            .fontWeight(500)
+
+        }.margin(5)
+        Row({space:10}){
+          Text('报修时间:')
+            .fontSize(16)
+            .fontWeight(500)
+          Text('haha')
+            .fontSize(16)
+            .fontWeight(500)
+
+        }.margin(5)
+        Row({space:10}){
+          Text('报修状态:')
+            .fontSize(16)
+            .fontWeight(500)
+          Button('丽丽')
+          Button('丽丽')
+
+        }.margin(5)
+        .height(30)
+      }.width('90%')
+      .alignItems(HorizontalAlign.Start)
+      .backgroundColor($r('app.color.background'))
+      .borderStyle(BorderStyle.Solid).borderWidth(2).borderColor(0xAFEEEE).borderRadius(10)
+      .align(Alignment.Center)
+
+
+
     }
-    .height('100%')
-    .width('100%')
-  }
-}
+
+    }
+    }

@@ -1,10 +1,10 @@
 import { BizType, postCodeGraphicCheckAPI, postCodeSmsSendAPI, postUserLoginVerifyCodeAPI } from '../../api'
 import {  LOGIN_INFO, LoginInfoResponse } from '../../common/constants'
 import { promptAction, router } from '@kit.ArkUI'
-import { getTestUserInfoAPI, LoginResponseInfo, LOGIN_TOKEN, postTestUserLoginPasswdAPI,
-  TestResponseInfo,
+import { getTestUserInfoAPI,LOGIN_TOKEN, postTestUserLoginPasswdAPI,
   UserInfo,
-  USER_INFO } from '../../api/userInfoAPI'
+  USER_INFO,
+  USER_ROLE} from '../../api/userInfoAPI'
 
 
 @Entry
@@ -14,6 +14,7 @@ struct LoginTestPage {
   @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
   @StorageLink(LOGIN_TOKEN) loginToken:string =''
   @StorageLink(USER_INFO) userDetail:UserInfo = {} as UserInfo;
+  @StorageLink(USER_ROLE) role:string =''
 
   // 手机号
   @State phoneNumber: string = '131234567890'
@@ -42,7 +43,9 @@ struct LoginTestPage {
     /*this.userDetail=res.data?.user*//*res.data?.result*/
     this.userDetail=res.data.user
     // AlertDialog.show({message:JSON.stringify(this.userDetail.dept?.deptId,null,2)})
-    const role=this.userDetail?.roles[0].roleKey
+    this.role=this.userDetail?.roles[0].roleKey
+    //AlertDialog.show({message:JSON.stringify(this.userDetail.deptId,null,2)})
+
     /*AlertDialog.show({message:JSON.stringify(this.userDetail.roles?.length,null,2)})*/
 
 

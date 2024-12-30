@@ -51,16 +51,16 @@ axiosInstance.interceptors.request.use((config:InternalAxiosRequestConfig) => {
 axiosInstance.interceptors.response.use((response:AxiosTestResponseData/*AxiosResponse<LoginResponseInfo,null>*/)=> {
   /*AlertDialog.show({message:JSON.stringify(response,null,2)})*/
   if (response.data.code !== 200) {
-    promptAction.showToast({ message: response.data.msg})
+    if (response.data.code === 401) {
+      promptAction.showToast({ message: '您还未登录，请登录后再试'})
+    }else if (response.data.code === 404){
+      promptAction.showToast({message:'路径错误，请检查路径是否正确'})
+    }else {
+      promptAction.showToast({ message: response.data.msg})
+    }
+
     return Promise.reject()
   }
-/*  if (response.status !== 200) {
-    // 把后端响应的错误信息，通过轻提示，提醒用户
-    *//*promptAction.showToast({ message: response})*//*
-    // 主动返回错误，避免 await 后续代码执行
-    return Promise.reject()
-  }*/
- /* promptAction.showToast({ message: '密码正确登录成功' })*/
 
   return response;
 
