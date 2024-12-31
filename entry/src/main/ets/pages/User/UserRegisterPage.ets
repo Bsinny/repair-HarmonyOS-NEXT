@@ -76,6 +76,33 @@ struct UserRegisterPage {
 
 
   }
+  private updateSelectedRole(index: number): void {
+    if (index >= 0 && index < this.allRoleList.length) {
+      const selectedRole = this.allRoleList[index];
+      this.selectedRoleId = selectedRole.roleId; // 更新为实际的角色ID
+      this.selectedRoleName = selectedRole.roleName; // 更新为实际的角色名称
+      this.roleName = this.selectedRoleId; // 后端需要的是角色ID
+/*      AlertDialog.show({
+        message: `选择的是 ${this.selectedRoleName} 索引值是 ${this.roleName}`
+      });*/
+    } else {
+      console.error('Invalid index provided');
+    }
+  }
+  // 更新选中的部门信息
+  private updateSelectedDepartment(index: number): void {
+    if (index >= 0 && index < this.allDeptList.length) {
+      const selectedDept = this.allDeptList[index];
+      this.selectedDeptId = selectedDept.deptId; // 更新为实际的部门ID
+      this.selectedDeptName = selectedDept.deptName; // 更新为实际的部门名称
+      this.depName = this.selectedDeptId; // 后端需要的是部门ID
+/*      AlertDialog.show({
+        message: `选择的是 ${this.selectedDeptName} 索引值是 ${this.depName}`
+      });*/
+    } else {
+      console.error('Invalid index provided');
+    }
+  }
   build() {
     Navigation() {
       Column({space:20}){
@@ -212,19 +239,7 @@ struct UserRegisterPage {
                 textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
                 selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},
                 onAccept:(values:TextPickerResult)=>{
-                  // 找到选中的角色对象
-                  const selectedRole = this.allRoleList.find((role, index) => index === values.index);
-                  if (selectedRole) {
-
-                    this.selectedRoleId = selectedRole.roleId; // 更新为实际的部门ID
-                    this.selectedRoleName = selectedRole.roleName; // 更新为实际的部门名称
-                    //后端这个name要id的
-                    this.roleName=this.selectedRoleId
-                    AlertDialog.show({ message: `选择的是 ${this.selectedRoleName} 索引值是 ${this.roleName}` });
-                  }
-
-
-
+                  this.updateSelectedRole(values.index as number);
                 },
                 onCancel: () => {
                   console.info("TextPickerDialog:onCancel()")
@@ -244,23 +259,12 @@ struct UserRegisterPage {
             .onClick(()=>{
               TextPickerDialog.show({
                 range:this.allDeptList.map(item => item.deptName),
-
                 selected: this.selectedDeptId,
                 disappearTextStyle: {color: Color.Red, font: {size: 15, weight: FontWeight.Lighter}},
                 textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
                 selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},
                 onAccept:(values:TextPickerResult)=>{
-                  // 找到选中的部门对象
-                  const selectedDept = this.allDeptList.find((dept, index) => index === values.index);
-                  if (selectedDept) {
-                    this.selectedDeptId = selectedDept.deptId; // 更新为实际的部门ID
-                    this.selectedDeptName = selectedDept.deptName; // 更新为实际的部门名称
-                    //后端这个name要id的
-                    this.depName=this.selectedDeptId
-                    AlertDialog.show({ message: `选择的是 ${this.selectedDeptName} 索引值是 ${this.depName}` });
-                  }
-
-
+                  this.updateSelectedDepartment(values.index as number);
 
                 },
                 onCancel: () => {

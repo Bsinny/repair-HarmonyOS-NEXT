@@ -1,11 +1,8 @@
-import { getRepTypeListAPI, getRepTypes, getTypeListAPI, getTypes,
+import { getRepTypeListAPI, getTypeListAPI,
   postApplyForm,
   repTypeItem, typeItem } from '../../api/getTypeAPI';
-import {  promptAction } from '@kit.ArkUI';
-import { values } from '@wolfx/lodash';
 import dayjs from 'dayjs';
 import { systemDateTime } from '@kit.BasicServicesKit';
-import { permissionManager } from '../../manager/PermissionManager';
 import { UserInfo, USER_INFO } from '../../api/userInfoAPI';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
 
@@ -83,6 +80,35 @@ struct RepairFormPage {
     await this.getTypeList();
     await this.getRepTypeList();
   }
+  private updateSelectedType(index: number): void {
+    if (index >= 0 && index < this.typeList.length) {
+      const selectedType = this.typeList[index];
+      this.applyType = selectedType.repairTypeId as number; // 更新为实际的类型ID
+      this.selectedTypeText = selectedType.repairType as string; // 更新为实际的类型名称
+      this.selectedTypeIndex = index; // 更新为实际的索引
+      // 可选：显示选择确认对话框
+      // AlertDialog.show({
+      //   message: `选择的是 ${this.selectedTypeText} ID值是 ${this.applyType}`
+      // });
+    } else {
+      console.error('Invalid index provided');
+    }
+  }
+  // 更新选中的预期类型信息
+  private updateSelectedRepType(index: number): void {
+    if (index >= 0 && index < this.repTypeList.length) {
+      const selectedRep = this.repTypeList[index];
+      this.applyExpectType = selectedRep.repexpectTypeId as number; // 更新为实际的预期类型ID
+      this.selectedRepTypeText = selectedRep.repexpectType as string; // 更新为实际的预期类型名称
+      this.selectedRepTypeIndex = index; // 更新为实际的索引
+      // 可选：显示选择确认对话框
+      // AlertDialog.show({
+      //   message: `选择的是 ${this.selectedRepTypeText} ID值是 ${this.applyExpectType}`
+      // });
+    } else {
+      console.error('Invalid index provided');
+    }
+  }
 
   build() {
 
@@ -131,29 +157,21 @@ struct RepairFormPage {
                   .fontColor($r('app.color.font'));
                 Text(this.selectedTypeText)
                   .margin(20)
-                  .onClick(()=>{
+                  .onClick(() => {
                     TextPickerDialog.show({
-                      range:this.typeList.map(item => item.repairType),
-                      selected: this.selectedTypeIndex,
-                      disappearTextStyle: {color: Color.Red, font: {size: 15, weight: FontWeight.Lighter}},
-                      textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
-                      selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},
-                      onAccept:(values:TextPickerResult)=>{
-                        const selectedType = this.typeList.find((item, index) => index === values.index);
-                        if (selectedType) {
-                          this.applyType=selectedType.repairTypeId as number
-                          this.selectedTypeText=selectedType.repairType as string
-                          /*AlertDialog.show({ message: `选择的是 ${this.selectedTypeText} id值是 ${this.applyType}` });*/
-                        }
-
+                      range: this.typeList.map(item => item.repairType),
+                      selected: this.selectedTypeIndex, // 直接使用当前选中的索引
+                      disappearTextStyle: { color: Color.Red, font: { size: 15, weight: FontWeight.Lighter } },
+                      textStyle: { color: Color.Black, font: { size: 20, weight: FontWeight.Normal } },
+                      selectedTextStyle: { color: Color.Blue, font: { size: 30, weight: FontWeight.Bolder } },
+                      onAccept: (values: TextPickerResult) => {
+                        this.updateSelectedType(values.index as number);
                       },
                       onCancel: () => {
-                        console.info("TextPickerDialog:onCancel()")
+                        console.info("TextPickerDialog:onCancel()");
                       },
-
-                    })
-
-                  })
+                    });
+                  });
               }
               Row({ space: 10 }) {
                 Text('期望维修类型:')
@@ -161,27 +179,21 @@ struct RepairFormPage {
                   .fontColor($r('app.color.font'));
                 Text(this.selectedRepTypeText)
                   .margin(20)
-                  .onClick(()=>{
+                  .onClick(() => {
                     TextPickerDialog.show({
-                      range:this.repTypeList.map(item => item.repexpectType),
-                      selected: this.selectedRepTypeIndex,
-                      disappearTextStyle: {color: Color.Red, font: {size: 15, weight: FontWeight.Lighter}},
-                      textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
-                      selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},
-                      onAccept:(values:TextPickerResult)=>{
-                        const selectedRep = this.repTypeList.find((item, index) => index === values.index);
-                        if (selectedRep) {
-                          this.applyExpectType=selectedRep.repexpectTypeId as number
-                          this.selectedRepTypeText=selectedRep.repexpectType as string
-                          /*AlertDialog.show({ message: `选择的是 ${this.selectedRepTypeText} id值是 ${this.applyExpectType}` });*/
-                      }},
-                      onCancel: () => {
-                        console.info("TextPickerDialog:onCancel()")
+                      range: this.repTypeList.map(item => item.repexpectType),
+                      selected: this.selectedRepTypeIndex, // 直接使用当前选中的索引
+                      disappearTextStyle: { color: Color.Red, font: { size: 15, weight: FontWeight.Lighter } },
+                      textStyle: { color: Color.Black, font: { size: 20, weight: FontWeight.Normal } },
+                      selectedTextStyle: { color: Color.Blue, font: { size: 30, weight: FontWeight.Bolder } },
+                      onAccept: (values: TextPickerResult) => {
+                        this.updateSelectedRepType(values.index as number);
                       },
-
-                    })
-
-            })
+                      onCancel: () => {
+                        console.info("TextPickerDialog:onCancel()");
+                      },
+                    });
+                  });
         }
         Row({ space: 10 }) {
           Text('期待维修时间:')
@@ -224,20 +236,21 @@ struct RepairFormPage {
               '期望维修时间'+this.applyExpectTime+ //期望维修时间
               '是否自己接单'+this.isOrder,})
         })
-        Button('使用picker选择照片')
+        Button('选择照片')
           .onClick(()=>{
             let uris: Array<string> = [];
             const photoViewPicker = new photoAccessHelper.PhotoViewPicker();
             photoViewPicker.select()
               .then((photoSelectResult: photoAccessHelper.PhotoSelectResult) => {
                 uris = photoSelectResult.photoUris;
-
-                AlertDialog.show({message:JSON.stringify(photoSelectResult,null,2)})
-                console.info('photoViewPicker.select to file succeed and uris are:' + uris);
               })
 
           })
+        Button('提交')
+          .onClick(async ()=>{
+            await this.submitForm()
 
+          })
           }
         }
     .title('填写报修单')

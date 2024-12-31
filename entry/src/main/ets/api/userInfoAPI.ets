@@ -112,7 +112,7 @@ interface UserForm{
 }
 export function postTestUserLoginPasswdAPI(data: loginTestInfo) {
   return axiosInstance.post
-  <null,AxiosTestResponseData/*<LoginResponseInfo>*/ /*AxiosResponse<LoginResponseInfo,null>*/, loginTestInfo>
+  <null,AxiosTestResponseData, loginTestInfo>
   ('/login', data)
 }
 export function getTestUserInfoAPI() {
@@ -135,5 +135,12 @@ export function userRegisterAPI(data:UserForm) {
   return axiosInstance.post
   <null,AxiosTestResponseData,UserForm>
   ('/api/repair/register/register',data)
+
+}
+
+export function postUserInfoModifyAPI(data:UserForm){
+  return axiosInstance.post
+  <null,AxiosTestResponseData,UserForm>
+  ('/api/repair/modifypersinfor/modifypersinfor',data)
 
 }

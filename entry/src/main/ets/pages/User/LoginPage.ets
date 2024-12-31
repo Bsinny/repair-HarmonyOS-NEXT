@@ -35,42 +35,24 @@ struct LoginTestPage {
 
   async getUserDetail(){
     const res=await getTestUserInfoAPI()
-   /* AlertDialog.show({message:JSON.stringify(res,null,2)})*/
-    //原来没有修改过的返回参数
-    /*this.userDetail=res.data.result*/
-    //修改后的返回参数
-    //返回体传user就行了，再改一下这个userDetail的类型就可以了
-    /*this.userDetail=res.data?.user*//*res.data?.result*/
+
     this.userDetail=res.data.user
-    // AlertDialog.show({message:JSON.stringify(this.userDetail.dept?.deptId,null,2)})
     this.role=this.userDetail?.roles[0].roleKey
-    //AlertDialog.show({message:JSON.stringify(this.userDetail.deptId,null,2)})
-
-    /*AlertDialog.show({message:JSON.stringify(this.userDetail.roles?.length,null,2)})*/
-
-
-/*    console.log('jibada',JSON.stringify(res ,null,2))
-    AlertDialog.show({message:JSON.stringify(this.userDetail,null,2)})*/
-
-    /*AlertDialog.show({message:JSON.stringify(res.data.user,null,2)})*/
-    /*AlertDialog.show({message:'欢迎你'+this.userDetail.user?.nickName+'登录时间为:'+this.userDetail.user?.loginDate})*/
 
   }
   clearToken(){
     this.loginToken=''
     promptAction.showToast({ message: '退出登录成功' })
   }
-  async onTestLoginSubmit(){
+  async userLoginSubmit(){
     const res = await postTestUserLoginPasswdAPI({
       username:this.username,
       password:this.password
     })
-    /*AlertDialog.show({message:res.data.msg})*/
     this.loginToken=res.data.token
     console.log('tokenValue',JSON.stringify(res.data,null,2))
     this.getUserDetail()
     router.back()
-    /*AlertDialog.show({message:JSON.stringify(res,null,2)})*/
   }
 
   async onLoginSubmit(){
@@ -174,7 +156,7 @@ struct LoginTestPage {
             .enabled(this.username.length > 0 && this.password.length > 0)
             .onClick(() => {
               // TODO:登录表单提交
-              this.onTestLoginSubmit()
+              this.userLoginSubmit()
             })
           Button('跳转注册')
             .onClick(()=>{

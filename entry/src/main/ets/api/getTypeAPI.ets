@@ -72,7 +72,7 @@ export function getRepTypeListAPI(){
   return axiosInstance.get<null,GetTypeResponseData<repTypeItem>,null>
   ('/api/repair/type/list')
 }
-
+//正常提交
 export function postApplyForm(val:number,data:applyForm){
   return axiosInstance.post<null,AxiosResponse<applyFormResponse,null>,applyForm>
   ('/api/repair/apply/'+val,data)
