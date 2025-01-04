@@ -51,7 +51,8 @@ async GetMyRepairList(){
   TabBuilder(title: string, targetIndex: number, /*selectedImg: Resource, normalImg: Resource*/) {
     Column() {
       Text(title)
-        .fontSize(10)
+        .fontSize(15)
+        .fontWeight(500)
         .fontColor(this.currentMyRepairIndex === targetIndex ? $r('app.color.brand') : $r('app.color.font'))
         .margin({ top: 4 })
     }

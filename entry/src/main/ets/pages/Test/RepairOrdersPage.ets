@@ -166,47 +166,82 @@ struct RepairOrdersPage {
 
               }.margin(5)
               Row({space:10}){
-                Text('操作:')
+                Text('状态:')
                   .fontSize(16)
                   .fontWeight(500)
-                Button('待接单')
-                  .onClick(()=>{
-                    promptAction.showDialog({
-                      alignment:DialogAlignment.Center,
-                      title:'温馨提示',
-                      message:'确认接下该订单吗',
-                      buttons:[
-                        {text:'取消',color:$r('app.color.danger'),},
-                        {text:'确定',color:$r('app.color.success')}
-                      ]
-                    }).then((res)=>{
-                      if (res.index === 1) {
-                        this.receiveRep()
+                  Button('待接单')
+                    .onClick(()=>{
+                      promptAction.showDialog({
+                        alignment:DialogAlignment.Center,
+                        title:'温馨提示',
+                        message:'确认接下该订单吗',
+                        buttons:[
+                          {text:'取消',color:$r('app.color.danger'),},
+                          {text:'确定',color:$r('app.color.success')}
+                        ]
+                      }).then((res)=>{
+                        if (res.index === 1) {
+                          this.receiveRep()
 
-                      }
+                        }
+                      })
                     })
-                  })
-/*                Button('派单')
-                  .backgroundColor(0xF55A42)
-                  .onClick(()=>{
-                    promptAction.showDialog({
-                      alignment:DialogAlignment.Center,
-                      title:'温馨提示',
-                      message:'确认接下该订单吗',
-                      buttons:[
-                        {text:'取消',color:$r('app.color.danger'),},
-                        {text:'确定',color:$r('app.color.success')}
-                      ]
-                    }).then((res)=>{
-                      if (res.index === 1) {
-
-                      }
-                    })
-                  })*/
-
-
               }.margin(5)
-              .height(30)
+               .height(30)
+
+              if (this.role === 'repairadmin') {
+                Row({space:10}){
+                  Text('操作:')
+                    .fontSize(16)
+                    .fontWeight(500)
+                  Button('转单')
+                    .border({color:$r('app.color.success'),width:2})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.success'))
+                    .fontColor($r('app.color.success'))
+                    .fontWeight(500)
+                    .onClick(()=>{
+                      promptAction.showDialog({
+                        alignment:DialogAlignment.Center,
+                        title:'选择转单部门',
+                        message:'选择转单部门',
+                        buttons:[
+                          {text:'取消',color:$r('app.color.danger'),},
+                          {text:'确定',color:$r('app.color.success')}
+                        ]
+                      }).then((res)=>{
+                        if (res.index === 1) {
+
+
+                        }
+                      })
+                    })
+                  Button('派单')
+                    .border({color:$r('app.color.brand_light'),width:2})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.brand_light'))
+                    .fontColor($r('app.color.brand_light'))
+                    .fontWeight(500)
+                    .onClick(()=>{
+                      promptAction.showDialog({
+                        alignment:DialogAlignment.Center,
+                        title:'选择派单人员',
+                        message:'选择派单人员',
+                        buttons:[
+                          {text:'取消',color:$r('app.color.danger'),},
+                          {text:'确定',color:$r('app.color.success')}
+                        ]
+                      }).then((res)=>{
+                        if (res.index === 1) {
+
+
+                        }
+                      })
+                    })
+                }.margin(5)
+                .height(30)
+              }
+
             }
             .onClick(()=>{
               this.showRepairDetail(item)

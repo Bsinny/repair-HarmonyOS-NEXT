@@ -39,7 +39,7 @@ export struct AllRepairTabsComp {
        //待维修repairIsDelete=0&curWork=1&repairDestory=0
        this.repairDestory=0
      }else if (this.currentMyRepairIndex == 2){
-//已维修repairIsDelete=0&curWork=1&repairDestory=1
+       //已维修repairIsDelete=0&curWork=1&repairDestory=1
        this.repairDestory=1
      }
     await this.GetMyRepairList()
@@ -203,8 +203,23 @@ export struct AllRepairTabsComp {
 
 
 
-            }.margin(5)
+            }
+            .margin(5)
             .height(30)
+
+            if (item.repairState === 4) {
+              Button('评论')
+                .margin(5)
+                .height(30)
+                .border({color:$r('app.color.warning'),width:2})
+                .backgroundColor($r('app.color.white'))
+                .borderColor($r('app.color.warning'))
+                .fontColor($r('app.color.warning'))
+                .fontWeight(500)
+                .onClick(()=>{
+                //todo:跳转评论页
+                })
+            }
           }
           .onClick(()=>{
             this.showRepairDetail(item)
