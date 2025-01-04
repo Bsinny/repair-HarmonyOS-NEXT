@@ -51,7 +51,7 @@ struct Index {
       TabContent() {
         GuardTabsComp()
       }
-      .tabBar(this.TabBuilder('守护中心', 1, $r('app.media.ic_tab_shzx_filled'), $r('app.media.ic_tab_shzx')))
+      .tabBar(this.TabBuilder('报修', 1, $r('app.media.ic_tab_shzx_filled'), $r('app.media.ic_tab_shzx')))
       //我的导航栏
       TabContent() {
         /*MyTabsComp()*/

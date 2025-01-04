@@ -25,9 +25,17 @@ export struct RepairerTabsComp {
   //当tabs发生变化的时候
   async onTabsChange(){
     if (this.currentRepairerIndex == 0) {
+      //正在维修
       this.GetRepairingOrdersList()
 
+    }else if (this.currentRepairerIndex == 1){
+
+    }else if (this.currentRepairerIndex == 2){
+
+    }else if (this.currentRepairerIndex == 3){
+
     }
+
   }
 
   async aboutToAppear() :Promise<void>{

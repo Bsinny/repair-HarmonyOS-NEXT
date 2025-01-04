@@ -53,6 +53,7 @@ axiosInstance.interceptors.response.use((response:AxiosTestResponseData/*AxiosRe
   if (response.data.code !== 200) {
     if (response.data.code === 401) {
       promptAction.showToast({ message: '您还未登录，请登录后再试'})
+      router.pushUrl({url:'/pages/User/LoginPage'})
     }else if (response.data.code === 404){
       promptAction.showToast({message:'路径错误，请检查路径是否正确'})
     }else {
@@ -74,7 +75,7 @@ axiosInstance.interceptors.response.use((response:AxiosTestResponseData/*AxiosRe
   /*AlertDialog.show({message:JSON.stringify(error,null,2)})*/
   if (error.message.includes('401')){
     promptAction.showToast({message:'登录信息无效，请重新登录'})
-    router.pushUrl({url:'pages/Test/LoginTestPage'})
+    router.pushUrl({url:'pages/User/LoginPage'})
   }else if (error.message.includes('404')){
     promptAction.showToast({message:'路径错误，请检查路径是否正确'})
   }else {

@@ -62,23 +62,24 @@ struct RepairListTestPage {
     Navigation() {
 
       Tabs({index: this.currentRepairerIndex, barPosition: BarPosition.Start }) {
-        // TabContent的内容:关注、视频、游戏、数码、科技、体育、影视
+
         TabContent() {
           RepairerTabsComp()
         }
         .tabBar(this.TabBuilder('正在维修',0))
 
         TabContent() {
-          WaitingRepairTabsComp()
+          //组件
+          RepairerTabsComp()
         }
         .tabBar(this.TabBuilder('已销单',1))
 
         TabContent() {
-          OverRepairTabsComp()
+          RepairerTabsComp()
         }
         .tabBar(this.TabBuilder('已转单',2))
         TabContent() {
-          OverRepairTabsComp()
+          RepairerTabsComp()
         }
         .tabBar(this.TabBuilder('月维修单',3))
 

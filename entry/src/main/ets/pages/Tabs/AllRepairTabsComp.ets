@@ -5,29 +5,44 @@ import dayjs from 'dayjs';
 import { API_BASE_URL } from '../../common/constants';
 
 
+// 定义按钮配置的类型
+interface ButtonConfig {
+  text: string;
+  color: Resource; // 使用 Color 类型代替 Resource 类型
+}
 @Component
 //所有报修组件
 export struct AllRepairTabsComp {
+
   // 用户信息持久化
   @StorageLink(USER_INFO) userInfo: UserInfo = {} as UserInfo;
   @StorageLink(LOGIN_TOKEN) loginToken:string =''
   @StorageLink(USER_ROLE) role:string =''
   // @Provide 装饰器和 @Consume 装饰器：与后代组件双向同步
   @Consume @Watch('onTabsChange') currentMyRepairIndex: number
-  @State repairIsDelete:number=0;
-  @State curWork:number=1;
+/*  @State repairIsDelete:number=0;
+  @State curWork:number=1;*/
   @State listLength:number=1000
   @State AllRepairList:RepairItem[]=[]
   @State testList:string[]=['哈哈','喜喜','露露']
   @State isVisible: boolean = false;
   @State selectedRepairItem: RepairItem | null = null;
+  @State repairDestory:number|null=null
   scroller: Scroller = new Scroller();
   //当tabs发生变化的时候
   async onTabsChange(){
-     if (this.currentMyRepairIndex == 0) {
+     if (this.currentMyRepairIndex === 0) {
+       //全部维修
+       this.repairDestory=null
 
-       await this.GetMyRepairList()
+     }else if (this.currentMyRepairIndex === 1){
+       //待维修repairIsDelete=0&curWork=1&repairDestory=0
+       this.repairDestory=0
+     }else if (this.currentMyRepairIndex == 2){
+//已维修repairIsDelete=0&curWork=1&repairDestory=1
+       this.repairDestory=1
      }
+    await this.GetMyRepairList()
   }
 
   async aboutToAppear() :Promise<void>{
@@ -43,8 +58,9 @@ export struct AllRepairTabsComp {
   async GetMyRepairList(){
 
     const res=await getMyRepairListAPI({
-      repairIsDelete: this.repairIsDelete,
-      curWork: this.curWork,
+      repairIsDelete: 0,
+      curWork: 1,
+      repairDestory:this.repairDestory
 
     })
     if (res.data.rows && Array.isArray(res.data.rows)) {
@@ -55,6 +71,39 @@ export struct AllRepairTabsComp {
     this.listLength=res.data.rows.length
     this.AllRepairList=res.data.rows
 
+  }
+  async GetMyRepairByConditionList(){
+
+    const res=await getMyRepairListAPI({
+      repairIsDelete: 0,
+      curWork: 1,
+
+
+    })
+    if (res.data.rows && Array.isArray(res.data.rows)) {
+      this.AllRepairList = res.data.rows as RepairItem[];
+    } else {
+      console.error('Invalid response format for repTypeList');
+    }
+    this.listLength=res.data.rows.length
+    this.AllRepairList=res.data.rows
+
+  }
+
+  // 根据 repairState 返回不同的按钮配置
+  getButtonConfig(repairState: number): ButtonConfig {
+    switch (repairState) {
+      case 1:
+        return { text: '待接单', color: ($r('app.color.warning')) }; // 转换为 Color 类型
+      case 2:
+        return { text: '已接单', color: ($r('app.color.brand')) };
+      case 3:
+        return { text: '转单中', color: ($r('app.color.brand_light')) };
+      case 4:
+        return { text: '已完成', color: ($r('app.color.success')) };
+      default:
+        return { text: '未知状态', color: ($r('app.color.danger')) };
+    }
   }
   // 半模态转场
   @Builder
@@ -98,8 +147,9 @@ export struct AllRepairTabsComp {
 
   build() {
     Scroll(this.scroller) {
-      Column(){        /*Text(`当前数据长度: ${this.listLength}`)*/
+      Column(){
         ForEach(this.AllRepairList,(item:RepairItem)=>{
+
           Column({space:10}){
             Row({space:10}){
               Text('报修类型:')
@@ -125,11 +175,32 @@ export struct AllRepairTabsComp {
 
 
             }.margin(5)
+
             Row({space:10}){
               Text('报修状态:')
                 .fontSize(16)
                 .fontWeight(500)
-              Button('待接单')
+              if (item.repairState===1) {
+                Button('待接单')
+                  .backgroundColor($r('app.color.brand'))
+
+              }else if (item.repairState === 2) {
+                Button('已接单')
+                  .backgroundColor($r('app.color.brand_light'))
+              }else if (item.repairState === 3){
+                Button('已转单')
+                  .backgroundColor($r('app.color.danger'))
+
+              }else if (item.repairState === 4){
+                Button('已完成')
+                  .backgroundColor($r('app.color.success'))
+                  .enabled(false)
+              }else {
+
+                Button('状态异常')
+                  .backgroundColor($r('app.color.danger'))
+              }
+
 
 
             }.margin(5)
@@ -158,9 +229,9 @@ export struct AllRepairTabsComp {
     .width('100%')
     .backgroundColor(0xDCDCDC)
     .scrollable(ScrollDirection.Vertical) // 滚动方向为垂直方向
-    .scrollBar(BarState.On) // 滚动条常驻显示
+    .scrollBar(BarState.Auto) // 滚动条常驻显示
     .scrollBarColor(Color.Gray) // 滚动条颜色
-    .scrollBarWidth(10) // 滚动条宽度
+    .scrollBarWidth(8) // 滚动条宽度
     .edgeEffect(EdgeEffect.Spring) // 滚动到边沿后回弹
 
   }}

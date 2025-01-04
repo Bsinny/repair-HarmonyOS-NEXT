@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { RepairItem, repImgItem } from '../../api/myRepairListAPI';
-import { getRepListAPI } from '../../api/ordersAPI';
+import { getRepListAPI, postReceiveRepAPI } from '../../api/ordersAPI';
 import { LOGIN_TOKEN, UserInfo, USER_INFO, USER_ROLE } from '../../api/userInfoAPI';
 import { API_BASE_URL } from '../../common/constants';
 import { promptAction } from '@kit.ArkUI';
@@ -21,6 +21,7 @@ struct RepairOrdersPage {
   @State AllOrdersList:RepairItem[]=[]
   @State isVisible: boolean = false;
   @State selectedRepairItem: RepairItem | null = null;
+
   async aboutToAppear(): Promise<void> {
      this.repairDep=await this.userInfo.deptId as number
      this.GetRepList()
@@ -36,13 +37,30 @@ struct RepairOrdersPage {
         repairDep: this.repairDep
       }
     )
-    //AlertDialog.show({message:JSON.stringify(res,null,2)})
     this.AllOrdersList=res.data.rows
 
   }
   async showRepairDetail(item: RepairItem) {
     this.selectedRepairItem = item;
     this.isVisible = true;
+
+  }
+  async receiveRep(){
+    const res=await postReceiveRepAPI({
+      applyId:this.selectedRepairItem?.applyId as number,
+      repairDep:this.repairDep,
+      repairId:this.selectedRepairItem?.repairId as number,
+      repairNo:this.selectedRepairItem?.repairNo as string
+
+    })
+    if (res.data.code===200) {
+      promptAction.showToast({message:'接单成功'})
+      //刷新页面
+      this.GetRepList()
+
+    }else {
+      promptAction.showToast({message:'接单失败请重试'})
+    }
 
   }
  //维修单/api/repair/tb/receiveRep
@@ -107,6 +125,8 @@ struct RepairOrdersPage {
             ]
           }).then((res)=>{
             if (res.index === 1) {
+              this.receiveRep()
+
               this.isVisible=false
             }
           })
@@ -161,6 +181,7 @@ struct RepairOrdersPage {
                       ]
                     }).then((res)=>{
                       if (res.index === 1) {
+                        this.receiveRep()
 
                       }
                     })

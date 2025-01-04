@@ -6,6 +6,7 @@ import { WaitingRepairTabsComp } from '../Tabs/WaitingRepairTabsComp';
 
 @Entry
 @Component
+//我的报修
 struct RepairListTestPage {
   @StorageLink('bottomHeight') bottomHeight: number = 0
   @State repairIsDelete:number=0;
@@ -14,7 +15,7 @@ struct RepairListTestPage {
   @State repairTransfer:number=0
   @State repairMonth:number=4
   @Provide currentMyRepairIndex:number=0
-
+//todo：现在要做复用组件
 async aboutToAppear(): Promise<void> {
   await this.GetMyRepairList()
 
@@ -64,25 +65,23 @@ async GetMyRepairList(){
   }
   build() {
     Navigation() {
-/*      Button('获取数据').onClick(async ()=>{
-        const res=await this.GetMyRepairList()
-        *//*AlertDialog.show({message:JSON.stringify(res,null,2)})*//*
 
-      })*/
       Tabs({index: this.currentMyRepairIndex, barPosition: BarPosition.Start }) {
-        // TabContent的内容:关注、视频、游戏、数码、科技、体育、影视
+
         TabContent() {
           AllRepairTabsComp()
         }
         .tabBar(this.TabBuilder('全部报修',0))
 
         TabContent() {
-          WaitingRepairTabsComp()
+          AllRepairTabsComp()
+          /*WaitingRepairTabsComp()*/
         }
         .tabBar(this.TabBuilder('待报修',1))
 
         TabContent() {
-          OverRepairTabsComp()
+          AllRepairTabsComp()
+          /*OverRepairTabsComp()*/
         }
         .tabBar(this.TabBuilder('已维修',2))
 

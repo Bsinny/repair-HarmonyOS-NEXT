@@ -72,7 +72,7 @@ export interface RepType {
 export interface myRepairData{
   repairIsDelete: number,
   curWork: number,
-  repairDestory?: number
+  repairDestory?: number | null
 
 }
 /**
