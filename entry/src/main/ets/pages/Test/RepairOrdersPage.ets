@@ -3,6 +3,7 @@ import { RepairItem, repImgItem } from '../../api/myRepairListAPI';
 import { getRepListAPI } from '../../api/ordersAPI';
 import { LOGIN_TOKEN, UserInfo, USER_INFO, USER_ROLE } from '../../api/userInfoAPI';
 import { API_BASE_URL } from '../../common/constants';
+import { promptAction } from '@kit.ArkUI';
 
 @Entry
 @Component
@@ -35,7 +36,7 @@ struct RepairOrdersPage {
         repairDep: this.repairDep
       }
     )
-    AlertDialog.show({message:JSON.stringify(res,null,2)})
+    //AlertDialog.show({message:JSON.stringify(res,null,2)})
     this.AllOrdersList=res.data.rows
 
   }
@@ -94,9 +95,22 @@ struct RepairOrdersPage {
       Text(`报修内容:  ${this.selectedRepairItem?.repairContent}`).align(Alignment.Start)
       Text(`报修地点:  ${this.selectedRepairItem?.repairAddress}`).align(Alignment.Start)
       Text(`报修类型:  ${this.selectedRepairItem?.repType.repairType}`).align(Alignment.Start)
-      Button('确定')
+      Button('接单')
         .onClick(()=>{
-          this.isVisible=false
+          promptAction.showDialog({
+            alignment:DialogAlignment.Center,
+            title:'温馨提示',
+            message:'确认接下该订单吗',
+            buttons:[
+              {text:'取消',color:$r('app.color.danger'),},
+              {text:'确定',color:$r('app.color.success')}
+            ]
+          }).then((res)=>{
+            if (res.index === 1) {
+              this.isVisible=false
+            }
+          })
+
         })
 
 
@@ -132,10 +146,42 @@ struct RepairOrdersPage {
 
               }.margin(5)
               Row({space:10}){
-                Text('报修状态:')
+                Text('操作:')
                   .fontSize(16)
                   .fontWeight(500)
-                Button('丽丽')
+                Button('待接单')
+                  .onClick(()=>{
+                    promptAction.showDialog({
+                      alignment:DialogAlignment.Center,
+                      title:'温馨提示',
+                      message:'确认接下该订单吗',
+                      buttons:[
+                        {text:'取消',color:$r('app.color.danger'),},
+                        {text:'确定',color:$r('app.color.success')}
+                      ]
+                    }).then((res)=>{
+                      if (res.index === 1) {
+
+                      }
+                    })
+                  })
+/*                Button('派单')
+                  .backgroundColor(0xF55A42)
+                  .onClick(()=>{
+                    promptAction.showDialog({
+                      alignment:DialogAlignment.Center,
+                      title:'温馨提示',
+                      message:'确认接下该订单吗',
+                      buttons:[
+                        {text:'取消',color:$r('app.color.danger'),},
+                        {text:'确定',color:$r('app.color.success')}
+                      ]
+                    }).then((res)=>{
+                      if (res.index === 1) {
+
+                      }
+                    })
+                  })*/
 
 
               }.margin(5)

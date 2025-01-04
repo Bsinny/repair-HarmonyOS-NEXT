@@ -37,7 +37,7 @@ export struct HomeTabsComp {
 struct HomeHeader {
   build() {
     Row() {
-      Image($r("app.media.home_logo"))
+      Image($r("app.media.repair_logo"))
         .objectFit(ImageFit.Contain)
         .width(103)
         .height(32)
@@ -56,8 +56,30 @@ struct HomeHeader {
     .justifyContent(FlexAlign.SpaceBetween)
   }
 }
-
 @Component
+struct HomeEntry {
+  build() {
+    Swiper(){
+      Image($r('app.media.lunbo1'))
+        .width('90%')
+        .height('100%')
+      Image($r('app.media.lunbo2'))
+        .width('90%')
+        .height('100%')
+      Image($r('app.media.lunbo4'))
+        .width('90%')
+        .height('100%')
+      Image($r('app.media.lunbo5'))
+        .width('90%')
+        .height('100%')
+    }
+    .width('100%')
+    .height(130)
+    .margin({
+      bottom: 20
+    })
+  }}
+/*@Component
 struct HomeEntry {
   build() {
     Row() {
@@ -114,7 +136,7 @@ struct HomeEntry {
       color: '#BBE4E4E4',
     })
   }
-}
+}*/
 
 @Component
 struct HomeShortcut {
@@ -141,7 +163,7 @@ struct HomeShortcut {
     {
       title: '我的接单',
       icon: $r('app.media.ic_home_shortcut_txlbf'),
-      url: '/pages/Contact/ContactIndexPage'
+      url: '/pages/Repairer/MyReceivingOrdersPage'
     },
     {
       title: '反诈中心',

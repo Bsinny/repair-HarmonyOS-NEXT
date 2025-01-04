@@ -58,7 +58,7 @@ export interface getTypeResponse<T>{
   rows:T[]
 }
 
-
+                                          //res.data.rows
 export type GetTypeResponseData<T = null> = AxiosResponse<getTypeResponse<T>,null>
 
 

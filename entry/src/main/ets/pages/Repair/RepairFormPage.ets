@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { systemDateTime } from '@kit.BasicServicesKit';
 import { UserInfo, USER_INFO } from '../../api/userInfoAPI';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
+import SelectImage from '../Test';
 
 @Entry
 @Component
@@ -27,7 +28,15 @@ struct RepairFormPage {
   @State isOrder:number=-1
   @State applyId:number=-1
   @State repairId:number=-1
+  @State images: string[] = []; // 存储图片路径的状态
+  // 添加图片的方法
+  addImage(imgPath: string) {
+    this.images.push(imgPath);
+  }
 
+  removeImage(imgPath: string) {
+    this.images = this.images.filter((img) => img !== imgPath);
+  }
 
   //获取报修类型
   async getTypeList(){
@@ -221,22 +230,16 @@ struct RepairFormPage {
         }
 
 
+        SelectImage({
+          fileList: this.images, // 传递图片路径数组
+          limit: 5, // 设置最大图片数量限制
+          title: '选择图片', // 设置标题
+          flexAlign: FlexAlign.Center, // 设置对齐方式
+          deleteImg: this.removeImage, // 传递删除图片的方法
+        });
 
 
-        //TODO:这个系统的调用上传图片逻辑是两个
-        //TODO:将前面一个请求返回的信息拿到，再传入一次后端，虽然不知道这个逻辑为什么做两遍，小程序端是这样的，照着做就行
-
-        Button('获取当前用户填写信息')
-          .onClick(()=>{
-            AlertDialog.show({message:'当前用户是'+this.userInfo.nickName as string+ //报修用户姓名
-              '报修内容'+this.applyContent+//报修内容
-              '报修地点'+this.applyAddress+ //报修地点
-              '报修类型'+this.applyType+ //报修类型
-              '期望维修类型'+this.applyExpectType+ //期望维修类型
-              '期望维修时间'+this.applyExpectTime+ //期望维修时间
-              '是否自己接单'+this.isOrder,})
-        })
-        Button('选择照片')
+        /*Button('选择照片')
           .onClick(()=>{
             let uris: Array<string> = [];
             const photoViewPicker = new photoAccessHelper.PhotoViewPicker();
@@ -245,7 +248,7 @@ struct RepairFormPage {
                 uris = photoSelectResult.photoUris;
               })
 
-          })
+          })*/
         Button('提交')
           .onClick(async ()=>{
             await this.submitForm()

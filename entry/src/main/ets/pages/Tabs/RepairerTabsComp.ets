@@ -3,35 +3,35 @@ import { LOGIN_TOKEN,UserInfo, USER_INFO, USER_ROLE } from '../../api/userInfoAP
 import { getMyRepairListAPI, RepairItem, repImgItem } from '../../api/myRepairListAPI'
 import dayjs from 'dayjs';
 import { API_BASE_URL } from '../../common/constants';
+import { getOrdersByConditionListAPI } from '../../api/myOrdersAPI';
 
 
 @Component
-//所有报修组件
-export struct AllRepairTabsComp {
+export struct RepairerTabsComp {
   // 用户信息持久化
   @StorageLink(USER_INFO) userInfo: UserInfo = {} as UserInfo;
   @StorageLink(LOGIN_TOKEN) loginToken:string =''
   @StorageLink(USER_ROLE) role:string =''
   // @Provide 装饰器和 @Consume 装饰器：与后代组件双向同步
-  @Consume @Watch('onTabsChange') currentMyRepairIndex: number
+  @Consume @Watch('onTabsChange') currentRepairerIndex: number
   @State repairIsDelete:number=0;
   @State curWork:number=1;
   @State listLength:number=1000
-  @State AllRepairList:RepairItem[]=[]
+  @State repairingOrdersList:RepairItem[]=[]
   @State testList:string[]=['哈哈','喜喜','露露']
   @State isVisible: boolean = false;
   @State selectedRepairItem: RepairItem | null = null;
   scroller: Scroller = new Scroller();
   //当tabs发生变化的时候
   async onTabsChange(){
-     if (this.currentMyRepairIndex == 0) {
+    if (this.currentRepairerIndex == 0) {
+      this.GetRepairingOrdersList()
 
-       await this.GetMyRepairList()
-     }
+    }
   }
 
   async aboutToAppear() :Promise<void>{
-    await this.GetMyRepairList()
+    this.GetRepairingOrdersList()
 
   }
   async showRepairDetail(item: RepairItem) {
@@ -39,21 +39,17 @@ export struct AllRepairTabsComp {
     this.isVisible = true;
 
   }
-
-  async GetMyRepairList(){
-
-    const res=await getMyRepairListAPI({
-      repairIsDelete: this.repairIsDelete,
-      curWork: this.curWork,
-
+//获取正在维修
+  async GetRepairingOrdersList(){
+    const res=await getOrdersByConditionListAPI({
+      repairIsDelete:0,
+      repairDestory:0,
+      repairTransfer:0
     })
-    if (res.data.rows && Array.isArray(res.data.rows)) {
-      this.AllRepairList = res.data.rows as RepairItem[];
-    } else {
-      console.error('Invalid response format for repTypeList');
-    }
-    this.listLength=res.data.rows.length
-    this.AllRepairList=res.data.rows
+    this.repairingOrdersList=res.data.rows
+
+
+
 
   }
   // 半模态转场
@@ -66,13 +62,13 @@ export struct AllRepairTabsComp {
         .margin(10)
 
       Swiper() {
-      ForEach(this.selectedRepairItem?.appImgList,(item:repImgItem)=>{
-        Image(`${API_BASE_URL}/api/repair/repimg/loadImg/${item.appimgId}`)
-          .width('90%')
-          .height('100%')
+        ForEach(this.selectedRepairItem?.appImgList,(item:repImgItem)=>{
+          Image(`${API_BASE_URL}/api/repair/repimg/loadImg/${item.appimgId}`)
+            .width('90%')
+            .height('100%')
 
 
-      })
+        })
 
       }
       .margin(10)
@@ -93,13 +89,13 @@ export struct AllRepairTabsComp {
         })
 
 
-  }}
+    }}
 
 
   build() {
     Scroll(this.scroller) {
       Column(){        /*Text(`当前数据长度: ${this.listLength}`)*/
-        ForEach(this.AllRepairList,(item:RepairItem)=>{
+        ForEach(this.repairingOrdersList,(item:RepairItem)=>{
           Column({space:10}){
             Row({space:10}){
               Text('报修类型:')
@@ -126,10 +122,22 @@ export struct AllRepairTabsComp {
 
             }.margin(5)
             Row({space:10}){
-              Text('报修状态:')
+              Text('报修单价:')
                 .fontSize(16)
                 .fontWeight(500)
-              Button('待接单')
+              Text(`${item?.repairMoney}￥`)
+                .fontSize(16)
+                .fontWeight(500)
+
+
+            }.margin(5)
+            Row({space:10}){
+              Text('操作:')
+                .fontSize(16)
+                .fontWeight(500)
+              Button('转单')
+              Button('销单').backgroundColor(0xF55A42)
+
 
 
             }.margin(5)
@@ -150,7 +158,7 @@ export struct AllRepairTabsComp {
         })}
 
     }
-      .bindSheet($$this.isVisible, this.SheetBuilder(), {
+    .bindSheet($$this.isVisible, this.SheetBuilder(), {
       // 半模态转场,屏幕高度一半，无法修改关闭图标样式
       detents: [SheetSize.MEDIUM],
       backgroundColor: $r('app.color.white')

@@ -1,5 +1,5 @@
 import { axiosInstance } from "../common/utils/httpInstance"
-import { getTypeResponse } from "./getTypeAPI"
+import { getTypeResponse, GetTypeResponseData } from "./getTypeAPI"
 import { myRepairData, RepairItem, repImgItem, RepType } from "./myRepairListAPI"
 
 
@@ -199,14 +199,14 @@ interface OrdersForm{
 
 export function getOrdersByConditionListAPI(params:OrdersForm){
 
-  return axiosInstance.get<null, getTypeResponse<RepairItem>,OrdersForm>(
+  return axiosInstance.get<null, GetTypeResponseData<RepairItem>,OrdersForm>(
     '/api/repair/tb/list',{params}
 
   );
 }
 
 export function getTransferOrdersDetailListAPI(){
-  return axiosInstance.get<null, getTypeResponse<repTransferItem>,null>(
+  return axiosInstance.get<null, GetTypeResponseData<repTransferItem>,null>(
     '/api/repair/reptransfer/list'
   );
 
@@ -218,7 +218,7 @@ interface repairMonth{
 //月份统计订单金额
 export function getMoneyTotalAPI(params:repairMonth){
 
-  return axiosInstance.get<null, getTypeResponse<moneyTotalItem>,repairMonth>(
+  return axiosInstance.get<null, GetTypeResponseData<moneyTotalItem>,repairMonth>(
     '/api/repair/tb/moneytotal',{params}
     /*'/api/repair/tb/moneytotal?repairMonth='+data.repairMonth.toString()*/
   );
@@ -226,7 +226,7 @@ export function getMoneyTotalAPI(params:repairMonth){
 //月份统计订单
 export function getRepairTotalAPI(params:repairMonth){
 
-  return axiosInstance.get<null, getTypeResponse<repairTotalItem>,repairMonth>(
+  return axiosInstance.get<null, GetTypeResponseData<repairTotalItem>,repairMonth>(
     '/api/repair/tb/repairtotal',{params}
 
   );
