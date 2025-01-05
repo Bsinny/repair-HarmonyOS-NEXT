@@ -21,20 +21,24 @@ export struct RepairerTabsComp {
   @State testList:string[]=['哈哈','喜喜','露露']
   @State isVisible: boolean = false;
   @State selectedRepairItem: RepairItem | null = null;
+  @State repairDestory:number=0
   scroller: Scroller = new Scroller();
   //当tabs发生变化的时候
   async onTabsChange(){
     if (this.currentRepairerIndex == 0) {
       //正在维修
-      this.GetRepairingOrdersList()
+      this.repairDestory=0
 
     }else if (this.currentRepairerIndex == 1){
-
-    }else if (this.currentRepairerIndex == 2){
+      //已销单
+      this.repairDestory=1
+    }
+    this.GetRepairingOrdersList()
+    /*else if (this.currentRepairerIndex == 2){
 
     }else if (this.currentRepairerIndex == 3){
 
-    }
+    }*/
 
   }
 
@@ -51,7 +55,7 @@ export struct RepairerTabsComp {
   async GetRepairingOrdersList(){
     const res=await getOrdersByConditionListAPI({
       repairIsDelete:0,
-      repairDestory:0,
+      repairDestory:this.repairDestory,
       repairTransfer:0
     })
     this.repairingOrdersList=res.data.rows
@@ -174,9 +178,9 @@ export struct RepairerTabsComp {
     .width('100%')
     .backgroundColor(0xDCDCDC)
     .scrollable(ScrollDirection.Vertical) // 滚动方向为垂直方向
-    .scrollBar(BarState.On) // 滚动条常驻显示
+    .scrollBar(BarState.Auto) // 滚动条常驻显示
     .scrollBarColor(Color.Gray) // 滚动条颜色
-    .scrollBarWidth(10) // 滚动条宽度
+    .scrollBarWidth(8) // 滚动条宽度
     .edgeEffect(EdgeEffect.Spring) // 滚动到边沿后回弹
 
   }}

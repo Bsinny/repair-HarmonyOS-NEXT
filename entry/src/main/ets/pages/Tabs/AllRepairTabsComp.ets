@@ -34,7 +34,6 @@ export struct AllRepairTabsComp {
      if (this.currentMyRepairIndex === 0) {
        //全部维修
        this.repairDestory=null
-
      }else if (this.currentMyRepairIndex === 1){
        //待维修repairIsDelete=0&curWork=1&repairDestory=0
        this.repairDestory=0

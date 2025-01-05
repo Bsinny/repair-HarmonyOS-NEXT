@@ -1,5 +1,5 @@
 import {  getMoneyTotalAPI, getOrdersByConditionListAPI, getTransferOrdersDetailListAPI } from '../../api/myOrdersAPI';
-import { getMyRepairListAPI } from '../../api/myRepairListAPI';
+import { getMyRepairListAPI, RepairItem } from '../../api/myRepairListAPI';
 import { AllRepairTabsComp } from '../Tabs/AllRepairTabsComp';
 import { OverRepairTabsComp } from '../Tabs/OverRepairTabsComp';
 import { WaitingRepairTabsComp } from '../Tabs/WaitingRepairTabsComp';
@@ -14,41 +14,70 @@ struct RepairListTestPage {
   @State repairDestory:number=1
   @State repairTransfer:number=0
   @State repairMonth:number=4
+  @State myRepairList:RepairItem[]=[]
+  @State myRepairOverList:RepairItem[]=[]
+  @State MyRepairingList:RepairItem[]=[]
+  @State AllRepairList:RepairItem[]=[]
   @Provide currentMyRepairIndex:number=0
+
+
 //todo：现在要做复用组件
 async aboutToAppear(): Promise<void> {
-  await this.GetMyRepairList()
+  await this.getMyRepairList()//获取全部数据进行页面预加载
+  await this.getMyRepairOverList()//获取已完成数据
+  await this.getMyRepairingList()
 
 }
-
+  //这个是我的接单的方法测试
   async GetMoneyTotalList(){
     const res=await getMoneyTotalAPI({
       repairMonth:this.repairMonth
     })
     /*AlertDialog.show({message:JSON.stringify(res,null,2)})*/
   }
-  async GetDeleteOrdersList(){
-    this.repairIsDelete=0
-    this.repairDestory=1
-    this.repairTransfer=0
-
+  async GetDestroyOrdersList(){
+//这个是我的接单的方法测试
     const res=await getOrdersByConditionListAPI({
-      repairIsDelete:this.repairIsDelete,
-      repairDestory:this.repairDestory,
-      repairTransfer:this.repairTransfer
+      repairIsDelete:0,
+      repairDestory:1,
+      repairTransfer:0
     })
+    /*this.destroyOrdersList=res.data.rows*/
 
   }
-async GetMyRepairList(){
+
+async  getMyRepairingList(){
   const res=await getMyRepairListAPI({
-    repairIsDelete: this.repairIsDelete,
-    curWork: this.curWork,
+    repairIsDelete: 0,
+    curWork: 1,
+    repairDestory:0
 
   })
+  this.MyRepairingList=res.data.rows
+
+}
+//获取已完成的报修单
+async getMyRepairOverList(){
+  const res=await getMyRepairListAPI({
+    repairIsDelete: 0,
+    curWork: 1,
+    repairDestory:1
+
+  })
+  this.myRepairOverList=res.data.rows
+
+}
+async getMyRepairList(){
+  const res=await getMyRepairListAPI({
+    repairIsDelete: 0,
+    curWork: 1,
+
+  })
+  this.myRepairList=res.data.rows
 
 }
   @Builder
-  TabBuilder(title: string, targetIndex: number, /*selectedImg: Resource, normalImg: Resource*/) {
+  TabBuilder(title: string, targetIndex: number,listData:RepairItem[] ) {
     Column() {
       Text(title)
         .fontSize(15)
@@ -62,6 +91,7 @@ async GetMyRepairList(){
     .justifyContent(FlexAlign.Center)
     .onClick(() => {
       this.currentMyRepairIndex = targetIndex;
+      this.AllRepairList=listData
     })
   }
   build() {
@@ -72,19 +102,19 @@ async GetMyRepairList(){
         TabContent() {
           AllRepairTabsComp()
         }
-        .tabBar(this.TabBuilder('全部报修',0))
+        .tabBar(this.TabBuilder('全部报修',0,this.myRepairList))
 
         TabContent() {
           AllRepairTabsComp()
           /*WaitingRepairTabsComp()*/
         }
-        .tabBar(this.TabBuilder('待报修',1))
+        .tabBar(this.TabBuilder('待维修',1,this.MyRepairingList))
 
         TabContent() {
           AllRepairTabsComp()
           /*OverRepairTabsComp()*/
         }
-        .tabBar(this.TabBuilder('已维修',2))
+        .tabBar(this.TabBuilder('已维修',2,this.myRepairOverList))
 
 
       }

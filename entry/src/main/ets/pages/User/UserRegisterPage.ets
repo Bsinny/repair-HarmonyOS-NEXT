@@ -45,6 +45,17 @@ struct UserRegisterPage {
     promptAction.showToast({ message: res.data.msg })
 
   }
+  cleanUserForm(){
+    this.depName=-1
+    this.email=''
+    this.nickName=''
+    this.passWord=''
+    this.phonenumber=''
+    this.roleName=-1
+    this.sex=-1
+    this.userName=''
+
+  }
   async getAllDeptList() {
     try {
       const res = await findAllDeptAPI();
