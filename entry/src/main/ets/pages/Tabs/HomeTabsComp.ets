@@ -73,6 +73,9 @@ struct HomeEntry {
         .width('90%')
         .height('100%')
     }
+    .loop(true)
+    .autoPlay(true)
+    .interval(3000)
     .width('100%')
     .height(130)
     .margin({

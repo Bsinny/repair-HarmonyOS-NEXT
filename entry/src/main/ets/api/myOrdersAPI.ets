@@ -115,7 +115,7 @@ export interface repairTotalItem{
 /**
  * /api/repair/reptransfer/list
  */
-interface repTransferItem{
+export interface repTransferItem{
 
   apply_address
     :

@@ -4,6 +4,7 @@ import { getMyRepairListAPI, RepairItem, repImgItem } from '../../api/myRepairLi
 import dayjs from 'dayjs';
 import { API_BASE_URL } from '../../common/constants';
 import { getOrdersByConditionListAPI } from '../../api/myOrdersAPI';
+import { promptAction } from '@kit.ArkUI';
 
 
 @Component
@@ -138,22 +139,138 @@ export struct RepairerTabsComp {
                 .fontSize(16)
                 .fontWeight(500)
               Text(`${item?.repairMoney}￥`)
+                .fontColor($r('app.color.danger'))
                 .fontSize(16)
                 .fontWeight(500)
 
 
             }.margin(5)
-            Row({space:10}){
-              Text('操作:')
-                .fontSize(16)
-                .fontWeight(500)
-              Button('转单')
-              Button('销单').backgroundColor(0xF55A42)
+
+            if (item.repairDestory===1) {
+              //已销单
+              Row({space:10}){
+                Text('评论状态:')
+                  .fontSize(16)
+                  .fontWeight(500)
+                if (item.repairComment === 0) {
+                  //未评论
+                  Button('未评论')
+                    .border({color:$r('app.color.warning'),width:1})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.warning'))
+                    .fontColor($r('app.color.warning'))
+                    .fontWeight(500)
+                }else {
+                  Button('已评论')
+                    .border({color:$r('app.color.success'),width:1})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.success'))
+                    .fontColor($r('app.color.success'))
+                    .fontWeight(500)
+
+                }
+              }.margin(5)
+              Row({space:10}){
+                Text('维修状态:')
+                  .fontSize(16)
+                  .fontWeight(500)
+                //0.已修复、1.已换新、2.无法修复 3.未修复、4.等待修复
+                if (item.repairedState === 0) {
+                  //未评论
+                  Button('已修复')
+                    .border({color:$r('app.color.success'),width:1})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.success'))
+                    .fontColor($r('app.color.success'))
+                    .fontWeight(500)
+                }else if (item.repairedState === 1){
+                  Button('已换新')
+                    .border({color:$r('app.color.success'),width:1})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.success'))
+                    .fontColor($r('app.color.success'))
+                    .fontWeight(500)
+
+                }else if (item.repairedState === 2){
+                  Button('无法修复')
+                    .border({color:$r('app.color.danger'),width:1})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.danger'))
+                    .fontColor($r('app.color.danger'))
+                    .fontWeight(500)
+                }else if (item.repairedState === 3){
+                  Button('未修复')
+                    .border({color:$r('app.color.warning'),width:1})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.warning'))
+                    .fontColor($r('app.color.warning'))
+                    .fontWeight(500)
+                }else {
+                  Button('等待修复')
+                    .border({color:$r('app.color.font'),width:1})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.font'))
+                    .fontColor($r('app.color.font'))
+                    .fontWeight(500)
+                }
+              }.margin(5)
+
+            //已销单显示评论状态和维修状态
+            }else {
+
+                Row({space:10}){
+                  Text('操作:')
+                    .fontSize(16)
+                    .fontWeight(500)
+                  Button('转单')
+                    .border({color:$r('app.color.success'),width:2})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.success'))
+                    .fontColor($r('app.color.success'))
+                    .fontWeight(500)
+                    .onClick(()=>{
+                      promptAction.showDialog({
+                        alignment:DialogAlignment.Center,
+                        title:'选择转单部门',
+                        message:'选择转单部门',
+                        buttons:[
+                          {text:'取消',color:$r('app.color.danger'),},
+                          {text:'确定',color:$r('app.color.success')}
+                        ]
+                      }).then((res)=>{
+                        if (res.index === 1) {
 
 
+                        }
+                      })
+                    })
+                  Button('销单')
+                    .border({color:$r('app.color.brand_light'),width:2})
+                    .backgroundColor($r('app.color.white'))
+                    .borderColor($r('app.color.brand_light'))
+                    .fontColor($r('app.color.brand_light'))
+                    .fontWeight(500)
+                    .onClick(()=>{
+                      promptAction.showDialog({
+                        alignment:DialogAlignment.Center,
+                        title:'选择派单人员',
+                        message:'选择派单人员',
+                        buttons:[
+                          {text:'取消',color:$r('app.color.danger'),},
+                          {text:'确定',color:$r('app.color.success')}
+                        ]
+                      }).then((res)=>{
+                        if (res.index === 1) {
 
-            }.margin(5)
-            .height(30)
+
+                        }
+                      })
+                    })
+                }.margin(5)
+                .height(30)
+
+            }
+
           }
           .onClick(()=>{
             this.showRepairDetail(item)
