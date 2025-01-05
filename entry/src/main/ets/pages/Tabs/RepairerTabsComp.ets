@@ -6,7 +6,7 @@ import { API_BASE_URL } from '../../common/constants';
 import { getOrdersByConditionListAPI } from '../../api/myOrdersAPI';
 import { promptAction } from '@kit.ArkUI';
 
-
+//为了页面渲染的速度决定还是分页比较好
 @Component
 export struct RepairerTabsComp {
   // 用户信息持久化

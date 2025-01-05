@@ -82,7 +82,7 @@ export struct TransferRepairTabsComp {
 
             }.margin(5)
             Row({space:10}){
-              Text('报修地点:')
+              Text('报修内容:')
                 .fontSize(16)
                 .fontWeight(500)
               Text(item.apply_content)

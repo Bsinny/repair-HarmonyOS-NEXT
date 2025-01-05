@@ -110,10 +110,7 @@ struct RepairFormPage {
       this.applyExpectType = selectedRep.repexpectTypeId as number; // 更新为实际的预期类型ID
       this.selectedRepTypeText = selectedRep.repexpectType as string; // 更新为实际的预期类型名称
       this.selectedRepTypeIndex = index; // 更新为实际的索引
-      // 可选：显示选择确认对话框
-      // AlertDialog.show({
-      //   message: `选择的是 ${this.selectedRepTypeText} ID值是 ${this.applyExpectType}`
-      // });
+
     } else {
       console.error('Invalid index provided');
     }
@@ -239,16 +236,6 @@ struct RepairFormPage {
         });
 
 
-        /*Button('选择照片')
-          .onClick(()=>{
-            let uris: Array<string> = [];
-            const photoViewPicker = new photoAccessHelper.PhotoViewPicker();
-            photoViewPicker.select()
-              .then((photoSelectResult: photoAccessHelper.PhotoSelectResult) => {
-                uris = photoSelectResult.photoUris;
-              })
-
-          })*/
         Button('提交')
           .onClick(async ()=>{
             await this.submitForm()

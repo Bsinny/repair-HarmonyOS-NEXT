@@ -1,3 +1,4 @@
+import { AxiosResponse } from "@ohos/axios"
 import { axiosInstance } from "../common/utils/httpInstance"
 import { getTypeResponse, GetTypeResponseData } from "./getTypeAPI"
 import { myRepairData, RepairItem, repImgItem, RepType } from "./myRepairListAPI"
@@ -5,12 +6,20 @@ import { myRepairData, RepairItem, repImgItem, RepType } from "./myRepairListAPI
 
 //月份统计订单金额
 export interface moneyTotalItem{
-  repairContent:string,//报修名字
-  RepairMoneyTotal: number,//订单总金额
-  RepairOrderTotal: 1,//月订单数量
-  repairMoney: string,//订单显示金额
-  repairMonth: number,//订单月份
-  repairAddress: string//订单地址
+  RepairMoneyTotal
+    :
+    number
+  RepairOrderTotal
+    :
+    number
+  repairMonth
+    :
+    number
+}
+interface HuzxResponse<T>{
+  msg:string
+  code:number
+  data:T[]
 }
 
 export interface repairTotalItem{
@@ -218,15 +227,16 @@ interface repairMonth{
 //月份统计订单金额
 export function getMoneyTotalAPI(params:repairMonth){
 
-  return axiosInstance.get<null, GetTypeResponseData<moneyTotalItem>,repairMonth>(
+  return axiosInstance.get<null, GetRepairResponseData<moneyTotalItem>,repairMonth>(
     '/api/repair/tb/moneytotal',{params}
     /*'/api/repair/tb/moneytotal?repairMonth='+data.repairMonth.toString()*/
   );
 }
+export type GetRepairResponseData<T = null> = AxiosResponse<HuzxResponse<T>,null>
 //月份统计订单
 export function getRepairTotalAPI(params:repairMonth){
 
-  return axiosInstance.get<null, GetTypeResponseData<repairTotalItem>,repairMonth>(
+  return axiosInstance.get<null, GetTypeResponseData<RepairItem>,repairMonth>(
     '/api/repair/tb/repairtotal',{params}
 
   );

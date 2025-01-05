@@ -3,6 +3,7 @@ import { getMyRepairListAPI } from '../../api/myRepairListAPI';
 import { AllRepairTabsComp } from '../Tabs/AllRepairTabsComp';
 import { OverRepairTabsComp } from '../Tabs/OverRepairTabsComp';
 import { RepairerTabsComp } from '../Tabs/RepairerTabsComp';
+import { RepairMonthsTabsComp } from '../Tabs/RepairMonthsTabsComp';
 import { TransferRepairTabsComp } from '../Tabs/TransferRepairTabsComp';
 import { WaitingRepairTabsComp } from '../Tabs/WaitingRepairTabsComp';
 
@@ -81,7 +82,7 @@ struct RepairListTestPage {
         }
         .tabBar(this.TabBuilder('已转单',2))
         TabContent() {
-          RepairerTabsComp()
+          RepairMonthsTabsComp()
         }
         .tabBar(this.TabBuilder('月维修单',3))
 
