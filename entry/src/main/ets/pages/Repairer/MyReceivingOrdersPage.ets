@@ -2,7 +2,7 @@ import {  getMoneyTotalAPI, getOrdersByConditionListAPI, getTransferOrdersDetail
 import { getMyRepairListAPI } from '../../api/myRepairListAPI';
 import { AllRepairTabsComp } from '../Tabs/AllRepairTabsComp';
 import { OverRepairTabsComp } from '../Tabs/OverRepairTabsComp';
-import { RepairerTabsComp } from '../Tabs/RepairerTabsComp';
+import { RepairerOverTabsComp, RepairerTabsComp } from '../Tabs/RepairerTabsComp';
 import { RepairMonthsTabsComp } from '../Tabs/RepairMonthsTabsComp';
 import { TransferRepairTabsComp } from '../Tabs/TransferRepairTabsComp';
 import { WaitingRepairTabsComp } from '../Tabs/WaitingRepairTabsComp';
@@ -73,7 +73,7 @@ struct RepairListTestPage {
 
         TabContent() {
           //组件
-          RepairerTabsComp()
+          RepairerOverTabsComp()
         }
         .tabBar(this.TabBuilder('已销单',1))
 

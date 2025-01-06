@@ -64,51 +64,7 @@ export struct RepairMonthsTabsComp {
     }
   }
   build() {
-    Column(){
-      Column(){
-
-        Row(){
-          Text('工作月份:')
-
-
-          Text(this.selectedMonth.toString()+'月')
-            .textAlign(TextAlign.Center)
-
-            .margin(20)
-            .onClick(() => {
-              TextPickerDialog.show({
-                range: this.repairMonthsList.map(item=>item),
-                selected: this.selectedMonth, // 直接使用当前选中的索引
-                disappearTextStyle: { color: Color.Red, font: { size: 15, weight: FontWeight.Lighter } },
-                textStyle: { color: Color.Black, font: { size: 20, weight: FontWeight.Normal } },
-                selectedTextStyle: { color: Color.Blue, font: { size: 30, weight: FontWeight.Bolder } },
-                onAccept: (values: TextPickerResult) => {
-                  this.updateSelectedMonths(values.index as number);
-                  promptAction.showToast({ message: `当前选择的月份是${this.selectedMonth}` })
-                },
-                onCancel: () => {
-                  console.info("TextPickerDialog:onCancel()");
-                },
-              });
-            })
-          Button('搜索')
-            .backgroundColor(Color.Green)
-            .onClick(()=> {
-              this.getMoneyTotalList()
-              this.getRepairTotalList()
-            })
-
-
-
-        }
-        .justifyContent(FlexAlign.Start)
-      }
-      if (this.moneyTotalData!=null)
-      Column(){
-        Text(`亲爱的${this.userInfo.nickName},您在${this.moneyTotalData.repairMonth}月份的总维修金额为：￥${this.moneyTotalData.RepairMoneyTotal}`)
-        Text(`亲爱的${this.userInfo.nickName},您在${this.moneyTotalData.repairMonth}月份的总完成订单数为：￥${this.moneyTotalData.RepairOrderTotal}`)
-      }
-      .justifyContent(FlexAlign.Start)
+    Stack(){
 
 
       if (this.repairTotalList.length>0){
@@ -183,24 +139,22 @@ export struct RepairMonthsTabsComp {
 
 
             }
-            /*          .onClick(()=>{
-                        this.showRepairDetail(item)
-
-                      })*/
-
-            .margin(5)
+            /*.position({y:'80%'})*/
+            .margin(8)
             .width('95%')
             .alignItems(HorizontalAlign.Start)
             .backgroundColor($r('app.color.background'))
             .borderStyle(BorderStyle.Solid).borderWidth(2).borderColor(0xAFEEEE).borderRadius(10)
             .align(Alignment.Center)
 
-          })}
+          },)}
 
       }
-
+      .position({y:'15%'})
+      .height('90%')
+      .zIndex(2)
       .width('100%')
-      .backgroundColor(0xDCDCDC)
+      .backgroundColor(0xFFFAFA)
       .scrollable(ScrollDirection.Vertical) // 滚动方向为垂直方向
       .scrollBar(BarState.Auto) // 滚动条常驻显示
       .scrollBarColor(Color.Gray) // 滚动条颜色
@@ -211,11 +165,69 @@ export struct RepairMonthsTabsComp {
         Text('————暂无数据————')
           .fontColor($r('app.color.font_sub'))
       }
+      .position({y:'50%'})
+        .width('100%')
+        .height('80%')
 
 
 
 
     }
+      Column(){
+
+        Row(){
+          Text('工作月份:')
+            .layoutWeight(1)
+
+
+          Text(this.selectedMonth.toString()+'月')
+            .textAlign(TextAlign.Center)
+            .layoutWeight(2)
+
+            .margin(20)
+            .onClick(() => {
+              TextPickerDialog.show({
+                range: this.repairMonthsList.map(item=>item),
+                selected: this.selectedMonth, // 直接使用当前选中的索引
+                disappearTextStyle: { color: Color.Red, font: { size: 15, weight: FontWeight.Lighter } },
+                textStyle: { color: Color.Black, font: { size: 20, weight: FontWeight.Normal } },
+                selectedTextStyle: { color: Color.Blue, font: { size: 30, weight: FontWeight.Bolder } },
+                onAccept: (values: TextPickerResult) => {
+                  this.updateSelectedMonths(values.index as number);
+                  promptAction.showToast({ message: `当前选择的月份是${this.selectedMonth}` })
+                },
+                onCancel: () => {
+                  console.info("TextPickerDialog:onCancel()");
+                },
+              });
+            })
+          Button('搜索')
+            .layoutWeight(1)
+            .backgroundColor(Color.Green)
+            .onClick(()=> {
+              this.getMoneyTotalList()
+              this.getRepairTotalList()
+            })
+
+
+
+        }
+
+        if (this.moneyTotalData!=null)
+        Column(){
+          Text(`亲爱的${this.userInfo.nickName},您在${this.moneyTotalData.repairMonth}月份的总维修金额为：￥${this.moneyTotalData.RepairMoneyTotal}`)
+          Text(`亲爱的${this.userInfo.nickName},您在${this.moneyTotalData.repairMonth}月份的总完成订单数为：￥${this.moneyTotalData.RepairOrderTotal}`)
+        }
+
+      }
+      .width('100%')
+      .height('100%')
+
+
+
+
+
+
     }
 
 

@@ -7,7 +7,7 @@ struct NewTestPage {
 
 
   build() {
-    RelativeContainer() {
+    Column() {
 
       Column({space:10}){
 

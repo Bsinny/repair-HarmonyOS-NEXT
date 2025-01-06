@@ -149,7 +149,7 @@ export struct TransferRepairTabsComp {
     }
 
     .width('100%')
-    .backgroundColor(0xDCDCDC)
+    .backgroundColor(0xFDF5E6)
     .scrollable(ScrollDirection.Vertical) // 滚动方向为垂直方向
     .scrollBar(BarState.Auto) // 滚动条常驻显示
     .scrollBarColor(Color.Gray) // 滚动条颜色

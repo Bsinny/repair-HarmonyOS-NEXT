@@ -1,6 +1,6 @@
 import {  getMoneyTotalAPI, getOrdersByConditionListAPI, getTransferOrdersDetailListAPI } from '../../api/myOrdersAPI';
 import { getMyRepairListAPI, RepairItem } from '../../api/myRepairListAPI';
-import { AllRepairTabsComp } from '../Tabs/AllRepairTabsComp';
+import { AllRepairTabsComp, OverRepairListTabsComp, WaitingRepairListTabsComp } from '../Tabs/AllRepairTabsComp';
 import { OverRepairTabsComp } from '../Tabs/OverRepairTabsComp';
 import { WaitingRepairTabsComp } from '../Tabs/WaitingRepairTabsComp';
 
@@ -77,7 +77,7 @@ async getMyRepairList(){
 
 }
   @Builder
-  TabBuilder(title: string, targetIndex: number,listData:RepairItem[] ) {
+  TabBuilder(title: string, targetIndex: number,/*listData:RepairItem[]*/ ) {
     Column() {
       Text(title)
         .fontSize(15)
@@ -91,7 +91,7 @@ async getMyRepairList(){
     .justifyContent(FlexAlign.Center)
     .onClick(() => {
       this.currentMyRepairIndex = targetIndex;
-      this.AllRepairList=listData
+      /*this.AllRepairList=listData*/
     })
   }
   build() {
@@ -102,19 +102,19 @@ async getMyRepairList(){
         TabContent() {
           AllRepairTabsComp()
         }
-        .tabBar(this.TabBuilder('全部报修',0,this.myRepairList))
+        .tabBar(this.TabBuilder('全部报修',0))
 
         TabContent() {
-          AllRepairTabsComp()
+          WaitingRepairListTabsComp()
           /*WaitingRepairTabsComp()*/
         }
-        .tabBar(this.TabBuilder('待维修',1,this.MyRepairingList))
+        .tabBar(this.TabBuilder('待维修',1))
 
         TabContent() {
-          AllRepairTabsComp()
+         OverRepairListTabsComp()
           /*OverRepairTabsComp()*/
         }
-        .tabBar(this.TabBuilder('已维修',2,this.myRepairOverList))
+        .tabBar(this.TabBuilder('已维修',2))
 
 
       }
