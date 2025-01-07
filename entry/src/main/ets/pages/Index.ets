@@ -3,7 +3,7 @@ import { themeManager } from '../manager';
 import { GuardTabsComp } from './Tabs/GuardTabsComp';
 import { HomeTabsComp } from './Tabs/HomeTabsComp';
 import { MyTabsComp } from './Tabs/MyTabsComp';
-import { MyTestTabsComp } from './Tabs/MyTestTabsComp'
+import { MineTabsComp } from './Tabs/MineTabsComp'
 
 @Entry
 @Component
@@ -55,7 +55,7 @@ struct Index {
       //我的导航栏
       TabContent() {
         /*MyTabsComp()*/
-        MyTestTabsComp()
+        MineTabsComp()
       }
       .tabBar(this.TabBuilder('我的', 2, $r('app.media.ic_tab_wode_filled'), $r('app.media.ic_tab_wode')))
     }

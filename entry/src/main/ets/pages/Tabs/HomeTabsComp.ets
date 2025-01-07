@@ -166,7 +166,7 @@ struct HomeShortcut {
     {
       title: '我的报修',
       icon: $r('app.media.ic_home_shortcut_srlj'),
-      url: '/pages/Test/RepairListTestPage',
+      url: '/pages/Repair/RepairListTestPage',
       /*roleName:'student'*/
     },
     {

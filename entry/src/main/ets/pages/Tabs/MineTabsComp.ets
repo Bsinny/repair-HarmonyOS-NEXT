@@ -12,7 +12,7 @@ interface UsageItem {
 }
 
 @Component
-export struct MyTestTabsComp {
+export struct MineTabsComp {
   // 用户信息持久化
   @StorageLink(LOGIN_INFO) loginInfo: LoginInfoResponse = {}
   @StorageLink(USER_INFO) userInfo: UserInfo = {} as UserInfo;
@@ -106,7 +106,7 @@ export struct MyTestTabsComp {
             .aspectRatio(1)
             .zIndex(1)
             .onClick(() => {
-              router.pushUrl({ url: 'pages/Settings/TestSettingPage' })
+              router.pushUrl({ url: 'pages/Settings/UserSettingsPage' })
             })
             .margin({ top: this.topHeight + 25, right: 25 })
           // 用户信息
@@ -114,7 +114,7 @@ export struct MyTestTabsComp {
             if (this.loginToken) {
               // 已登录
               Column({ space: 10 }) {
-                Image(this.userInfo?.avatar|| $r("app.media.ic_my_avatar_default"))
+                Image( $r("app.media.avatar_my"))
                   .height(70)
                   .aspectRatio(1)
                   .borderRadius(70 / 2)

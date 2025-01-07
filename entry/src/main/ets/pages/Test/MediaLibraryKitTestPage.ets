@@ -3,7 +3,7 @@ import { photoAccessHelper } from '@kit.MediaLibraryKit';
 import { dataSharePredicates } from '@kit.ArkData';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { photoPickerUtil } from '../../common/utils/photoPickerUtil';
-import Index from '.';
+import Index from '../Repair';
 import { getImagePaths } from '../../common/utils/imageUpload';
 
 @Entry

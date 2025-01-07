@@ -1,14 +1,8 @@
 export * from './codeAPI'
 
-export * from './contactAPI'
-
-export * from './emergencyContactAPI'
-
-export * from './harassPhoneAPI'
 
 export * from './logAPI'
 
-export * from './phoneAPI'
 
 export * from './testAPI'
 
@@ -18,4 +12,12 @@ export * from './urlsAPI'
 
 export * from './testUserAPI'
 
-export * from './guardAPI'
+export * from './myOrdersAPI'
+
+export * from './myRepairListAPI'
+
+export * from './userInfoAPI'
+
+export * from './getTypeAPI'
+
+

@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { systemDateTime } from '@kit.BasicServicesKit';
 import { UserInfo, USER_INFO } from '../../api/userInfoAPI';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
-import SelectImage from '../Test';
+import SelectImage from '.';
 import { common } from '@kit.AbilityKit';
 import { FormData } from '@ohos/axios';
 import { router } from '@kit.ArkUI';
