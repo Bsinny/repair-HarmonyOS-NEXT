@@ -1,17 +1,21 @@
 import { getRepTypeListAPI, getTypeListAPI,
   postApplyForm,
+  postApplyPhotoAPI,
   repTypeItem, typeItem } from '../../api/getTypeAPI';
 import dayjs from 'dayjs';
 import { systemDateTime } from '@kit.BasicServicesKit';
 import { UserInfo, USER_INFO } from '../../api/userInfoAPI';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
 import SelectImage from '../Test';
+import { common } from '@kit.AbilityKit';
+import { FormData } from '@ohos/axios';
+import { router } from '@kit.ArkUI';
 
 @Entry
 @Component
 struct RepairFormPage {
   @StorageLink(USER_INFO) userInfo: UserInfo = {}  as UserInfo;
-  @State applyAddress:string= '提瓦特大陆';
+  @State applyAddress:string= '请填写报修地址';
   @State applyContent:string= '提瓦特大陆里面玩不了原神搞得积极洋洋的';
   @State applyExpectType:number=-1
   @State typeList:typeItem[]=[]
@@ -55,7 +59,7 @@ struct RepairFormPage {
   }
 
   async submitForm(){
-    const res=await postApplyForm(this.isOrder,{
+    const res=await postApplyForm({
       applyUser: this.userInfo.nickName as string, //报修用户姓名
       applyContent: this.applyContent, //报修内容
       applyAddress: this.applyAddress, //报修地点
@@ -66,6 +70,39 @@ struct RepairFormPage {
     })
     this.repairId=res.data.repairId
     this.applyId=res.data.applyId
+
+    let context=getContext() as common.UIAbilityContext;
+    for (const item of this.images/*let index = 0; index < this.images.length; index++*/) {
+      let formData:FormData=new FormData();
+      formData.append('appId', this.applyId.toString());
+      formData.append('repairId', this.repairId.toString());
+      formData.append('applyExpectType', this.applyExpectType.toString());
+      formData.append('imgFile', item); // 确保`item`是文件对象
+/*      const element = this.images[index];
+      let formData:FormData=new FormData();*/
+      const resData = await postApplyPhotoAPI(formData,context);
+
+
+      
+    }
+    router.back()
+/*    let context=getContext() as common.UIAbilityContext;
+    let formData:FormData=new FormData();
+    this.images.forEach((item,index)=>{
+      formData.append('appId', this.applyId.toString())
+      formData.append('repairId', this.repairId.toString())
+      formData.append('applyExpectType', this.applyExpectType.toString())
+      formData.append('imgFile',item)
+
+
+    })
+
+    const resData=await postApplyPhotoAPI(formData,context)
+    router.back()
+    AlertDialog.show({message:'applyId'+this.applyId.toString()+'repairId'+this.repairId.toString()
+      +JSON.stringify(resData.data.msg,null,2)})*/
+
+
   }
 
 
@@ -116,6 +153,13 @@ struct RepairFormPage {
     }
   }
 
+
+
+
+
+
+
+
   build() {
 
     Navigation() {
@@ -123,11 +167,15 @@ struct RepairFormPage {
         Row(){
           Text('报修地点:')
             .fontSize(14)
-            .fontColor($r('app.color.font'));
+            .fontColor($r('app.color.font'))
+            .layoutWeight(2)
 
           TextInput({
             placeholder:'请输入报修地点',
+            text:this.applyAddress
           })
+            .layoutWeight(6)
+
             .type(InputType.Normal)
             .fontSize(14)
             .height(50)
@@ -137,6 +185,17 @@ struct RepairFormPage {
             .onChange((value) => {
               this.applyAddress = value
             })
+          Column(){
+            Image($r('app.media.location_4'))
+              .onClick(()=>{
+                this.applyAddress='广西梧州市万秀区富民三路82号学府新城A12'
+              })
+            Text('获取地址').fontSize(10)
+          }
+          .height(40)
+          .layoutWeight(1)
+
+
         }.width('100%')
 
 
@@ -229,12 +288,16 @@ struct RepairFormPage {
 
         SelectImage({
           fileList: this.images, // 传递图片路径数组
-          limit: 5, // 设置最大图片数量限制
+          limit: 3, // 设置最大图片数量限制
           title: '选择图片', // 设置标题
           flexAlign: FlexAlign.Center, // 设置对齐方式
-          deleteImg: this.removeImage, // 传递删除图片的方法
+          deleteImg:  (imgPath: string): void => this.removeImage(imgPath),// 传递删除图片的方法
         });
+        Button('查看图片列表')
+          .onClick(async ()=>{
+            AlertDialog.show({message:JSON.stringify(this.images,null,2)})
 
+          })
 
         Button('提交')
           .onClick(async ()=>{

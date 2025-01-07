@@ -1,4 +1,4 @@
-import { AxiosResponse } from "@ohos/axios"
+import axios, { AxiosResponse } from "@ohos/axios"
 import { axiosInstance } from "../common/utils/httpInstance"
 import { getTypeResponse, GetTypeResponseData } from "./getTypeAPI"
 import { myRepairData, RepairItem, repImgItem, RepType } from "./myRepairListAPI"
@@ -241,3 +241,11 @@ export function getRepairTotalAPI(params:repairMonth){
 
   );
 }
+interface regeoForm{
+  key:string
+  location:string
+  radius:number
+  extensions:string
+}
+
+

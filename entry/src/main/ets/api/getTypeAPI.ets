@@ -73,14 +73,20 @@ export function getRepTypeListAPI(){
   ('/api/repair/type/list')
 }
 //正常提交
-export function postApplyForm(val:number,data:applyForm){
+export function postApplyForm(data:applyForm){
   return axiosInstance.post<null,AxiosResponse<applyFormResponse,null>,applyForm>
-  ('/api/repair/apply/'+val,data)
+  ('/api/repair/apply/-1',data)
 
 }
-export function postApplyPhoto(data:FormData){
+export function postApplyPhotoAPI(data:FormData,context:Context){
     return axiosInstance.post<null,GetTypeResponseData,FormData>
-  ('/api/repair/appimg/add',data)
+  ('/api/repair/appimg/add',data,{
+      headers: { 'Content-Type': 'multipart/form-data' },
+      context:context,
+
+
+
+    })
 
 }
 
