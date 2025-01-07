@@ -91,3 +91,31 @@ export function getMyRepairListAPI(
 
   );
 }
+interface repCommentForm{
+  applyId
+    :
+    number
+  repNo
+    :
+    string
+  repairType
+    :
+    number
+  repcId
+    :
+    number
+  repcommentContent
+    :
+    string
+  repcommentService
+    :
+    number
+}
+
+export function postRepCommentAPI(data:repCommentForm){
+  return axiosInstance.post<null, GetTypeResponseData,repCommentForm>(
+    '/api/repair/repcomment',
+    data
+
+  );
+}

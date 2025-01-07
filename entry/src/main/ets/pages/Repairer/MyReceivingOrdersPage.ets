@@ -69,6 +69,7 @@ struct RepairListTestPage {
         TabContent() {
           RepairerTabsComp()
         }
+        
         .tabBar(this.TabBuilder('正在维修',0))
 
         TabContent() {

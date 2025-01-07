@@ -70,34 +70,39 @@ export struct RepairMonthsTabsComp {
       if (this.repairTotalList.length>0){
       Scroll(this.scroller) {
         Column(){
-          ForEach(this.repairTotalList,(item:RepairItem)=>{
-
-            Column({space:10}){
-              Row({space:10}){
+          ForEach(this.repairTotalList,(item:RepairItem,index:number)=> {
+            Badge({
+              count:index+1,
+              position:BadgePosition.RightTop,
+              style: {fontSize:20, badgeSize: 25, badgeColor: '#FA2A2D' }
+            }) {
+            Column({ space: 10 }) {
+              Row({ space: 10 }) {
                 Text('报修类型:')
                 if (item.repairType === 1) {
                   Text('网络设备')
-                }else if (item.repairType === 2){
+                } else if (item.repairType === 2) {
                   Text('水电类')
-                }else if (item.repairType === 3){
+                } else if (item.repairType === 3) {
                   Text('家具类')
-                }else if (item.repairType === 4){
+                } else if (item.repairType === 4) {
                   Text('办公室设备')
-                }else if (item.repairType === 5){
+                } else if (item.repairType === 5) {
                   Text('教学电子')
-                }else if (item.repairType === 6){
+                } else if (item.repairType === 6) {
                   Text('教学电子')
-                }else if (item.repairType === 7){
+                } else if (item.repairType === 7) {
                   Text('电器类')
-                }else if (item.repairType === 8){
+                } else if (item.repairType === 8) {
                   Text('木材类')
-                }else {
+                } else {
                   Text('未知类型')
                 }
 
               }.margin(10)
+
               Divider().strokeWidth(3).color('#F1F3F5')
-              Row({space:10}){
+              Row({ space: 10 }) {
                 Text('报修地点:')
                   .fontSize(16)
                   .fontWeight(500)
@@ -106,7 +111,8 @@ export struct RepairMonthsTabsComp {
                   .fontWeight(500)
 
               }.margin(5)
-              Row({space:10}){
+
+              Row({ space: 10 }) {
                 Text('报修内容:')
                   .fontSize(16)
                   .fontWeight(500)
@@ -115,7 +121,8 @@ export struct RepairMonthsTabsComp {
                   .fontWeight(500)
 
               }.margin(5)
-              Row({space:10}){
+
+              Row({ space: 10 }) {
                 Text('销单时间:')
                   .fontSize(16)
                   .fontWeight(500)
@@ -125,18 +132,17 @@ export struct RepairMonthsTabsComp {
 
 
               }.margin(5)
-              Row({space:10}){
+
+              Row({ space: 10 }) {
                 Text('报修单价:')
                   .fontSize(16)
                   .fontWeight(500)
-                Text(item.repairMoney?.toString()+'￥')
+                Text(item.repairMoney?.toString() + '￥')
                   .fontSize(16)
                   .fontWeight(500)
                   .fontColor($r('app.color.danger'))
 
               }.margin(5)
-
-
 
             }
             /*.position({y:'80%'})*/
@@ -144,9 +150,12 @@ export struct RepairMonthsTabsComp {
             .width('95%')
             .alignItems(HorizontalAlign.Start)
             .backgroundColor($r('app.color.background'))
-            .borderStyle(BorderStyle.Solid).borderWidth(2).borderColor(0xAFEEEE).borderRadius(10)
+            .borderStyle(BorderStyle.Solid)
+            .borderWidth(2)
+            .borderColor(0xAFEEEE)
+            .borderRadius(10)
             .align(Alignment.Center)
-
+          }
           },)}
 
       }

@@ -53,7 +53,7 @@ axiosInstance.interceptors.response.use((response:AxiosTestResponseData/*AxiosRe
   if (response.data.code !== 200) {
     if (response.data.code === 401) {
       promptAction.showToast({ message: '您还未登录，请登录后再试'})
-      router.pushUrl({url:'/pages/User/LoginPage'})
+      router.pushUrl({url:'pages/User/LoginPage'})
     }else if (response.data.code === 404){
       promptAction.showToast({message:'路径错误，请检查路径是否正确'})
     }else {

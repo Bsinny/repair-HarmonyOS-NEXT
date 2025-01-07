@@ -1,6 +1,7 @@
 import { AxiosResponse } from "@ohos/axios";
 import { axiosInstance } from "../common/utils/httpInstance";
 import { getTypeResponse, GetTypeResponseData } from "./getTypeAPI";
+import { GetRepairResponseData } from "./myOrdersAPI";
 import { RepairItem } from "./myRepairListAPI";
 import { UserInfo } from "./userInfoAPI";
 
@@ -45,7 +46,7 @@ interface getByDeptIdUserIdForUser{
   deptId:number
 }
 
-interface usersList{
+export interface usersList{
   code: number;
   msg: string;
   data:UserInfo[]
@@ -56,7 +57,44 @@ interface usersList{
  * /api/repair/tb/findByDeptIdUserIdForUser?deptId=200
  */
 export function getByDeptIdUserIdForUserAPI(params:getByDeptIdUserIdForUser){
-  return axiosInstance.get<null, AxiosResponse<getTypeResponse<usersList>,null>,getByDeptIdUserIdForUser>(
+  return axiosInstance.get<null, GetRepairResponseData<UserInfo>,getByDeptIdUserIdForUser>(
     '/api/repair/tb/findByDeptIdUserIdForUser', { params }
+  );
+}
+/**
+ * 销单操作
+ * http://localhost:8999/api/repair/tb/relieveRepair/515/1?processDescribe=22222
+ * http://localhost:8999/api/repair/tb/relieveRepair/512/0?processDescribe=111
+ * 0已修复，1已换新，2无法修复，3未修复
+ */
+interface processDescribeForm{
+  processDescribe:string
+}
+//销单
+export function getDestroyRepairAPI(repairId:number,repairState:number,params:processDescribeForm){
+  return axiosInstance.get<null,GetRepairResponseData ,processDescribeForm>(
+    `/api/repair/tb/relieveRepair/${repairId}/${repairState}`, { params }
+  );
+}
+export interface transferRepairer{
+  TrDescribe?: string
+  repairId: number
+  repairNo: string
+  repairType: number
+  applyId: number
+  userId: number
+  deptId: number
+  userName: string
+  repairDep: number
+}
+/**
+ * http://localhost:8999/api/repair/tb/transferRepair?TrDescribe=2222&repairId=527
+ * &repairNo=GXUA20241218003019MD1734453019192&repairType=1&applyId=3022&userId=154&deptId=200
+ * &userName=202109512100&repairDep=200
+ * 转单
+ */
+export function getTransferRepairAPI(params:transferRepairer){
+  return axiosInstance.get<null,GetRepairResponseData ,transferRepairer>(
+    '/api/repair/tb/transferRepair', { params }
   );
 }

@@ -137,7 +137,7 @@ struct RepairFormPage {
             .onChange((value) => {
               this.applyAddress = value
             })
-        }
+        }.width('100%')
 
 
         Row(){
@@ -155,7 +155,7 @@ struct RepairFormPage {
             .onChange((value) => {
               this.applyContent = value
             })
-        }
+        }.width('100%')
 
               Row({ space: 10 }) {
                 Text('维修类型:')
@@ -178,7 +178,7 @@ struct RepairFormPage {
                       },
                     });
                   });
-              }
+              }.width('100%')
               Row({ space: 10 }) {
                 Text('期望维修类型:')
                   .fontSize(14)
@@ -200,7 +200,7 @@ struct RepairFormPage {
                       },
                     });
                   });
-        }
+        }.width('100%')
         Row({ space: 10 }) {
           Text('期待维修时间:')
             .fontSize(14)
@@ -224,7 +224,7 @@ struct RepairFormPage {
 
               })
             })
-        }
+        }.width('100%')
 
 
         SelectImage({

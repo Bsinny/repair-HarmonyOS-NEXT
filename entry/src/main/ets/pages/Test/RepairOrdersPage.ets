@@ -3,7 +3,7 @@ import { RepairItem, repImgItem } from '../../api/myRepairListAPI';
 import { getRepListAPI, postReceiveRepAPI } from '../../api/ordersAPI';
 import { LOGIN_TOKEN, UserInfo, USER_INFO, USER_ROLE } from '../../api/userInfoAPI';
 import { API_BASE_URL } from '../../common/constants';
-import { promptAction } from '@kit.ArkUI';
+import { font, promptAction } from '@kit.ArkUI';
 
 @Entry
 @Component
@@ -139,14 +139,22 @@ struct RepairOrdersPage {
     Navigation(){
       Scroll(this.scroller) {
         Column(){        /*Text(`当前数据长度: ${this.listLength}`)*/
-          ForEach(this.AllOrdersList,(item:RepairItem)=>{
-            Column({space:10}){
-              Row({space:10}){
+          ForEach(this.AllOrdersList,(item:RepairItem,index:number)=> {
+            Badge({
+              count:index+1,
+              position:BadgePosition.RightTop,
+              style: {fontSize:20, badgeSize: 25, badgeColor: '#FA2A2D' }
+            }) {
+
+
+            Column({ space: 10 }) {
+              Row({ space: 10 }) {
                 Text('报修类型:')
-                Text(item.repType?.repairType|| '未知类型')
+                Text(item.repType?.repairType || '未知类型')
               }.margin(10)
+
               Divider().strokeWidth(3).color('#F1F3F5')
-              Row({space:10}){
+              Row({ space: 10 }) {
                 Text('报修地点:')
                   .fontSize(16)
                   .fontWeight(500)
@@ -155,7 +163,8 @@ struct RepairOrdersPage {
                   .fontWeight(500)
 
               }.margin(5)
-              Row({space:10}){
+
+              Row({ space: 10 }) {
                 Text('报修时间:')
                   .fontSize(16)
                   .fontWeight(500)
@@ -165,51 +174,53 @@ struct RepairOrdersPage {
 
 
               }.margin(5)
-              Row({space:10}){
+
+              Row({ space: 10 }) {
                 Text('状态:')
                   .fontSize(16)
                   .fontWeight(500)
-                  Button('待接单')
-                    .onClick(()=>{
-                      promptAction.showDialog({
-                        alignment:DialogAlignment.Center,
-                        title:'温馨提示',
-                        message:'确认接下该订单吗',
-                        buttons:[
-                          {text:'取消',color:$r('app.color.danger'),},
-                          {text:'确定',color:$r('app.color.success')}
-                        ]
-                      }).then((res)=>{
-                        if (res.index === 1) {
-                          this.receiveRep()
+                Button('待接单')
+                  .enabled(false)
+                  .onClick(() => {
+                    promptAction.showDialog({
+                      alignment: DialogAlignment.Center,
+                      title: '温馨提示',
+                      message: '确认接下该订单吗',
+                      buttons: [
+                        { text: '取消', color: $r('app.color.danger'), },
+                        { text: '确定', color: $r('app.color.success') }
+                      ]
+                    }).then((res) => {
+                      if (res.index === 1) {
+                        this.receiveRep()
 
-                        }
-                      })
+                      }
                     })
+                  })
               }.margin(5)
-               .height(30)
+              .height(30)
 
               if (this.role === 'repairadmin') {
-                Row({space:10}){
+                Row({ space: 10 }) {
                   Text('操作:')
                     .fontSize(16)
                     .fontWeight(500)
                   Button('转单')
-                    .border({color:$r('app.color.success'),width:2})
+                    .border({ color: $r('app.color.success'), width: 2 })
                     .backgroundColor($r('app.color.white'))
                     .borderColor($r('app.color.success'))
                     .fontColor($r('app.color.success'))
                     .fontWeight(500)
-                    .onClick(()=>{
+                    .onClick(() => {
                       promptAction.showDialog({
-                        alignment:DialogAlignment.Center,
-                        title:'选择转单部门',
-                        message:'选择转单部门',
-                        buttons:[
-                          {text:'取消',color:$r('app.color.danger'),},
-                          {text:'确定',color:$r('app.color.success')}
+                        alignment: DialogAlignment.Center,
+                        title: '选择转单部门',
+                        message: '选择转单部门',
+                        buttons: [
+                          { text: '取消', color: $r('app.color.danger'), },
+                          { text: '确定', color: $r('app.color.success') }
                         ]
-                      }).then((res)=>{
+                      }).then((res) => {
                         if (res.index === 1) {
 
 
@@ -217,21 +228,21 @@ struct RepairOrdersPage {
                       })
                     })
                   Button('派单')
-                    .border({color:$r('app.color.brand_light'),width:2})
+                    .border({ color: $r('app.color.brand_light'), width: 2 })
                     .backgroundColor($r('app.color.white'))
                     .borderColor($r('app.color.brand_light'))
                     .fontColor($r('app.color.brand_light'))
                     .fontWeight(500)
-                    .onClick(()=>{
+                    .onClick(() => {
                       promptAction.showDialog({
-                        alignment:DialogAlignment.Center,
-                        title:'选择派单人员',
-                        message:'选择派单人员',
-                        buttons:[
-                          {text:'取消',color:$r('app.color.danger'),},
-                          {text:'确定',color:$r('app.color.success')}
+                        alignment: DialogAlignment.Center,
+                        title: '选择派单人员',
+                        message: '选择派单人员',
+                        buttons: [
+                          { text: '取消', color: $r('app.color.danger'), },
+                          { text: '确定', color: $r('app.color.success') }
                         ]
-                      }).then((res)=>{
+                      }).then((res) => {
                         if (res.index === 1) {
 
 
@@ -243,7 +254,7 @@ struct RepairOrdersPage {
               }
 
             }
-            .onClick(()=>{
+            .onClick(() => {
               this.showRepairDetail(item)
 
             })
@@ -252,8 +263,12 @@ struct RepairOrdersPage {
             .width('95%')
             .alignItems(HorizontalAlign.Start)
             .backgroundColor($r('app.color.background'))
-            .borderStyle(BorderStyle.Solid).borderWidth(2).borderColor(0xAFEEEE).borderRadius(10)
+            .borderStyle(BorderStyle.Solid)
+            .borderWidth(2)
+            .borderColor(0xAFEEEE)
+            .borderRadius(10)
             .align(Alignment.Center)
+          }
 
           })}
 

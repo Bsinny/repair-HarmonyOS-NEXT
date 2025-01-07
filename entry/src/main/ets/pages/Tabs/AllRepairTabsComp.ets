@@ -1,8 +1,9 @@
 
 import { LOGIN_TOKEN,UserInfo, USER_INFO, USER_ROLE } from '../../api/userInfoAPI'
-import { getMyRepairListAPI, RepairItem, repImgItem } from '../../api/myRepairListAPI'
+import { getMyRepairListAPI, postRepCommentAPI, RepairItem, repImgItem } from '../../api/myRepairListAPI'
 import dayjs from 'dayjs';
 import { API_BASE_URL } from '../../common/constants';
+import { promptAction } from '@kit.ArkUI';
 
 
 // 定义按钮配置的类型
@@ -147,15 +148,20 @@ export struct AllRepairTabsComp {
   build() {
     Scroll(this.scroller) {
       Column(){
-        ForEach(this.AllRepairList,(item:RepairItem)=>{
-
-          Column({space:10}){
-            Row({space:10}){
+        ForEach(this.AllRepairList,(item:RepairItem,index:number)=> {
+          Badge({
+            count:index+1,
+            position:BadgePosition.RightTop,
+            style: {fontSize:20, badgeSize: 25, badgeColor: '#FA2A2D' }
+          }) {
+          Column({ space: 10 }) {
+            Row({ space: 10 }) {
               Text('报修类型:')
-              Text(item.repType?.repairType|| '未知类型')
+              Text(item.repType?.repairType || '未知类型')
             }.margin(10)
+
             Divider().strokeWidth(3).color('#F1F3F5')
-            Row({space:10}){
+            Row({ space: 10 }) {
               Text('报修地点:')
                 .fontSize(16)
                 .fontWeight(500)
@@ -164,7 +170,8 @@ export struct AllRepairTabsComp {
                 .fontWeight(500)
 
             }.margin(5)
-            Row({space:10}){
+
+            Row({ space: 10 }) {
               Text('报修时间:')
                 .fontSize(16)
                 .fontWeight(500)
@@ -175,31 +182,30 @@ export struct AllRepairTabsComp {
 
             }.margin(5)
 
-            Row({space:10}){
+            Row({ space: 10 }) {
               Text('报修状态:')
                 .fontSize(16)
                 .fontWeight(500)
-              if (item.repairState===1) {
+              if (item.repairState === 1) {
                 Button('待接单')
                   .backgroundColor($r('app.color.brand'))
 
-              }else if (item.repairState === 2) {
+              } else if (item.repairState === 2) {
                 Button('已接单')
                   .backgroundColor($r('app.color.brand_light'))
-              }else if (item.repairState === 3){
+              } else if (item.repairState === 3) {
                 Button('已转单')
                   .backgroundColor($r('app.color.danger'))
 
-              }else if (item.repairState === 4){
+              } else if (item.repairState === 4) {
                 Button('已完成')
                   .backgroundColor($r('app.color.success'))
                   .enabled(false)
-              }else {
+              } else {
 
                 Button('状态异常')
                   .backgroundColor($r('app.color.danger'))
               }
-
 
 
             }
@@ -210,17 +216,17 @@ export struct AllRepairTabsComp {
               Button('评论')
                 .margin(5)
                 .height(30)
-                .border({color:$r('app.color.warning'),width:2})
+                .border({ color: $r('app.color.warning'), width: 2 })
                 .backgroundColor($r('app.color.white'))
                 .borderColor($r('app.color.warning'))
                 .fontColor($r('app.color.warning'))
                 .fontWeight(500)
-                .onClick(()=>{
-                //todo:跳转评论页
+                .onClick(() => {
+                  //todo:跳转评论页
                 })
             }
           }
-          .onClick(()=>{
+          .onClick(() => {
             this.showRepairDetail(item)
 
           })
@@ -229,9 +235,13 @@ export struct AllRepairTabsComp {
           .width('95%')
           .alignItems(HorizontalAlign.Start)
           .backgroundColor($r('app.color.background'))
-          .borderStyle(BorderStyle.Solid).borderWidth(2).borderColor(0xAFEEEE).borderRadius(10)
+          .borderStyle(BorderStyle.Solid)
+          .borderWidth(2)
+          .borderColor(0xAFEEEE)
+          .borderRadius(10)
           .align(Alignment.Center)
 
+        }
         },/*(item: RepairItem, index: number) => item*/)}
 
     }
@@ -359,7 +369,9 @@ export struct WaitingRepairListTabsComp {
       Text(`报修内容:  ${this.selectedRepairItem?.repairContent}`).align(Alignment.Start)
       Text(`报修地点:  ${this.selectedRepairItem?.repairAddress}`).align(Alignment.Start)
       Text(`报修类型:  ${this.selectedRepairItem?.repType.repairType}`).align(Alignment.Start)
+
       Button('确定')
+        .enabled(this.role==='repair')
         .onClick(()=>{
           this.isVisible=false
         })
@@ -371,15 +383,20 @@ export struct WaitingRepairListTabsComp {
   build() {
     Scroll(this.scroller) {
       Column(){
-        ForEach(this.WaitingRepairList,(item:RepairItem)=>{
-
-          Column({space:10}){
-            Row({space:10}){
+        ForEach(this.WaitingRepairList,(item:RepairItem,index:number)=> {
+          Badge({
+            count:index+1,
+            position:BadgePosition.RightTop,
+            style: {fontSize:20, badgeSize: 25, badgeColor: '#FA2A2D' }
+          }) {
+          Column({ space: 10 }) {
+            Row({ space: 10 }) {
               Text('报修类型:')
-              Text(item.repType?.repairType|| '未知类型')
+              Text(item.repType?.repairType || '未知类型')
             }.margin(10)
+
             Divider().strokeWidth(3).color('#F1F3F5')
-            Row({space:10}){
+            Row({ space: 10 }) {
               Text('报修地点:')
                 .fontSize(16)
                 .fontWeight(500)
@@ -388,7 +405,8 @@ export struct WaitingRepairListTabsComp {
                 .fontWeight(500)
 
             }.margin(5)
-            Row({space:10}){
+
+            Row({ space: 10 }) {
               Text('报修时间:')
                 .fontSize(16)
                 .fontWeight(500)
@@ -399,31 +417,30 @@ export struct WaitingRepairListTabsComp {
 
             }.margin(5)
 
-            Row({space:10}){
+            Row({ space: 10 }) {
               Text('报修状态:')
                 .fontSize(16)
                 .fontWeight(500)
-              if (item.repairState===1) {
+              if (item.repairState === 1) {
                 Button('待接单')
                   .backgroundColor($r('app.color.brand'))
 
-              }else if (item.repairState === 2) {
+              } else if (item.repairState === 2) {
                 Button('已接单')
                   .backgroundColor($r('app.color.brand_light'))
-              }else if (item.repairState === 3){
+              } else if (item.repairState === 3) {
                 Button('已转单')
                   .backgroundColor($r('app.color.danger'))
 
-              }else if (item.repairState === 4){
+              } else if (item.repairState === 4) {
                 Button('已完成')
                   .backgroundColor($r('app.color.success'))
                   .enabled(false)
-              }else {
+              } else {
 
                 Button('状态异常')
                   .backgroundColor($r('app.color.danger'))
               }
-
 
 
             }
@@ -434,17 +451,17 @@ export struct WaitingRepairListTabsComp {
               Button('评论')
                 .margin(5)
                 .height(30)
-                .border({color:$r('app.color.warning'),width:2})
+                .border({ color: $r('app.color.warning'), width: 2 })
                 .backgroundColor($r('app.color.white'))
                 .borderColor($r('app.color.warning'))
                 .fontColor($r('app.color.warning'))
                 .fontWeight(500)
-                .onClick(()=>{
+                .onClick(() => {
                   //todo:跳转评论页
                 })
             }
           }
-          .onClick(()=>{
+          .onClick(() => {
             this.showRepairDetail(item)
 
           })
@@ -453,9 +470,12 @@ export struct WaitingRepairListTabsComp {
           .width('95%')
           .alignItems(HorizontalAlign.Start)
           .backgroundColor($r('app.color.background'))
-          .borderStyle(BorderStyle.Solid).borderWidth(2).borderColor(0xAFEEEE).borderRadius(10)
+          .borderStyle(BorderStyle.Solid)
+          .borderWidth(2)
+          .borderColor(0xAFEEEE)
+          .borderRadius(10)
           .align(Alignment.Center)
-
+        }
         },/*(item: RepairItem, index: number) => item*/)}
 
     }
@@ -493,6 +513,9 @@ export struct OverRepairListTabsComp {
   @State isVisible: boolean = false;
   @State selectedRepairItem: RepairItem | null = null;
   @State repairDestory:number=1
+  @State sheetState:number=0
+  @State rating: number = 0
+  @State repCommentContent:string=''
   scroller: Scroller = new Scroller();
   //当tabs发生变化的时候
   async onTabsChange(){
@@ -514,11 +537,37 @@ export struct OverRepairListTabsComp {
 
   }
   async showRepairDetail(item: RepairItem) {
+    this.sheetState=1
     this.selectedRepairItem = item;
     this.isVisible = true;
 
   }
+  async showRepComment(item: RepairItem) {
+    this.sheetState=2
+    this.selectedRepairItem = item;
+    this.isVisible = true;
 
+  }
+  async postRepComment(){
+    const res=await postRepCommentAPI({
+      applyId: this.selectedRepairItem?.applyId as number,
+      repNo: this.selectedRepairItem?.repairNo as string,
+      repairType: this.selectedRepairItem?.repairType as number,
+      repcId: this.selectedRepairItem?.repairId as number,
+      repcommentContent: this.repCommentContent,
+      repcommentService: this.rating
+
+    })
+    if (res.data.code === 200) {
+      promptAction.showToast({ message: res.data.msg })
+    }else {
+      promptAction.showToast({ message: '异常！'+res.data.msg })
+    }
+
+    this.GetMyRepairList()
+    this.isVisible=false
+
+  }
   async GetMyRepairList(){
 
     const res=await getMyRepairListAPI({
@@ -537,26 +586,11 @@ export struct OverRepairListTabsComp {
 
   }
 
-
-  // 根据 repairState 返回不同的按钮配置
-  getButtonConfig(repairState: number): ButtonConfig {
-    switch (repairState) {
-      case 1:
-        return { text: '待接单', color: ($r('app.color.warning')) }; // 转换为 Color 类型
-      case 2:
-        return { text: '已接单', color: ($r('app.color.brand')) };
-      case 3:
-        return { text: '转单中', color: ($r('app.color.brand_light')) };
-      case 4:
-        return { text: '已完成', color: ($r('app.color.success')) };
-      default:
-        return { text: '未知状态', color: ($r('app.color.danger')) };
-    }
-  }
   // 半模态转场
   @Builder
   SheetBuilder() {
-    Column({space:10}){
+    if (this.sheetState===1){
+      Column({space:10}){
       Text('报修详情')
         .align(Alignment.Center)
         .fontSize(16)
@@ -590,21 +624,68 @@ export struct OverRepairListTabsComp {
         })
 
 
-    }}
+    }
+    }else if (this.sheetState===2){
+      Column({space:10}){
+        Text('本次报修评价')
+          .align(Alignment.Center)
+          .fontSize(16)
+          .margin(10)
+        Row({space:10}){
+          TextArea({
+            placeholder:'请对本次维修评价',
+          })
+            .height(100)
+            .fontSize(14)
+            .backgroundColor($r('app.color.divider'))
+            .border({ width: { bottom: 1 }, color: $r('app.color.font_sub'), radius: 0 })
+            .padding({ left: 16, right: 16 })
+            .onChange((value) => {
+              this.repCommentContent = value
+            })
+        }
+
+        Row(){
+          Text('评价星级')
+          Rating({ rating: this.rating, indicator: false })
+            .stars(5)
+            .stepSize(1)
+            .margin({ top: 24 })
+            .onChange((value: number) => {
+              this.rating = value
+              promptAction.showToast({ message: `当前星级为${this.rating}` })
+            })
+        }
+        Button('确定评价')
+          .onClick(()=>{
+            this.postRepComment()
+
+          })
+
+
+    }
+    }
+
+  }
 
 
   build() {
     Scroll(this.scroller) {
       Column(){
-        ForEach(this.OverRepairList,(item:RepairItem)=>{
-
-          Column({space:10}){
-            Row({space:10}){
+        ForEach(this.OverRepairList,(item:RepairItem,index:number)=> {
+          Badge({
+            count:index+1,
+            position:BadgePosition.RightTop,
+            style: {fontSize:20, badgeSize: 25, badgeColor: '#FA2A2D' }
+          }) {
+          Column({ space: 10 }) {
+            Row({ space: 10 }) {
               Text('报修类型:')
-              Text(item.repType?.repairType|| '未知类型')
+              Text(item.repType?.repairType || '未知类型')
             }.margin(10)
+
             Divider().strokeWidth(3).color('#F1F3F5')
-            Row({space:10}){
+            Row({ space: 10 }) {
               Text('报修地点:')
                 .fontSize(16)
                 .fontWeight(500)
@@ -613,7 +694,8 @@ export struct OverRepairListTabsComp {
                 .fontWeight(500)
 
             }.margin(5)
-            Row({space:10}){
+
+            Row({ space: 10 }) {
               Text('报修时间:')
                 .fontSize(16)
                 .fontWeight(500)
@@ -624,31 +706,30 @@ export struct OverRepairListTabsComp {
 
             }.margin(5)
 
-            Row({space:10}){
+            Row({ space: 10 }) {
               Text('报修状态:')
                 .fontSize(16)
                 .fontWeight(500)
-              if (item.repairState===1) {
+              if (item.repairState === 1) {
                 Button('待接单')
                   .backgroundColor($r('app.color.brand'))
 
-              }else if (item.repairState === 2) {
+              } else if (item.repairState === 2) {
                 Button('已接单')
                   .backgroundColor($r('app.color.brand_light'))
-              }else if (item.repairState === 3){
+              } else if (item.repairState === 3) {
                 Button('已转单')
                   .backgroundColor($r('app.color.danger'))
 
-              }else if (item.repairState === 4){
+              } else if (item.repairState === 4) {
                 Button('已完成')
                   .backgroundColor($r('app.color.success'))
                   .enabled(false)
-              }else {
+              } else {
 
                 Button('状态异常')
                   .backgroundColor($r('app.color.danger'))
               }
-
 
 
             }
@@ -656,20 +737,38 @@ export struct OverRepairListTabsComp {
             .height(30)
 
             if (item.repairState === 4) {
-              Button('评论')
-                .margin(5)
-                .height(30)
-                .border({color:$r('app.color.warning'),width:2})
-                .backgroundColor($r('app.color.white'))
-                .borderColor($r('app.color.warning'))
-                .fontColor($r('app.color.warning'))
-                .fontWeight(500)
-                .onClick(()=>{
-                  //todo:跳转评论页
-                })
+              if (item.repairComment===0){
+                Button('评论')
+                  .margin(5)
+                  .height(30)
+                  .border({ color: $r('app.color.warning'), width: 2 })
+                  .backgroundColor($r('app.color.white'))
+                  .borderColor($r('app.color.warning'))
+                  .fontColor($r('app.color.warning'))
+                  .fontWeight(500)
+                  .onClick(() => {
+                    //todo:跳转评论页
+                    this.showRepComment(item)
+                  })
+              }else {
+                Button('已评论')
+                  .margin(5)
+                  .height(30)
+                  .border({ color: $r('app.color.success'), width: 2 })
+                  .backgroundColor($r('app.color.white'))
+                  .borderColor($r('app.color.success'))
+                  .fontColor($r('app.color.success'))
+                  .fontWeight(500)
+                  .enabled(false)
+                  .onClick(() => {
+
+                  })
+
+              }
+
             }
           }
-          .onClick(()=>{
+          .onClick(() => {
             this.showRepairDetail(item)
 
           })
@@ -678,9 +777,12 @@ export struct OverRepairListTabsComp {
           .width('95%')
           .alignItems(HorizontalAlign.Start)
           .backgroundColor($r('app.color.background'))
-          .borderStyle(BorderStyle.Solid).borderWidth(2).borderColor(0xAFEEEE).borderRadius(10)
+          .borderStyle(BorderStyle.Solid)
+          .borderWidth(2)
+          .borderColor(0xAFEEEE)
+          .borderRadius(10)
           .align(Alignment.Center)
-
+        }
         },/*(item: RepairItem, index: number) => item*/)}
 
     }

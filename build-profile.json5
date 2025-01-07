@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\HuZX\\.ohos\\config\\default_hm_guardian_template_2JHyI-q1U69pndh9NwoBrWIYGYVQGkborLBdoCVhizw=.cer",
-          "storePassword": "0000001BFD4FFA1B7CE10DC6618EB3F5BD80C3EE5C0FB7A74D150F8696E121A0E760F86E44A056E1CC40D7",
+          "certpath": "F:/HarmonyOS_Sign/高校报修系统证书.cer",
+          "storePassword": "00000018F6688B1F29DA98180E2902CEA28C0F3385906DA3A81DC5F74DC81E1A9EA1F10115FD54A8",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B1F52C22E7EB19442B6A966380AB4D416545F2A2D7B55D66243BC48279A0B8FF5331B1AE5A5110C",
-          "profile": "C:\\Users\\HuZX\\.ohos\\config\\default_hm_guardian_template_2JHyI-q1U69pndh9NwoBrWIYGYVQGkborLBdoCVhizw=.p7b",
+          "keyPassword": "000000183A9B3003CD0D2302D05C083BBBAE349F2A3B79B41260A4B2EEDE7C8D84706A1309CCF511",
+          "profile": "F:/HarmonyOS_Sign/高校报修系统Debug.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\HuZX\\.ohos\\config\\default_hm_guardian_template_2JHyI-q1U69pndh9NwoBrWIYGYVQGkborLBdoCVhizw=.p12"
+          "storeFile": "F:/HarmonyOS_Sign/hm_guardian.p12"
         }
       }
     ],
