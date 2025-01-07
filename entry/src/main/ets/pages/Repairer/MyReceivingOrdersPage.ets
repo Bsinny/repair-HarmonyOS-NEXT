@@ -1,11 +1,8 @@
 import {  getMoneyTotalAPI, getOrdersByConditionListAPI, getTransferOrdersDetailListAPI } from '../../api/myOrdersAPI';
-import { getMyRepairListAPI } from '../../api/myRepairListAPI';
-import { AllRepairTabsComp } from '../Tabs/AllRepairTabsComp';
-import { OverRepairTabsComp } from '../Tabs/OverRepairTabsComp';
 import { RepairerOverTabsComp, RepairerTabsComp } from '../Tabs/RepairerTabsComp';
 import { RepairMonthsTabsComp } from '../Tabs/RepairMonthsTabsComp';
 import { TransferRepairTabsComp } from '../Tabs/TransferRepairTabsComp';
-import { WaitingRepairTabsComp } from '../Tabs/WaitingRepairTabsComp';
+
 
 @Entry
 @Component

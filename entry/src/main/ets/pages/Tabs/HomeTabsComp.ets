@@ -1,16 +1,21 @@
 import { router } from '@kit.ArkUI'
+import { LOGIN_TOKEN, UserInfo, USER_INFO, USER_ROLE } from '../../api/userInfoAPI'
 import { PRIVACY_SETTINGS, PrivacySettings } from '../../common/constants'
-import { showDevelopingTips } from '../../common/dev'
+import { showDevelopingTips, showRoleTips } from '../../common/dev'
 
 interface IconItem {
   title: ResourceStr
   icon: ResourceStr
   url: string
+  roleName?:string
 }
 
 @Component
 export struct HomeTabsComp {
   @StorageLink('topHeight') topHeight: number = 0
+  @StorageLink(LOGIN_TOKEN) loginToken:string =''
+  @StorageLink(USER_INFO) userDetail:UserInfo = {} as UserInfo;
+  @StorageLink(USER_ROLE) UserRole:string =''
 
   build() {
     Scroll() {
@@ -145,48 +150,65 @@ struct HomeEntry {
 struct HomeShortcut {
   // 监听 AppStorage 的数据变化，注意 @Watch 的书写位置
   @StorageLink(PRIVACY_SETTINGS) privacySettings: PrivacySettings = {}
+  @StorageLink(LOGIN_TOKEN) loginToken:string =''
+  @StorageLink(USER_INFO) userDetail:UserInfo = {} as UserInfo;
+  @StorageLink(USER_ROLE) UserRole:string =''
   @State list: IconItem[] = [
     {
       title: '报修申请',
       icon: $r("app.media.ic_home_shortcut_sjss"),
       /*url: '/pages/Cleaner/CleanerIndexPage',*/
       url: '/pages/Repair/RepairFormPage',
+      /*roleName:'student'*/
+
+
     },
     {
       title: '我的报修',
       icon: $r('app.media.ic_home_shortcut_srlj'),
-      url: '/pages/Test/RepairListTestPage'
+      url: '/pages/Test/RepairListTestPage',
+      /*roleName:'student'*/
     },
     {
       title: '维修单',
       icon: $r('app.media.ic_home_shortcut_yskj'),
       //url: '/pages/Privacy/PrivacyIndexPage'
-      url: '/pages/Test/RepairOrdersPage'
+      url: '/pages/Test/RepairOrdersPage',
+      roleName:'student'
     },
     {
       title: '我的接单',
       icon: $r('app.media.ic_home_shortcut_txlbf'),
-      url: '/pages/Repairer/MyReceivingOrdersPage'
+      url: '/pages/Repairer/MyReceivingOrdersPage',
+      roleName:'student'
     },
     {
-      title: '反诈中心',
+      title: '一键报修',
       icon: $r('app.media.ic_home_shortcut_fzzx'),
-      url: '/'
+      url: '/',
+      roleName:'student'
     },
     {
-      title: '网络测速',
+      title: '网络设置',
       icon: $r('app.media.ic_home_shortcut_wlcs'),
-      url: '/'
+      url: '/',
+      roleName:'student'
     },
   ]
 
   async openShortcutPage(item: IconItem) {
-    // 跳转页面
-    if (item.url === '/') {
-      showDevelopingTips()
-    } else {
-      router.pushUrl({ url: item.url.slice(1) })
+
+    if (this.UserRole!=item.roleName){
+      if (item.url === '/') {
+        showDevelopingTips()
+      } else {
+        router.pushUrl({ url: item.url.slice(1) })
+      }
+    }else {
+      showRoleTips()
     }
+    // 跳转页面
+
   }
 
   build() {

@@ -98,3 +98,38 @@ export function getTransferRepairAPI(params:transferRepairer){
     '/api/repair/tb/transferRepair', { params }
   );
 }
+/**
+ * repairNo=GXUA20250106235628MD1736178988925&repairType=1&repairId=548&applyId=3035&deptId=204
+ * @param params
+ * @returns
+ */
+export interface transferFromDepForm{
+  repairNo: string
+  repairType: number
+  repairId: number
+  applyId: number
+  deptId: number
+}
+export function getTransferFromDepAPI(params:transferFromDepForm){
+  return axiosInstance.get<null,GetRepairResponseData ,transferFromDepForm>(
+    '/api/repair/tb/transferFromDep', { params }
+  );
+}
+export interface arrangeForm{
+  userName: string
+  userId: number
+  repairNo: string
+  repairType: number
+  repairId: number
+  applyId: number
+}
+export function getArrangeAPI(params:arrangeForm){
+  return axiosInstance.get<null,GetRepairResponseData ,arrangeForm>(
+    '/api/repair/tb/arrange', { params }
+  );
+}
+/**
+ * http://localhost:8999/api/repair/tb/arrange
+ * ?userName=201809512626&userId=127&repairNo=GXUA20250107171055MD1736241055925&
+ * repairType=3&repairId=558&applyId=3042
+ */

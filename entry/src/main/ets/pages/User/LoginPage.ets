@@ -38,6 +38,7 @@ struct LoginTestPage {
 
     this.userDetail=res.data.user
     this.role=this.userDetail?.roles[0].roleKey
+   /* AlertDialog.show({message:JSON.stringify(this.role,null,2)})*/
 
   }
   clearToken(){
@@ -50,7 +51,7 @@ struct LoginTestPage {
       password:this.password
     })
     this.loginToken=res.data.token
-    console.log('tokenValue',JSON.stringify(res.data,null,2))
+    console.log('tokenValue',JSON.stringify(res.data.token,null,2))
     this.getUserDetail()
     router.back()
   }

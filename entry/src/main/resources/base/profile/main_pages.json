@@ -55,6 +55,7 @@
     "pages/Test/SwiperTestPage",
     "pages/Test/RepairOrdersPage",
     "pages/Repairer/MyReceivingOrdersPage",
-    "pages/Test/HuaWeiMapTestPage"
+    "pages/Test/HuaWeiMapTestPage",
+    "pages/Test/LocationTestPage"
   ]
 }

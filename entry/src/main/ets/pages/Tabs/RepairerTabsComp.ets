@@ -23,7 +23,7 @@ export struct RepairerTabsComp {
   @State allDeptList:Dept[]=[];
   @State selectedDeptName:string='请选择'
   @State TrDescribe:string=''//转单描述
-
+  @State selectedRepairerUsername:string=''
   @State selectedDeptId:number|number[]=-1;
   @State testList:string[]=['哈哈','喜喜','露露']
   @State isVisible: boolean = false;
@@ -80,6 +80,7 @@ export struct RepairerTabsComp {
       const selectedRepairerInfo = this.usersList[index];
       this.selectedRepairId = selectedRepairerInfo.userId as number;
       this.selectedRepairer = selectedRepairerInfo.nickName as string;
+      this.selectedRepairerUsername=selectedRepairerInfo.userName as string
       promptAction.showToast({ message: `当前选中的人是${this.selectedRepairer},id为${this.selectedRepairId}` })
 
     } else {
@@ -134,7 +135,7 @@ export struct RepairerTabsComp {
       applyId: item.applyId,
       userId: this.selectedRepairId,
       deptId: this.selectedDeptId as number,
-      userName: this.selectedRepairer,
+      userName: this.selectedRepairer,//用户账号
       repairDep: item.repairDep,
     })
     if (res.data.code === 200) {

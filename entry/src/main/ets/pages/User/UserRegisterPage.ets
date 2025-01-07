@@ -237,9 +237,11 @@ struct UserRegisterPage {
 
         Row({ space: 10 }) { // 使用 space 属性来增加间距
           Text('用户角色:')
+            .layoutWeight(1)
             .fontSize(14)
             .fontColor($r('app.color.font'));
           Text(this.selectedRoleName)
+            .layoutWeight(1)
             .margin(20)
             .onClick(()=>{
               TextPickerDialog.show({
@@ -260,12 +262,14 @@ struct UserRegisterPage {
 
             })
 
-        }
+        }.width('100%')
         Row({ space: 10 }) {
           Text('学院名称:')
+            .layoutWeight(1)
             .fontSize(14)
             .fontColor($r('app.color.font'));
           Text(this.selectedDeptName)
+            .layoutWeight(1)
             .margin(20)
             .onClick(()=>{
               TextPickerDialog.show({
@@ -285,7 +289,7 @@ struct UserRegisterPage {
               })
 
             })
-        }
+        }.width('100%')
 
         Button('注册')
           .enabled(this.userName.length > 0 && this.passWord.length>0 && this.phonenumber.length>0&&this.email.length>0
