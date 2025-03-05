@@ -18,7 +18,7 @@ struct LoginTestPage {
 
   // 手机号
   @State phoneNumber: string = '131234567890'
-  @State username: string ='201809512626'
+  @State username: string ='huzx'
   @State password:string='123456'
   // 短信验证码
   @State verifyCode: string = ''
@@ -159,10 +159,28 @@ struct LoginTestPage {
               // TODO:登录表单提交
               this.userLoginSubmit()
             })
-          Button('跳转注册')
-            .onClick(()=>{
-              router.pushUrl({ url: 'pages/User/UserRegisterPage' })
-          })
+
+          Row({space:10}){
+            Text('跳转注册')
+              .fontColor($r('app.color.brand_light'))
+
+              .onClick(()=>{
+                router.pushUrl({ url: 'pages/User/UserRegisterPage' })
+              })
+            Divider()
+              .backgroundColor('#0C273D')
+              .vertical(true)
+              .width(2)
+              .height(18)
+              .borderRadius(3)
+              .margin({ right: 10 })
+            Text('忘记密码')
+              .fontColor($r('app.color.font2'))
+              .onClick(()=>{
+                promptAction.showToast({ message: '当前功能构建中...' })
+              })
+          }
+
           /*Button('退出登录')
             .backgroundColor($r('app.color.brand'))
             .height(42)

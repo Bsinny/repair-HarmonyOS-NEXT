@@ -23,7 +23,7 @@ export struct MineTabsComp {
   // @Provide 装饰器和 @Consume 装饰器：与后代组件双向同步
   @Consume @Watch('onTabsChange') currentIndex: number
   @State deviceName: string = ''
-  @State batteryState: number = 0
+  @State batteryState: number = 100
   @State memorySize: number = 0
   @State cpuUsage: number = 0
   @State statfsFreeSize: number = 0
@@ -196,7 +196,7 @@ export struct MineTabsComp {
 
         // 电池管家
         Column() {
-          this.TitleRow('电池管家', 'pages/Battery/BatteryIndexPage')
+          this.TitleRow('电池', 'pages/Battery/BatteryIndexPage')
           Column() {
             Row() {
               Text(`电池剩余${this.batteryState}%`)

@@ -69,6 +69,8 @@ struct UserRegisterPage {
       //返回
       router.back();
     }
+    this.logout()
+    
 
 
   }

@@ -4,6 +4,7 @@ import { GuardTabsComp } from './Tabs/GuardTabsComp';
 import { HomeTabsComp } from './Tabs/HomeTabsComp';
 import { MyTabsComp } from './Tabs/MyTabsComp';
 import { MineTabsComp } from './Tabs/MineTabsComp'
+import { MiddleTabsComp } from './Tabs/MyOrdersTabsComp';
 
 @Entry
 @Component
@@ -49,7 +50,8 @@ struct Index {
       .tabBar(this.TabBuilder('首页', 0, $r('app.media.ic_tab_shouye_filled'), $r('app.media.ic_tab_shouye')))
       //守护中心导航栏
       TabContent() {
-        GuardTabsComp()
+        MiddleTabsComp()
+        /*GuardTabsComp()*/
       }
       .tabBar(this.TabBuilder('报修', 1, $r('app.media.ic_tab_shzx_filled'), $r('app.media.ic_tab_shzx')))
       //我的导航栏

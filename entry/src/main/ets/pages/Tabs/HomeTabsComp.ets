@@ -82,7 +82,7 @@ struct HomeEntry {
     .autoPlay(true)
     .interval(3000)
     .width('100%')
-    .height(130)
+    .height(200)
     .margin({
       bottom: 20
     })
@@ -173,7 +173,7 @@ struct HomeShortcut {
       title: '维修单',
       icon: $r('app.media.ic_home_shortcut_yskj'),
       //url: '/pages/Privacy/PrivacyIndexPage'
-      url: '/pages/Test/RepairOrdersPage',
+      url: '/pages/Repairer/RepairOrdersPage',
       roleName:'student'
     },
     {
@@ -189,7 +189,7 @@ struct HomeShortcut {
       roleName:'student'
     },
     {
-      title: '网络设置',
+      title: '网络问题',
       icon: $r('app.media.ic_home_shortcut_wlcs'),
       url: '/',
       roleName:'student'
@@ -249,15 +249,15 @@ struct HomeShortcut {
 struct HomeTool {
   @State list: IconItem[] = [
   //{ name: '流量监控', icon: $r("app.media.ic_tools_lljk"), url: 'pages/Cellular/CellularIndexPage' },
-    { title: '电池管家', icon: $r("app.media.ic_tools_dcgj"), url: '/pages/Battery/BatteryIndexPage' },
+    /*{ title: '电池管家', icon: $r("app.media.ic_tools_dcgj"), url: '/pages/Battery/BatteryIndexPage' },*/
     { title: '硬件信息', icon: $r("app.media.ic_tools_yjxx"), url: '/pages/Hardware/HardwareIndexPage' },
-    { title: '日历清理', icon: $r("app.media.ic_tools_rlql"), url: '/pages/Calendar/CalendarIndexPage' },
-    { title: '照片压缩', icon: $r("app.media.ic_tools_zpys"), url: '/pages/Cleaner/Compress/CompressPhotoPage' },
-    { title: '摄像头检测', icon: $r("app.media.ic_tools_sxtjc"), url: '/pages/Guard/Indoor/CheckCameraPage' },
-    { title: '照片清理', icon: $r("app.media.ic_tools_zpql"), url: '/pages/Cleaner/CleanerSelectPage' },
-    { title: '视频压缩', icon: $r("app.media.ic_tools_spys"), url: '/pages/Test/LocationTestPage' },
-    { title: '流量监控', icon: $r("app.media.ic_tools_lljk"), url: '/' },
-    { title: '网络测速', icon: $r("app.media.ic_tools_wlcs"), url: '/' },
+    { title: '报修时间', icon: $r("app.media.ic_tools_rlql"), url: '/' },
+/*    { title: '照片压缩', icon: $r("app.media.ic_tools_zpys"), url: '/pages/Cleaner/Compress/CompressPhotoPage' },*/
+/*    { title: '摄像头检测', icon: $r("app.media.ic_tools_sxtjc"), url: '/pages/Guard/Indoor/CheckCameraPage' },*/
+    { title: '报修图片', icon: $r("app.media.ic_tools_zpql"), url: '/' },
+/*    { title: '报修视频', icon: $r("app.media.ic_tools_spys"), url: '/' },*/
+/*    { title: '流量监控', icon: $r("app.media.ic_tools_lljk"), url: '/' },*/
+/*    { title: '网络测速', icon: $r("app.media.ic_tools_wlcs"), url: '/' },*/
   ]
 
   build() {
@@ -295,7 +295,7 @@ struct HomeTool {
 struct CommentTitle {
   build() {
     Row() {
-      Text('实用工具')
+      Text('快捷工具')
         .fontColor($r('app.color.font'))
         .fontSize(16)
         .fontWeight(500)

@@ -293,11 +293,11 @@ struct RepairFormPage {
           flexAlign: FlexAlign.Center, // 设置对齐方式
           deleteImg:  (imgPath: string): void => this.removeImage(imgPath),// 传递删除图片的方法
         });
-        Button('查看图片列表')
+/*        Button('查看图片列表')
           .onClick(async ()=>{
             AlertDialog.show({message:JSON.stringify(this.images,null,2)})
 
-          })
+          })*/
 
         Button('提交')
           .onClick(async ()=>{
