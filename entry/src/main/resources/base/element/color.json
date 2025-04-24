@@ -14,7 +14,7 @@
     },
     {
       "name": "success",
-      "value": "#1EC77A"
+      "value": "#52C41A"
     },
     {
       "name": "warning",
@@ -59,6 +59,23 @@
     {
       "name": "font_sub",
       "value": "#89939C"
+    },
+    {
+      "name": "primary",
+      "value": "#3366FF"
+    },
+    {
+      "name": "primary_light",
+      "value": "#E6F0FF"
+    },
+    {
+      "name": "border_light",
+      "value": "#EEEEEE"
+    },
+    {
+      "name": "back",
+      "value": "#F5F7FA"
     }
+
   ]
 }

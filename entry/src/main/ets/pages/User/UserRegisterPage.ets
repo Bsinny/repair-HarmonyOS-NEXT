@@ -23,6 +23,9 @@ struct UserRegisterPage {
   //后端同样要求向depName一样
   @State roleName:number=-1;
   @State selectedSexName:string = '请选择';
+  @State showEmailError: boolean = false;
+  @State showPhoneError: boolean = false;
+  // 其他错误状态...
 
   @State sex:number=-1;
   sexes:string[]=['男','女']
@@ -114,30 +117,83 @@ struct UserRegisterPage {
       console.error('Invalid index provided');
     }
   }
+  // 在UserRegisterPage结构体内添加以下代码
+  private isFormValid(): boolean {
+    // 基础字段非空验证
+    const basicFieldsValid =
+      this.userName.trim().length > 0 &&
+        this.nickName.trim().length > 0 &&
+        this.passWord.trim().length >= 6 && // 密码至少6位
+        this.phonenumber.trim().length >= 11 && // 手机号11位
+        this.email.trim().length > 0;
+
+    // 选择项验证
+    const selectionValid =
+      this.sex !== -1 &&
+        this.depName !== -1 &&
+        this.roleName !== -1;
+
+    // 邮箱格式验证
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(this.email);
+
+    // 手机号格式验证（简单版）
+    const phoneRegex = /^1[3-9]\d{9}$/;
+    const isPhoneValid = phoneRegex.test(this.phonenumber);
+
+    return basicFieldsValid && selectionValid && isEmailValid && isPhoneValid;
+  }
+  private showValidationToast(): void {
+    if (!this.userName.trim()) {
+      promptAction.showToast({ message: '请输入用户名', duration: 1500 });
+      return;
+    }
+    if (!this.passWord.trim() || this.passWord.length < 6) {
+      promptAction.showToast({ message: '密码需至少6位', duration: 1500 });
+      return;
+    }
+    if (!/^1[3-9]\d{9}$/.test(this.phonenumber)) {
+      promptAction.showToast({ message: '请输入正确手机号', duration: 1500 });
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+      promptAction.showToast({ message: '邮箱格式不正确', duration: 1500 });
+      return;
+    }
+    if (this.sex === -1) {
+      promptAction.showToast({ message: '请选择性别', duration: 1500 });
+    }
+  }
   build() {
     Navigation() {
       Column({space:20}){
-        Row({ space: 10 }) { // 使用 space 属性来增加间距
+
+        Row({ space: 15 }) { // 使用 space 属性来增加间距
           Text('用户姓名:')
-            .fontSize(14)
+            .fontSize(16)
+            .margin({top:20})
             .fontColor($r('app.color.font'));
           TextInput({
             placeholder: '请输入用户姓名',
 
           })
             .type(InputType.Normal)
-            .fontSize(14)
-            .height(50)
-            .backgroundColor($r('app.color.background2'))
-            .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 8 })
-            .padding({ left: 16, right: 16 })
+            .layoutWeight(1)
+            .height(48)
+            .backgroundColor(Color.White)
+            .borderRadius(8)
+            .border({ width: 1, color: $r('app.color.border_light') })
+            .padding(10)
             .onChange((value) => {
               this.nickName = value;
             });
         }
+        .width('100%')
+        .height(60)
         Row({ space: 10 }) {
           Text('性别:')
-            .fontSize(14)
+            .fontSize(16)
+            .margin({top:20})
             .fontColor($r('app.color.font'));
           Text(this.selectedSexName)
             .margin(20)
@@ -146,12 +202,18 @@ struct UserRegisterPage {
                 range: this.sexes,
                 selected: this.sex,
                 disappearTextStyle: { color: Color.Red, font: { size: 15, weight: FontWeight.Lighter } },
-                textStyle: { color: Color.Black, font: { size: 20, weight: FontWeight.Normal } },
-                selectedTextStyle: { color: Color.Blue, font: { size: 30, weight: FontWeight.Bolder } },
+                textStyle: {
+                  color: $r('app.color.font'),
+                  font: { size: 18, weight: FontWeight.Medium }
+                },
+                selectedTextStyle: {
+                  color: $r('app.color.primary'),
+                  font: { size: 20, weight: FontWeight.Bold }
+                },
                 onAccept: (values: TextPickerResult) => {
                   this.sex=values.index as number
                   this.selectedSexName=values.value as string
-                  promptAction.showToast({ message: '选择的性别是:' +this.selectedSexName+'索引值是:'+this.sex})
+                  /*promptAction.showToast({ message: '选择的性别是:' +this.selectedSexName+'索引值是:'+this.sex})*/
                 },
                 onCancel: () => {
                   console.info("TextPickerDialog:onCancel()");
@@ -160,85 +222,103 @@ struct UserRegisterPage {
 
             })
         }
-        Row({ space: 10 }) { // 使用 space 属性来增加间距
+        .width('100%')
+        .height(60)
+        Row({ space: 15 }) { // 使用 space 属性来增加间距
           Text('用户邮箱:')
-            .fontSize(14)
+            .fontSize(16)
+            .margin({top:20})
             .fontColor($r('app.color.font'));
           TextInput({
             placeholder: '请输入用户邮箱',
 
           })
             .type(InputType.Email)
-            .fontSize(14)
-            .height(50)
-            .backgroundColor($r('app.color.background2'))
-            .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 8 })
-            .padding({ left: 16, right: 16 })
+            .layoutWeight(1)
+            .height(48)
+            .backgroundColor(Color.White)
+            .borderRadius(8)
+            .border({ width: 1, color: $r('app.color.border_light') })
+            .padding(10)
             .onChange((value) => {
               this.email = value;
             });
         }
-        Row({ space: 10 }) { // 使用 space 属性来增加间距
+        .width('100%')
+        .height(60)
+        Row({ space: 15 }) { // 使用 space 属性来增加间距
           Text('用户号码:')
-            .fontSize(14)
+            .fontSize(16)
+            .margin({top:20})
             .fontColor($r('app.color.font'));
           TextInput({
             placeholder: '请输入用户号码',
 
           })
             .type(InputType.PhoneNumber)
-            .fontSize(14)
-            .height(50)
-            .backgroundColor($r('app.color.background2'))
-            .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 8 })
-            .padding({ left: 16, right: 16 })
+            .layoutWeight(1)
+            .height(48)
+            .backgroundColor(Color.White)
+            .borderRadius(8)
+            .border({ width: 1, color: $r('app.color.border_light') })
+            .padding(10)
             .onChange((value) => {
               this.phonenumber = value;
             });
         }
+        .width('100%')
+        .height(60)
 
-        Row({ space: 10 }) { // 使用 space 属性来增加间距
+        Row({ space: 15 }) { // 使用 space 属性来增加间距
           Text('用户账号:')
-            .fontSize(14)
+            .fontSize(16)
+            .margin({top:20})
             .fontColor($r('app.color.font'));
           TextInput({
             placeholder: '请输入用户账号',
 
           })
             .type(InputType.Normal)
-            .fontSize(14)
-            .height(50)
-            .backgroundColor($r('app.color.background2'))
-            .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 8 })
-            .padding({ left: 16, right: 16 })
+            .layoutWeight(1)
+            .height(48)
+            .backgroundColor(Color.White)
+            .borderRadius(8)
+            .border({ width: 1, color: $r('app.color.border_light') })
+            .padding(10)
             .onChange((value) => {
               this.userName = value;
             });
         }
+        .width('100%')
+        .height(60)
 
-        Row({ space: 10 }) { // 使用 space 属性来增加间距
+        Row({ space: 15 }) { // 使用 space 属性来增加间距
           Text('用户密码:')
-            .fontSize(14)
+            .fontSize(16)
+            .margin({top:20})
             .fontColor($r('app.color.font'));
           TextInput({
             placeholder: '请输入用户密码',
 
           })
             .type(InputType.Password)
-            .fontSize(14)
-            .height(50)
-            .backgroundColor($r('app.color.background2'))
-            .border({ width: { bottom: 1 }, color: $r('app.color.border'), radius: 8 })
-            .padding({ left: 16, right: 16 })
+            .layoutWeight(1)
+            .height(48)
+            .backgroundColor(Color.White)
+            .borderRadius(8)
+            .border({ width: 1, color: $r('app.color.border_light') })
+            .padding(10)
             .onChange((value) => {
               this.passWord = value;
             });
         }
+        .width('100%')
+        .height(60)
 
-        Row({ space: 10 }) { // 使用 space 属性来增加间距
+        Row({ space: 15 }) { // 使用 space 属性来增加间距
           Text('用户角色:')
-            .layoutWeight(1)
-            .fontSize(14)
+            .fontSize(16)
+            .margin({top:20})
             .fontColor($r('app.color.font'));
           Text(this.selectedRoleName)
             .layoutWeight(1)
@@ -249,8 +329,14 @@ struct UserRegisterPage {
 
                 selected: this.selectedRoleId,
                 disappearTextStyle: {color: Color.Red, font: {size: 15, weight: FontWeight.Lighter}},
-                textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
-                selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},
+                textStyle: {
+                  color: $r('app.color.font'),
+                  font: { size: 18, weight: FontWeight.Medium }
+                },
+                selectedTextStyle: {
+                  color: $r('app.color.primary'),
+                  font: { size: 20, weight: FontWeight.Bold }
+                },
                 onAccept:(values:TextPickerResult)=>{
                   this.updateSelectedRole(values.index as number);
                 },
@@ -262,11 +348,13 @@ struct UserRegisterPage {
 
             })
 
-        }.width('100%')
-        Row({ space: 10 }) {
+        }
+        .width('100%')
+        .height(60)
+        Row({ space: 15 }) {
           Text('学院名称:')
-            .layoutWeight(1)
-            .fontSize(14)
+            .fontSize(16)
+            .margin({top:20})
             .fontColor($r('app.color.font'));
           Text(this.selectedDeptName)
             .layoutWeight(1)
@@ -276,8 +364,14 @@ struct UserRegisterPage {
                 range:this.allDeptList.map(item => item.deptName),
                 selected: this.selectedDeptId,
                 disappearTextStyle: {color: Color.Red, font: {size: 15, weight: FontWeight.Lighter}},
-                textStyle: {color: Color.Black, font: {size: 20, weight: FontWeight.Normal}},
-                selectedTextStyle: {color: Color.Blue, font: {size: 30, weight: FontWeight.Bolder}},
+                textStyle: {
+                  color: $r('app.color.font'),
+                  font: { size: 18, weight: FontWeight.Medium }
+                },
+                selectedTextStyle: {
+                  color: $r('app.color.primary'),
+                  font: { size: 20, weight: FontWeight.Bold }
+                },
                 onAccept:(values:TextPickerResult)=>{
                   this.updateSelectedDepartment(values.index as number);
 
@@ -289,11 +383,18 @@ struct UserRegisterPage {
               })
 
             })
-        }.width('100%')
+        }
+        .width('100%')
+        .height(60)
 
-        Button('注册')
-          .enabled(this.userName.length > 0 && this.passWord.length>0 && this.phonenumber.length>0&&this.email.length>0
-          && this.depName!=-1&&this.sex!=-1&&this.roleName!=-1)
+        Button('注册账号')
+          .width('80%')
+          .height(50)
+          .backgroundColor($r('app.color.primary'))
+          .opacity(this.isFormValid() ? 1 : 0.5) // 根据表单状态调整透明度
+          .enabled(this.isFormValid())
+          /*.enabled(this.userName.length > 0 && this.passWord.length>0 && this.phonenumber.length>0&&this.email.length>0
+          && this.depName!=-1&&this.sex!=-1&&this.roleName!=-1)*/
           .onClick(()=>{
             promptAction.showDialog({
               alignment:DialogAlignment.Center,
